@@ -1,0 +1,46 @@
+{
+  "agent": "code-make-agent",
+  "policy": "registry-only; third-party content is not redistributed and local sync remains inactive until license and code review",
+  "skills": [
+    {
+      "catalog": "https://skills.sh/sdc-ai-taskforce/sdc-agent-skills/python-coding",
+      "purpose": "Python implementation patterns",
+      "repository": "https://github.com/sdc-ai-taskforce/sdc-agent-skills",
+      "source": "sdc-ai-taskforce/sdc-agent-skills@python-coding",
+      "source_commit": "03ec985ba6af819ee0744d60581d8fda99cad24c",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/cycleuser/skills/python-project-developer",
+      "purpose": "Python project implementation",
+      "repository": "https://github.com/cycleuser/skills",
+      "source": "cycleuser/skills@python-project-developer",
+      "source_commit": "f24ce273485b031354517708a43471323706c687",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/dotnet/skills/code-testing-agent",
+      "purpose": "test planning and coverage",
+      "repository": "https://github.com/dotnet/skills",
+      "source": "dotnet/skills@code-testing-agent",
+      "source_commit": "aa3c4abca59a8d59cfa2f7dc71ceb98d1e3b7086",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/amrahman90/python-expert-agent/python-testing-general",
+      "purpose": "automated test generation",
+      "repository": "https://github.com/amrahman90/python-expert-agent",
+      "source": "amrahman90/python-expert-agent@python-testing-general",
+      "source_commit": "bf17956b01986d887a6f44d8dfe1a655796485c5",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/xspoonai/spoon-awesome-skill/code-refactoring-advisor",
+      "purpose": "maintainable refactoring guidance",
+      "repository": "https://github.com/xspoonai/spoon-awesome-skill",
+      "source": "xspoonai/spoon-awesome-skill@code-refactoring-advisor",
+      "source_commit": "9b5a939cd0dde30807e8feafc6d676d81433743b",
+      "status": "reserved"
+    }
+  ]
+}

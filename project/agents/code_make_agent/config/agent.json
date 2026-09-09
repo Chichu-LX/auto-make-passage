@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "name": "code-make-agent",
+  "role": "Generate one isolated project-scoped Python implementation revision from an approved ResearchDesign and measured DatasetManifest, vendor licensed integrate-mode GitHub sources locally, and run only fixed local Demo and unit-test validations after static preflight.",
+  "execution_mode": "specialist",
+  "model_provider": "deepseek",
+  "allowed_tools": [
+    "artifact.read_research_design",
+    "artifact.read_data_manifest",
+    "source.vendor_verified_github_snapshot",
+    "artifact.write_project_code",
+    "execution.run_fixed_local_validation"
+  ],
+  "write_scopes": ["code/<project_slug>/"],
+  "system_prompt": "prompts/system.md",
+  "input_contracts": ["TaskEnvelope", "ResearchDesign", "DatasetManifest"],
+  "output_contracts": ["CodeGenerationDraft", "CodeRevisionPatchDraft", "CodeImplementationManifest", "AgentResult"],
+  "skill_policy": "registry_only_reserved"
+}

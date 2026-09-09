@@ -1,0 +1,78 @@
+{
+  "additionalProperties": false,
+  "description": "Read-only, strongly typed output of one bounded Idea Design auxiliary Agent.",
+  "properties": {
+    "advisor": {
+      "enum": [
+        "method-architecture-advisor",
+        "code-reuse-architecture-advisor",
+        "data-decision-advisor",
+        "experiment-decision-advisor",
+        "critical-risk-advisor"
+      ],
+      "title": "Advisor",
+      "type": "string"
+    },
+    "assumptions": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 20,
+      "minItems": 1,
+      "title": "Assumptions",
+      "type": "array"
+    },
+    "blocking_concerns": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 20,
+      "title": "Blocking Concerns",
+      "type": "array"
+    },
+    "decisions": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 20,
+      "minItems": 1,
+      "title": "Decisions",
+      "type": "array"
+    },
+    "evidence_refs": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 30,
+      "minItems": 1,
+      "title": "Evidence Refs",
+      "type": "array"
+    },
+    "issue_codes": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 20,
+      "title": "Issue Codes",
+      "type": "array"
+    },
+    "recommendations": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 20,
+      "minItems": 2,
+      "title": "Recommendations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "advisor",
+    "recommendations",
+    "decisions",
+    "evidence_refs",
+    "assumptions"
+  ],
+  "title": "AdvisorReport",
+  "type": "object"
+}

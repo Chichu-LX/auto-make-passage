@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "name": "code-review-agent",
+  "role": "Independently verify a project-scoped implementation against its approved design, local source provenance, safety policy, minimal execution, iterative parameter updates, tests, and deterministic reliability without editing code.",
+  "execution_mode": "specialist",
+  "model_provider": "deepseek",
+  "allowed_tools": [
+    "artifact.read_research_design",
+    "artifact.read_code_manifest",
+    "artifact.verify_generated_code",
+    "execution.run_fixed_local_validation",
+    "artifact.write_project_code_review"
+  ],
+  "write_scopes": ["design/<project_slug>/reviews/code/"],
+  "system_prompt": "prompts/system.md",
+  "input_contracts": ["TaskEnvelope", "ResearchDesign", "CodeImplementationManifest"],
+  "output_contracts": ["CodeReviewReport", "AgentResult"],
+  "skill_policy": "registry_only_reserved"
+}

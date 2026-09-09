@@ -1,0 +1,54 @@
+{
+  "agent": "lead-agent",
+  "policy": "registry-only; third-party content is not redistributed and local sync remains inactive until license and code review",
+  "skills": [
+    {
+      "catalog": "https://skills.sh/qodex-ai/ai-agent-skills/multi-agent-orchestration",
+      "purpose": "multi-agent task decomposition and routing",
+      "repository": "https://github.com/qodex-ai/ai-agent-skills",
+      "source": "qodex-ai/ai-agent-skills@multi-agent-orchestration",
+      "source_commit": "6ea9f00885c5dc5e6d9435d443dbf7d9ce865e29",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/yonatangross/orchestkit/agent-orchestration",
+      "purpose": "orchestration patterns and coordination",
+      "repository": "https://github.com/yonatangross/orchestkit",
+      "source": "yonatangross/orchestkit@agent-orchestration",
+      "source_commit": "bdce68503f4d5934415cac37673807ff289a6f4c",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/hyperb1iss/hyperskills/orchestrate",
+      "purpose": "workflow planning and dependency ordering",
+      "repository": "https://github.com/hyperb1iss/hyperskills",
+      "source": "hyperb1iss/hyperskills@orchestrate",
+      "source_commit": "ae3221140c06dc1482415533ead5c42e965297dc",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/sickn33/antigravity-awesome-skills/ai-agent-development",
+      "purpose": "agent design and lifecycle guidance",
+      "repository": "https://github.com/sickn33/antigravity-awesome-skills",
+      "source": "sickn33/antigravity-awesome-skills@ai-agent-development",
+      "source_commit": "75c558b7ea89a023877b96eac74ced7aa1ee93f6",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/rmyndharis/antigravity-skills/agent-orchestration-multi-agent-optimize",
+      "purpose": "routing and orchestration optimization",
+      "repository": "https://github.com/rmyndharis/antigravity-skills",
+      "source": "rmyndharis/antigravity-skills@agent-orchestration-multi-agent-optimize",
+      "source_commit": "3eff4af253b3a15e2ba6edf2c2b743b53fd81211",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/nexu-io/open-design/pr-feedback-quality-gate",
+      "purpose": "quality-gate decision discipline",
+      "repository": "https://github.com/nexu-io/open-design",
+      "source": "nexu-io/open-design@pr-feedback-quality-gate",
+      "source_commit": "f5802718403f1d473ed7bf4acde4ab12b9e2a361",
+      "status": "reserved"
+    }
+  ]
+}

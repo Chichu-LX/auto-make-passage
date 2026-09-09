@@ -1,0 +1,306 @@
+{
+  "$defs": {
+    "FormulaCodeReferenceDraft": {
+      "additionalProperties": false,
+      "properties": {
+        "file_path": {
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "File Path",
+          "type": "string"
+        },
+        "symbol": {
+          "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,127}$",
+          "title": "Symbol",
+          "type": "string"
+        }
+      },
+      "required": [
+        "file_path",
+        "symbol"
+      ],
+      "title": "FormulaCodeReferenceDraft",
+      "type": "object"
+    },
+    "PaperClaimDraft": {
+      "additionalProperties": false,
+      "properties": {
+        "citation_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 50,
+          "title": "Citation Ids",
+          "type": "array"
+        },
+        "claim_id": {
+          "pattern": "^claim-[a-zA-Z0-9_-]{1,80}$",
+          "title": "Claim Id",
+          "type": "string"
+        },
+        "claim_type": {
+          "enum": [
+            "literature",
+            "method",
+            "experiment",
+            "limitation"
+          ],
+          "title": "Claim Type",
+          "type": "string"
+        },
+        "code_file_paths": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Code File Paths",
+          "type": "array"
+        },
+        "design_component_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Design Component Ids",
+          "type": "array"
+        },
+        "result_keys": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Result Keys",
+          "type": "array"
+        },
+        "strength": {
+          "enum": [
+            "descriptive",
+            "associational",
+            "comparative"
+          ],
+          "title": "Strength",
+          "type": "string"
+        },
+        "text": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "claim_id",
+        "claim_type",
+        "text",
+        "strength"
+      ],
+      "title": "PaperClaimDraft",
+      "type": "object"
+    },
+    "PaperFormulaDraft": {
+      "additionalProperties": false,
+      "description": "Model-authored equation proposal that must resolve to reviewed AST symbols.",
+      "properties": {
+        "citation_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Citation Ids",
+          "type": "array"
+        },
+        "code_references": {
+          "items": {
+            "$ref": "#/$defs/FormulaCodeReferenceDraft"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Code References",
+          "type": "array"
+        },
+        "design_component_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 1,
+          "title": "Design Component Ids",
+          "type": "array"
+        },
+        "explanation": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Explanation",
+          "type": "string"
+        },
+        "formula_id": {
+          "pattern": "^formula-[a-zA-Z0-9_-]{1,64}$",
+          "title": "Formula Id",
+          "type": "string"
+        },
+        "label": {
+          "maxLength": 300,
+          "minLength": 3,
+          "title": "Label",
+          "type": "string"
+        },
+        "latex": {
+          "maxLength": 4000,
+          "minLength": 3,
+          "title": "Latex",
+          "type": "string"
+        }
+      },
+      "required": [
+        "formula_id",
+        "label",
+        "latex",
+        "explanation",
+        "design_component_ids",
+        "code_references"
+      ],
+      "title": "PaperFormulaDraft",
+      "type": "object"
+    },
+    "PaperSectionDraft": {
+      "additionalProperties": false,
+      "properties": {
+        "citation_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Citation Ids",
+          "type": "array"
+        },
+        "formula_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Formula Ids",
+          "type": "array"
+        },
+        "paragraphs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Paragraphs",
+          "type": "array"
+        },
+        "result_keys": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Result Keys",
+          "type": "array"
+        },
+        "section_id": {
+          "enum": [
+            "introduction",
+            "related_work",
+            "method",
+            "experimental_setup",
+            "results",
+            "discussion",
+            "limitations",
+            "conclusion"
+          ],
+          "title": "Section Id",
+          "type": "string"
+        },
+        "title": {
+          "maxLength": 200,
+          "minLength": 2,
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "section_id",
+        "title",
+        "paragraphs"
+      ],
+      "title": "PaperSectionDraft",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "DeepSeek writing plan. Runtime resolves every code and result reference.",
+  "properties": {
+    "abstract": {
+      "maxLength": 5000,
+      "minLength": 100,
+      "title": "Abstract",
+      "type": "string"
+    },
+    "acknowledgements": {
+      "anyOf": [
+        {
+          "maxLength": 2000,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Acknowledgements"
+    },
+    "claims": {
+      "items": {
+        "$ref": "#/$defs/PaperClaimDraft"
+      },
+      "maxItems": 200,
+      "minItems": 4,
+      "title": "Claims",
+      "type": "array"
+    },
+    "formulas": {
+      "items": {
+        "$ref": "#/$defs/PaperFormulaDraft"
+      },
+      "maxItems": 30,
+      "minItems": 1,
+      "title": "Formulas",
+      "type": "array"
+    },
+    "keywords": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 12,
+      "minItems": 3,
+      "title": "Keywords",
+      "type": "array"
+    },
+    "sections": {
+      "items": {
+        "$ref": "#/$defs/PaperSectionDraft"
+      },
+      "maxItems": 8,
+      "minItems": 8,
+      "title": "Sections",
+      "type": "array"
+    },
+    "title": {
+      "maxLength": 500,
+      "minLength": 10,
+      "title": "Title",
+      "type": "string"
+    }
+  },
+  "required": [
+    "title",
+    "abstract",
+    "keywords",
+    "sections",
+    "formulas",
+    "claims"
+  ],
+  "title": "PaperWritingDraft",
+  "type": "object"
+}

@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "execution_policy": {
+    "provider": "shared_deepseek_provider",
+    "default_model": "deepseek-v4-pro",
+    "reasoning_effort": "high",
+    "tools": [],
+    "writes": [],
+    "max_calls_per_advisor": 1,
+    "failure_policy": "fail_closed"
+  },
+  "advisors": [
+    {
+      "name": "method-architecture-advisor",
+      "prompt": "method-architecture.md",
+      "skills": [
+        "research-ideation",
+        "paper-to-code",
+        "scientific-critical-thinking"
+      ]
+    },
+    {
+      "name": "code-reuse-architecture-advisor",
+      "prompt": "code-reuse-architecture.md",
+      "skills": [
+        "implement-paper",
+        "python-coding",
+        "software-architecture",
+        "torchdrug"
+      ]
+    },
+    {
+      "name": "data-decision-advisor",
+      "prompt": "data-decision.md",
+      "skills": [
+        "dataset-curation",
+        "torchdrug",
+        "scientific-critical-thinking"
+      ]
+    },
+    {
+      "name": "experiment-decision-advisor",
+      "prompt": "experiment-decision.md",
+      "skills": [
+        "experimental-design",
+        "experiment-pipeline",
+        "scientific-critical-thinking"
+      ]
+    },
+    {
+      "name": "critical-risk-advisor",
+      "prompt": "critical-risk.md",
+      "skills": [
+        "scientific-critical-thinking",
+        "experimental-design",
+        "software-architecture"
+      ]
+    }
+  ]
+}

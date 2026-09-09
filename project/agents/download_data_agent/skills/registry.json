@@ -1,0 +1,54 @@
+{
+  "agent": "download-data-agent",
+  "policy": "registry-only; third-party content is not redistributed and local sync remains inactive until license and code review",
+  "skills": [
+    {
+      "catalog": "https://skills.sh/mims-harvard/tooluniverse/tooluniverse-dataset-discovery",
+      "purpose": "scientific dataset discovery",
+      "repository": "https://github.com/mims-harvard/tooluniverse",
+      "source": "mims-harvard/tooluniverse@tooluniverse-dataset-discovery",
+      "source_commit": "cfd267182b7ae3a59ef08dbf4656449d97dd593c",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/k-dense-ai/scientific-agent-skills/hugging-science",
+      "purpose": "scientific dataset and model hub search",
+      "repository": "https://github.com/k-dense-ai/scientific-agent-skills",
+      "source": "k-dense-ai/scientific-agent-skills@hugging-science",
+      "source_commit": "991bd993aca4e90891d1f9908ba82ef45d77b6f0",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/personamanagmentlayer/pcl/data-science-expert",
+      "purpose": "dataset schema and quality analysis",
+      "repository": "https://github.com/personamanagmentlayer/pcl",
+      "source": "personamanagmentlayer/pcl@data-science-expert",
+      "source_commit": "5d3e0058cf1872c5a808ae2a83ebac8a7ce0a553",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/wshobson/agents/dataset-curation",
+      "purpose": "dataset curation, quality checks, and provenance",
+      "repository": "https://github.com/wshobson/agents",
+      "source": "wshobson/agents@dataset-curation",
+      "source_commit": "c4b82b0ad771190355eb8e204b1329732a18449a",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/davila7/claude-code-templates/torchdrug",
+      "purpose": "drug-target and molecular dataset handling with TorchDrug",
+      "repository": "https://github.com/davila7/claude-code-templates",
+      "source": "davila7/claude-code-templates@torchdrug",
+      "source_commit": "3355033903b24c1cac51d6e051f1e634194a2450",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/ligphidonk/oh-my--paper/dataset-discovery",
+      "purpose": "paper-linked dataset discovery",
+      "repository": "https://github.com/ligphidonk/oh-my--paper",
+      "source": "ligphidonk/oh-my--paper@dataset-discovery",
+      "source_commit": "6baece9f13324c209592124ebc213289336f26c3",
+      "status": "reserved"
+    }
+  ]
+}

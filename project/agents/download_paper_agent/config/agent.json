@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "name": "download-paper-agent",
+  "role": "Build a PDF-complete scholarly portfolio with deterministic venue quality, 70/30 authority-recency quotas, and traceable GitHub evidence.",
+  "execution_mode": "specialist",
+  "model_provider": "deepseek",
+  "allowed_tools": ["tavily.search", "safe_http.download_pdf", "artifact.write_reference"],
+  "write_scopes": ["reference/"],
+  "system_prompt": "prompts/system.md",
+  "input_contracts": ["TaskEnvelope"],
+  "output_contracts": ["PaperSelection", "PaperManifest", "AgentResult"],
+  "skill_policy": "registry_only_reserved"
+}

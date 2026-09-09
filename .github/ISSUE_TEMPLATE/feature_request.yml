@@ -1,0 +1,32 @@
+name: Feature request
+description: Propose a scoped capability or quality-gate improvement.
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: Which research or engineering failure mode should be addressed?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: Describe inputs, outputs, trust boundaries, and expected failure behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: invariants
+    attributes:
+      label: Control-plane invariants
+      options:
+        - label: The proposal keeps Runtime as the only workflow-state writer.
+          required: true
+        - label: The proposal keeps live execution and paid services explicit.
+          required: true

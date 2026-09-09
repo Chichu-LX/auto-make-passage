@@ -1,0 +1,610 @@
+{
+  "$defs": {
+    "ArtifactRef": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "default": "generic",
+          "title": "Kind",
+          "type": "string"
+        },
+        "sha256": {
+          "default": "",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "uri": {
+          "title": "Uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri"
+      ],
+      "title": "ArtifactRef",
+      "type": "object"
+    },
+    "GPUResourceSnapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "index": {
+          "maximum": 1024,
+          "minimum": 0,
+          "title": "Index",
+          "type": "integer"
+        },
+        "memory_total_mib": {
+          "exclusiveMinimum": 0,
+          "title": "Memory Total Mib",
+          "type": "integer"
+        },
+        "memory_used_mib": {
+          "minimum": 0,
+          "title": "Memory Used Mib",
+          "type": "integer"
+        },
+        "name": {
+          "maxLength": 300,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "utilization_percent": {
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Utilization Percent",
+          "type": "number"
+        }
+      },
+      "required": [
+        "index",
+        "name",
+        "memory_total_mib",
+        "memory_used_mib",
+        "utilization_percent"
+      ],
+      "title": "GPUResourceSnapshot",
+      "type": "object"
+    },
+    "ScheduledExperimentJob": {
+      "additionalProperties": false,
+      "properties": {
+        "best_checkpoint_dir": {
+          "maxLength": 1000,
+          "minLength": 5,
+          "title": "Best Checkpoint Dir",
+          "type": "string"
+        },
+        "command_argv": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 80,
+          "minItems": 2,
+          "title": "Command Argv",
+          "type": "array"
+        },
+        "expected_duration_seconds": {
+          "maximum": 2592000,
+          "minimum": 60,
+          "title": "Expected Duration Seconds",
+          "type": "integer"
+        },
+        "experiment_id": {
+          "pattern": "^experiment-[a-zA-Z0-9_-]{1,64}$",
+          "title": "Experiment Id",
+          "type": "string"
+        },
+        "gpu_ids": {
+          "items": {
+            "type": "integer"
+          },
+          "maxItems": 128,
+          "minItems": 1,
+          "title": "Gpu Ids",
+          "type": "array"
+        },
+        "gpu_lock_path": {
+          "maxLength": 1000,
+          "minLength": 5,
+          "title": "Gpu Lock Path",
+          "type": "string"
+        },
+        "job_id": {
+          "pattern": "^job-[a-zA-Z0-9_-]{1,100}$",
+          "title": "Job Id",
+          "type": "string"
+        },
+        "log_path": {
+          "maxLength": 1000,
+          "minLength": 5,
+          "title": "Log Path",
+          "type": "string"
+        },
+        "metric_direction": {
+          "enum": [
+            "higher",
+            "lower"
+          ],
+          "title": "Metric Direction",
+          "type": "string"
+        },
+        "metric_name": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Metric Name",
+          "type": "string"
+        },
+        "metrics_path": {
+          "maxLength": 1000,
+          "minLength": 5,
+          "title": "Metrics Path",
+          "type": "string"
+        },
+        "next_report_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Next Report At"
+        },
+        "remote_job_id": {
+          "anyOf": [
+            {
+              "maxLength": 200,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Remote Job Id"
+        },
+        "remote_workdir": {
+          "maxLength": 1000,
+          "minLength": 5,
+          "title": "Remote Workdir",
+          "type": "string"
+        },
+        "seed": {
+          "title": "Seed",
+          "type": "integer"
+        },
+        "server_id": {
+          "pattern": "^[a-z][a-z0-9_-]{1,63}$",
+          "title": "Server Id",
+          "type": "string"
+        },
+        "started_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Started At"
+        },
+        "status": {
+          "enum": [
+            "planned",
+            "launched"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "job_id",
+        "experiment_id",
+        "seed",
+        "server_id",
+        "gpu_ids",
+        "command_argv",
+        "remote_workdir",
+        "log_path",
+        "metrics_path",
+        "best_checkpoint_dir",
+        "gpu_lock_path",
+        "expected_duration_seconds",
+        "metric_name",
+        "metric_direction",
+        "status"
+      ],
+      "title": "ScheduledExperimentJob",
+      "type": "object"
+    },
+    "ServerDemoRecord": {
+      "additionalProperties": false,
+      "description": "Foreground server-side smoke test that must pass before persistent launch.",
+      "properties": {
+        "argv": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 2,
+          "title": "Argv",
+          "type": "array"
+        },
+        "duration_ms": {
+          "minimum": 0.0,
+          "title": "Duration Ms",
+          "type": "number"
+        },
+        "gpu_ids": {
+          "items": {
+            "type": "integer"
+          },
+          "maxItems": 128,
+          "minItems": 1,
+          "title": "Gpu Ids",
+          "type": "array"
+        },
+        "log_path": {
+          "maxLength": 1000,
+          "minLength": 5,
+          "title": "Log Path",
+          "type": "string"
+        },
+        "output_tail": {
+          "default": "",
+          "maxLength": 16000,
+          "title": "Output Tail",
+          "type": "string"
+        },
+        "return_code": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Return Code"
+        },
+        "server_id": {
+          "pattern": "^[a-z][a-z0-9_-]{1,63}$",
+          "title": "Server Id",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "passed",
+            "failed",
+            "timed_out"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "timeout_seconds": {
+          "maximum": 1800,
+          "minimum": 10,
+          "title": "Timeout Seconds",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "server_id",
+        "argv",
+        "gpu_ids",
+        "status",
+        "duration_ms",
+        "timeout_seconds",
+        "log_path"
+      ],
+      "title": "ServerDemoRecord",
+      "type": "object"
+    },
+    "ServerResourceSnapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "conda_available": {
+          "default": false,
+          "title": "Conda Available",
+          "type": "boolean"
+        },
+        "cpu_count": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Cpu Count",
+          "type": "integer"
+        },
+        "disk_available_bytes": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Disk Available Bytes",
+          "type": "integer"
+        },
+        "disk_total_bytes": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Disk Total Bytes",
+          "type": "integer"
+        },
+        "error_code": {
+          "anyOf": [
+            {
+              "maxLength": 200,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error Code"
+        },
+        "gpus": {
+          "items": {
+            "$ref": "#/$defs/GPUResourceSnapshot"
+          },
+          "maxItems": 128,
+          "title": "Gpus",
+          "type": "array"
+        },
+        "load_1m": {
+          "default": 0.0,
+          "minimum": 0.0,
+          "title": "Load 1M",
+          "type": "number"
+        },
+        "memory_available_bytes": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Memory Available Bytes",
+          "type": "integer"
+        },
+        "memory_total_bytes": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Memory Total Bytes",
+          "type": "integer"
+        },
+        "probed_at": {
+          "format": "date-time",
+          "title": "Probed At",
+          "type": "string"
+        },
+        "server_id": {
+          "pattern": "^[a-z][a-z0-9_-]{1,63}$",
+          "title": "Server Id",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "available",
+            "unreachable",
+            "ineligible"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "server_id",
+        "status"
+      ],
+      "title": "ServerResourceSnapshot",
+      "type": "object"
+    },
+    "ServerTransferItem": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "data",
+            "model",
+            "code",
+            "runtime"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "local_artifact": {
+          "$ref": "#/$defs/ArtifactRef"
+        },
+        "local_relative_path": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "title": "Local Relative Path",
+          "type": "string"
+        },
+        "remote_relative_path": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "title": "Remote Relative Path",
+          "type": "string"
+        },
+        "server_id": {
+          "pattern": "^[a-z][a-z0-9_-]{1,63}$",
+          "title": "Server Id",
+          "type": "string"
+        },
+        "size_bytes": {
+          "exclusiveMinimum": 0,
+          "title": "Size Bytes",
+          "type": "integer"
+        },
+        "transfer_id": {
+          "pattern": "^transfer-[a-zA-Z0-9_-]{1,80}$",
+          "title": "Transfer Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "transfer_id",
+        "server_id",
+        "kind",
+        "local_artifact",
+        "local_relative_path",
+        "remote_relative_path",
+        "size_bytes"
+      ],
+      "title": "ServerTransferItem",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Immutable fleet probe, transfer, environment, allocation, and launch evidence.",
+  "properties": {
+    "available_gpu_keys": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 4096,
+      "title": "Available Gpu Keys",
+      "type": "array"
+    },
+    "code_manifest_uri": {
+      "title": "Code Manifest Uri",
+      "type": "string"
+    },
+    "code_review_uri": {
+      "title": "Code Review Uri",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "data_manifest_uri": {
+      "title": "Data Manifest Uri",
+      "type": "string"
+    },
+    "environment_names": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "maxProperties": 64,
+      "title": "Environment Names",
+      "type": "object"
+    },
+    "estimated_makespan_seconds": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Estimated Makespan Seconds",
+      "type": "integer"
+    },
+    "issues": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 100,
+      "title": "Issues",
+      "type": "array"
+    },
+    "jobs": {
+      "items": {
+        "$ref": "#/$defs/ScheduledExperimentJob"
+      },
+      "maxItems": 2000,
+      "title": "Jobs",
+      "type": "array"
+    },
+    "probes": {
+      "items": {
+        "$ref": "#/$defs/ServerResourceSnapshot"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Probes",
+      "type": "array"
+    },
+    "project_slug": {
+      "pattern": "^[a-z0-9][a-z0-9-]{1,62}[a-z0-9]$",
+      "title": "Project Slug",
+      "type": "string"
+    },
+    "report_interval_seconds": {
+      "const": 43200,
+      "default": 43200,
+      "title": "Report Interval Seconds",
+      "type": "integer"
+    },
+    "research_design_uri": {
+      "title": "Research Design Uri",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "selected_gpu_keys": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 4096,
+      "title": "Selected Gpu Keys",
+      "type": "array"
+    },
+    "server_demos": {
+      "items": {
+        "$ref": "#/$defs/ServerDemoRecord"
+      },
+      "maxItems": 64,
+      "title": "Server Demos",
+      "type": "array"
+    },
+    "server_workspaces": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "maxProperties": 64,
+      "title": "Server Workspaces",
+      "type": "object"
+    },
+    "status": {
+      "enum": [
+        "launched",
+        "blocked"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    },
+    "transfers": {
+      "items": {
+        "$ref": "#/$defs/ServerTransferItem"
+      },
+      "maxItems": 5000,
+      "title": "Transfers",
+      "type": "array"
+    }
+  },
+  "required": [
+    "run_id",
+    "task_id",
+    "project_slug",
+    "status",
+    "code_manifest_uri",
+    "data_manifest_uri",
+    "research_design_uri",
+    "code_review_uri",
+    "probes"
+  ],
+  "title": "ServerScheduleManifest",
+  "type": "object"
+}

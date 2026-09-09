@@ -1,0 +1,132 @@
+{
+  "$defs": {
+    "AgentName": {
+      "enum": [
+        "lead-agent",
+        "download-paper-agent",
+        "download-data-agent",
+        "make-idea-agent",
+        "idea-design-agent",
+        "code-make-agent",
+        "code-review-agent",
+        "server-schedule-agent",
+        "check-result-agent",
+        "experiment-code-run-agent",
+        "check-paper-and-code-agent",
+        "write-paper-agent",
+        "paper-review-agent",
+        "feedback-agent"
+      ],
+      "title": "AgentName",
+      "type": "string"
+    },
+    "ArtifactRef": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "default": "generic",
+          "title": "Kind",
+          "type": "string"
+        },
+        "sha256": {
+          "default": "",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "uri": {
+          "title": "Uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri"
+      ],
+      "title": "ArtifactRef",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "acceptance_criteria": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Acceptance Criteria",
+      "type": "array"
+    },
+    "agent": {
+      "$ref": "#/$defs/AgentName"
+    },
+    "attempt": {
+      "default": 1,
+      "minimum": 1,
+      "title": "Attempt",
+      "type": "integer"
+    },
+    "context": {
+      "additionalProperties": true,
+      "title": "Context",
+      "type": "object"
+    },
+    "deadline_seconds": {
+      "default": 300,
+      "maximum": 86400,
+      "minimum": 1,
+      "title": "Deadline Seconds",
+      "type": "integer"
+    },
+    "inputs": {
+      "items": {
+        "$ref": "#/$defs/ArtifactRef"
+      },
+      "title": "Inputs",
+      "type": "array"
+    },
+    "objective": {
+      "minLength": 1,
+      "title": "Objective",
+      "type": "string"
+    },
+    "parent_task_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Parent Task Id"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    },
+    "write_scope": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Write Scope",
+      "type": "array"
+    }
+  },
+  "required": [
+    "run_id",
+    "task_id",
+    "agent",
+    "objective"
+  ],
+  "title": "TaskEnvelope",
+  "type": "object"
+}

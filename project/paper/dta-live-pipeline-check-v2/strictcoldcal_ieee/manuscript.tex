@@ -1,0 +1,328 @@
+\documentclass[lettersize,journal]{IEEEtran}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{cite}
+\usepackage{textcomp}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{balance}
+\usepackage{microtype}
+\usepackage{siunitx}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{
+  pdftitle={StrictColdCal: Leakage-Audited Split-Conformal Prediction for Drug--Target Affinity under Entity Cold Start},
+  pdfauthor={Anonymous Author(s)},
+  pdfsubject={Drug--target affinity calibration under strict entity cold start},
+  pdfkeywords={drug-target affinity, conformal prediction, cold start, uncertainty quantification}
+}
+\hyphenation{op-tical net-works semi-conduc-tor drug-target con-for-mal}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\sisetup{round-mode=places,round-precision=3,detect-all}
+
+\begin{document}
+
+\title{StrictColdCal: Leakage-Audited Split-Conformal Prediction for Drug--Target Affinity under Entity Cold Start}
+
+\author{Anonymous Author(s)%
+\thanks{Manuscript prepared for double-blind review. The author block and public repository URL can be restored in the camera-ready version.}}
+
+\markboth{IEEE-Style Research Manuscript, August 2026}%
+{Anonymous Author(s): StrictColdCal}
+
+\maketitle
+
+\begin{abstract}
+Drug--target affinity (DTA) models are commonly evaluated on random pair splits, although deployment often requires predictions for compounds, proteins, or both entities that were not observed during training. Point-error metrics alone also provide no indication of when a prediction is unreliable. We introduce \emph{StrictColdCal}, a leakage-audited evaluation and split-conformal calibration protocol for DTA regression. The protocol assigns drug and target identities to mutually disjoint train, calibration, validation, and test partitions; trains a point regressor; estimates local residual dispersion from training data; and constructs normalized conformal intervals at 80\%, 90\%, and 95\% nominal confidence. Every split is subjected to an explicit identity-overlap audit, and the protocol includes drug-only and target-only cold-start diagnostics, an absolute-residual calibration ablation, a training-label permutation control, and a held-out-target case study.
+
+We evaluate the executable protocol in a bounded local-CPU study using three deterministic 2,000-record samples from the Davis kinase-affinity data. A deliberately small 4--8--1 multilayer perceptron based on four length descriptors isolates protocol behavior from representation learning. At 90\% nominal confidence, strict both-entity cold-start test coverage was $0.908\pm0.080$, normalized width was $3.951\pm2.497$, and RMSE was $0.848\pm0.217$ across seeds. Coverage was close to nominal on average, but only two of three seeds satisfied the predeclared 0.85--0.95 coverage band, and only one seed met the width--error rank-correlation gate. Moreover, permuting training labels changed RMSE by only $-0.002\pm0.010$, demonstrating that the proxy model did not learn meaningful affinity structure. These negative controls prevent a predictive-performance claim while validating the protocol's ability to expose an apparently calibrated yet scientifically inadequate model. The result is a reproducible calibration framework and a bounded empirical diagnosis, not a state-of-the-art DTA benchmark.
+\end{abstract}
+
+\begin{IEEEkeywords}
+drug--target affinity, cold start, conformal prediction, uncertainty quantification, leakage audit, reproducibility.
+\end{IEEEkeywords}
+
+\section{Introduction}
+\IEEEPARstart{C}{omputational} prediction of drug--target affinity (DTA) supports virtual screening, target prioritization, and drug repurposing by estimating a continuous interaction strength before costly downstream validation. Public kinase panels such as Davis \cite{davis2011}, KIBA \cite{tang2014kiba}, and Metz \cite{metz2011} have made supervised DTA modeling accessible. In parallel, sequence encoders, molecular graphs, structural cues, and multimodal fusion have substantially increased model capacity \cite{deepdta,graphdta,datadta,wang2024review}. Yet two evaluation problems remain easy to obscure: entity leakage and unquantified predictive uncertainty.
+
+Randomly splitting observed drug--target pairs permits the same compound or protein to appear in both training and testing. Such a split measures interpolation over familiar entities rather than the operationally harder problem of generalizing to a novel compound, a novel target, or both. Pahikkala \emph{et al.} \cite{pahikkala2015} showed that separating these regimes materially changes the interpretation of DTA results. The distinction is especially important for data matrices with repeated measurements across a relatively small set of entities, including the 68 compounds and 442 targets in the Davis materialization used here.
+
+Even a leakage-free point estimate does not communicate the uncertainty induced by sparse chemical neighborhoods, unseen proteins, or distribution shift. Split-conformal prediction converts residuals on a held-out calibration set into finite-sample prediction intervals under an exchangeability assumption \cite{vovk2005,angelopoulos2023}. Its model-agnostic form is attractive for DTA, but a useful protocol must specify how entities are partitioned, how residual scale is estimated without test leakage, which calibration endpoint is evaluated, and what observation would falsify the method.
+
+This paper addresses that methodological gap with StrictColdCal, an executable protocol that couples strict identity-disjoint partitions with normalized split-conformal intervals. The intent is not to introduce another high-capacity DTA encoder. Instead, the protocol is designed to wrap a regressor and make its generalization and uncertainty behavior auditable. We make three contributions:
+
+\begin{itemize}
+\item We define a four-way split in which drug identities and target identities are pairwise disjoint across training, calibration, validation, and test cells, together with drug-only and target-only diagnostic variants and a deterministic leakage audit.
+\item We define training-only local dispersion, normalized nonconformity scores, exact finite-sample conformal quantiles, and reliability endpoints covering empirical coverage, scale-normalized width, test-to-calibration width efficiency, and width--error Spearman correlation.
+\item We execute the protocol with three seeds and four supplementary experiments on real Davis records. Rather than suppressing an unfavorable result, we show that average coverage can look acceptable while a label-permutation control and predeclared per-seed gates reject the proxy model as scientifically uninformative.
+\end{itemize}
+
+The last contribution is central. A calibration workflow is only useful if it can prevent a weak predictor from being presented as reliable. The bounded experiment therefore functions both as an implementation study and as a falsification test. KIBA and Metz were acquired and profiled, but they were not executed in this run; no cross-dataset or state-of-the-art performance claim is made.
+
+\section{Related Work}
+
+\subsection{Sequence-Based DTA Prediction}
+DeepDTA established a widely used sequence-only baseline by applying separate convolutional encoders to SMILES strings and amino-acid sequences before joint regression \cite{deepdta}. WideDTA broadened this representation with ligand maximum common substructures and protein domain or motif information \cite{widedta}. These methods demonstrated that affinity can be learned without an experimentally resolved complex, but their reported point metrics do not by themselves characterize uncertainty for unseen identities.
+
+Recent sequence and multimodal systems have increased representational richness. DataDTA aggregates multiple drug and target features through dual-interaction modules \cite{datadta}; BTDHDTA combines multiple feature extractors and fusion mechanisms \cite{btdhdta}; and DMFF-DTA incorporates binding-site information in a dual-modality network \cite{dmffdta}. DeepDTAGen further couples affinity prediction with target-aware molecular generation in a multitask framework \cite{deepdtagen}. These systems pursue predictive accuracy through architecture. StrictColdCal is complementary: it defines a model-agnostic evaluation and uncertainty layer and can, in principle, wrap such encoders after their implementations are faithfully reproduced.
+
+\subsection{Graph and Structure-Aware Models}
+GraphDTA replaces the string representation of a drug with molecular graph neural networks while retaining a sequence representation for the target \cite{graphdta}. Jiang \emph{et al.} combine drug graphs with protein contact maps to incorporate structural relations \cite{gnncontact}. These approaches address representational limitations of sequence-only models and are more appropriate scientific baselines than the small proxy used in this paper. However, richer encoders do not automatically resolve identity leakage: the split policy remains an independent experimental choice. A strong architecture evaluated on an entity-overlapping test set and a modest architecture evaluated under both-new cold start answer different questions.
+
+\subsection{Cold-Start Evaluation and Conformal Calibration}
+Realistic DTA evaluation separates warm, drug-cold, target-cold, and both-cold regimes \cite{pahikkala2015}. The both-cold setting is the most restrictive because neither entity has appeared in training. Conformal prediction provides distribution-free marginal coverage when calibration and test examples are exchangeable \cite{vovk2005,angelopoulos2023}. Normalizing residuals by a learned dispersion estimate can adapt interval widths to local difficulty, but only if the dispersion model is trained without calibration or test labels and if adaptive widths correlate with actual errors. StrictColdCal therefore treats coverage, width efficiency, and width--error association as separate endpoints; coverage alone is never accepted as evidence of a useful predictor.
+
+\section{Methods}
+
+\subsection{Problem Formulation}
+Let $\mathcal{D}=\{(d_i,t_i,y_i)\}_{i=1}^{N}$ contain a compound $d_i$, a protein target $t_i$, and an affinity $y_i$. A point regressor $f_\theta$ produces $\hat y_i=f_\theta(d_i,t_i)$. For a nominal confidence level $1-\alpha$, the calibration objective is a prediction set
+\begin{equation}
+\mathcal{C}_{1-\alpha}(d,t)=\left[L_{\alpha}(d,t),U_{\alpha}(d,t)\right]
+\end{equation}
+with marginal coverage close to $1-\alpha$ on the declared test regime. This objective is distinct from minimizing point error: a model may obtain broad intervals with high coverage while providing little ranking or decision value.
+
+\subsection{Leakage-Audited Entity Partitions}
+For each seed, unique drug identities and unique target identities are shuffled independently and allocated to four nonempty blocks with fractions 0.60, 0.15, 0.10, and 0.15 for training, calibration, validation, and testing. For phase $s\in\{\mathrm{tr},\mathrm{cal},\mathrm{val},\mathrm{te}\}$, a record is retained only when both of its entities belong to the corresponding blocks:
+\begin{equation}
+\mathcal{D}_{s}=\{(d,t,y)\in\mathcal{D}:d\in\mathcal{V}^{d}_{s},\ t\in\mathcal{V}^{t}_{s}\}.
+\end{equation}
+The implementation rejects a split if any cell is empty. It also audits
+\begin{equation}
+\mathcal{V}^{d}_{s}\cap\mathcal{V}^{d}_{r}=\varnothing,
+\quad
+\mathcal{V}^{t}_{s}\cap\mathcal{V}^{t}_{r}=\varnothing,
+\quad \forall s\neq r,
+\end{equation}
+so calibration, validation, and test are all both-entity cold relative to training and relative to one another. Records whose drug and target fall into different phase blocks are intentionally unused. This reduces sample efficiency but makes the identity boundary explicit.
+
+Two diagnostic manifests relax exactly one axis. In drug-only cold start, evaluation drugs remain disjoint while evaluation targets are restricted to targets observed in training. Target-only cold start applies the symmetric rule. These diagnostics are not pooled with the primary both-cold endpoint.
+
+\subsection{Bounded Point Regressor}
+The executable local study uses a dependency-free TinyMLPRegressor to test the protocol rather than to compete with DeepDTA or GraphDTA. Each pair is represented by
+\begin{equation}
+\mathbf{x}(d,t)=
+[|\mathrm{id}_d|,|\mathrm{id}_t|,|\mathrm{SMILES}_d|,|\mathrm{SEQ}_t|]^\top.
+\end{equation}
+The four raw length descriptors pass through an eight-unit hyperbolic-tangent hidden layer:
+\begin{equation}
+\mathbf{h}=\tanh(\mathbf{W}_1\mathbf{x}+\mathbf{b}_1),\qquad
+\hat y=\mathbf{w}_2^\top\mathbf{h}+b_2.
+\end{equation}
+Parameters are optimized by mini-batch gradient descent on half squared error for four epochs, learning rate 0.05, and batch size 32. This compact model makes every update inspectable on a CPU, but its length-only representation is not chemically expressive. The negative control in Section~\ref{sec:negative} is used to test whether it learns signal beyond superficial marginals.
+
+\subsection{Normalized Split-Conformal Intervals}
+After fitting $f_\theta$, absolute training residuals $r_j=|y_j-\hat y_j|$ are stored with the corresponding feature vectors. A three-nearest-neighbor dispersion estimator predicts
+\begin{equation}
+\hat\sigma(\mathbf{x})=\frac{1}{3}\sum_{j\in\mathcal{N}_3(\mathbf{x})}r_j,
+\end{equation}
+where neighbors are selected by squared Euclidean distance in the four-dimensional feature space. Calibration nonconformity scores are
+\begin{equation}
+a_i=\frac{|y_i-\hat y_i|}{\max(\hat\sigma_i,10^{-12})},
+\qquad i\in\mathcal{D}_{\mathrm{cal}}.
+\end{equation}
+For $m=|\mathcal{D}_{\mathrm{cal}}|$, the finite-sample rank is
+\begin{equation}
+k=\min\{m,\max[1,\lceil(m+1)(1-\alpha)\rceil]\},
+\end{equation}
+and $\hat q_{1-\alpha}$ is the $k$th ordered calibration score. The interval for a test pair is
+\begin{equation}
+\mathcal{C}_{1-\alpha}(d,t)=
+[\hat y-\hat q_{1-\alpha}\hat\sigma,\
+ \hat y+\hat q_{1-\alpha}\hat\sigma].
+\end{equation}
+No validation or test label is used to estimate $\hat\sigma$ or $\hat q$. We evaluate levels 0.80, 0.90, and 0.95. The ablation replaces $a_i$ by the unnormalized absolute residual and uses constant-width intervals $[\hat y-\hat q,\hat y+\hat q]$.
+
+\subsection{Reliability Metrics and Falsification Gates}
+For test labels $y_i$, intervals $[L_i,U_i]$, and $n$ test pairs, empirical coverage is
+\begin{equation}
+\widehat{\mathrm{Cov}}=\frac{1}{n}\sum_{i=1}^{n}\mathbb{1}[L_i\le y_i\le U_i].
+\end{equation}
+Let $s_y$ be the population standard deviation of training labels. Mean normalized interval width (MNIW) is
+\begin{equation}
+\mathrm{MNIW}=\frac{1}{n}\sum_{i=1}^{n}\frac{U_i-L_i}{s_y},
+\end{equation}
+and the efficiency ratio divides test MNIW by calibration MNIW. We also report MAE, RMSE, and Spearman's $\rho$ between interval width and absolute test error. Constant-width intervals have undefined width--error ranking and are recorded as $\rho=0$ only for serialization.
+
+Before execution, the 90\% endpoint required: coverage in $[0.85,0.95]$, efficiency ratio at most 1.25, width--error $\rho\ge0.20$, and a three-of-three seed quorum. The label-permutation control shuffles training labels only, retrains from scratch, and keeps calibration/test labels fixed. Coverage alone cannot pass this control; point error, width, efficiency, and width--error association must also respond.
+
+\section{Experimental Design}
+
+\subsection{Data Acquisition and Scope}
+Table~\ref{tab:datasets} summarizes the three locally materialized public datasets. Each file was checksum-verified and deterministically profiled. Davis contains 30,056 measured compound--target pairs and is the only dataset executed in this study. KIBA and Metz are reported to document data readiness, not as experimental evidence. Their rows never enter any metric in Sections~\ref{sec:primary}--\ref{sec:negative}.
+
+\begin{table*}[!t]
+\caption{Materialized Dataset Inventory. Only Davis Was Executed in This Study.}
+\label{tab:datasets}
+\centering
+\begin{tabular}{lrrrrrrl}
+\toprule
+Dataset & Rows & Unique pairs & Compounds & Targets & Label mean$\pm$SD & Size (MB) & Executed \\
+\midrule
+Davis \cite{davis2011} & 30,056 & 30,056 & 68 & 442 & $5.452\pm0.895$ & 26.1 & Yes \\
+KIBA \cite{tang2014kiba} & 118,083 & 117,492 & 2,068 & 228 & $11.719\pm0.836$ & 93.7 & No \\
+Metz \cite{metz2011} & 35,259 & 35,259 & 1,423 & 170 & $6.224\pm0.959$ & 28.7 & No \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+For each seed in $\{7,17,27\}$, the Davis rows are deterministically shuffled and capped at 2,000 before identity partitioning. The cap is a computational boundary, not a claim that 2,000 rows are sufficient for scientific DTA benchmarking. Because the strict cell rule retains only pairs whose drug and target share the same phase assignment, 802--837 rows contribute to a seed-specific run (Table~\ref{tab:seed}).
+
+\subsection{Primary and Supplementary Experiments}
+The primary endpoint is the both-entity cold-start test set. Four supplementary experiments are executed with the same seeds: (i) drug-only and target-only diagnostics; (ii) normalized versus absolute-residual conformal calibration; (iii) training-label permutation; and (iv) a held-out-target-family interval case study. Each job writes a model checkpoint, JSON report, and metric log. The 15 reports used here comprise three primary and 12 supplementary jobs.
+
+\subsection{Implementation and Reproducibility}
+Experiments ran locally with Python 3.12 on CPU; no SSH host or GPU was used. The implementation revision contains 53 manifest-owned files, of which 49 are Python. Independent code review verified file hashes, parsed the Python abstract syntax trees, found no unbounded loop or runtime network/shell path, and passed 29 tests with two dependency-specific skips. The dataset manifest is \texttt{00db90d9c8cd}, the reviewed code revision is \texttt{3d8469d8ac15}, and the experiment run is \texttt{run\_5875420e9572}. All paper-facing values were regenerated from the 15 persisted reports by a deterministic aggregation script; the resulting JSON evidence digest is \texttt{8ab6ab38fcb0}.
+
+Across-seed summaries use the arithmetic mean and sample standard deviation. Symmetric 95\% $t$ intervals use $t_{0.975,2}=4.303$, but with only three seeds they are treated as descriptive and do not support significance claims. Per-seed values are retained because the predeclared gates operate on every seed rather than on the mean alone.
+
+\section{Results}
+
+\subsection{Primary Both-Entity Cold Start}
+\label{sec:primary}
+Table~\ref{tab:seed} gives the complete 90\% nominal endpoint for each seed. Validation RMSE varied from 0.472 to 1.481, while test RMSE ranged from 0.666 to 1.088. The small, seed-dependent cell counts follow from strict identity intersections, not from random pair splitting. All training losses decreased over four epochs, confirming parameter updates, but loss reduction does not establish chemical learning.
+
+\begin{table*}[!t]
+\caption{Per-Seed Primary Results at 90\% Nominal Confidence.}
+\label{tab:seed}
+\centering
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{rrrrrrrrrrr}
+\toprule
+Seed & Train & Cal. & Val. & Test & Val. RMSE & Test RMSE & Coverage & MNIW & Efficiency & $\rho_{w,e}$ \\
+\midrule
+7  & 719 & 39 & 18 & 36 & 1.392 & 1.088 & 0.861 & 3.012 & 0.940 & 0.080 \\
+17 & 730 & 59 & 16 & 29 & 0.472 & 0.666 & 0.862 & 2.060 & 1.092 & $-0.047$ \\
+27 & 733 & 43 & 24 & 37 & 1.481 & 0.789 & 1.000 & 6.781 & 0.858 & 0.218 \\
+\midrule
+Mean$\pm$SD & -- & -- & -- & -- & $1.115\pm0.558$ & $0.848\pm0.217$ & $0.908\pm0.080$ & $3.951\pm2.497$ & $0.964\pm0.119$ & $0.084\pm0.133$ \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+Coverage increased monotonically with nominal confidence (Table~\ref{tab:levels}). At 90\%, mean coverage was near nominal; however, the seed-27 interval covered every test point and exceeded the upper gate of 0.95. MNIW more than tripled between the 80\% and 95\% levels. Point-error and width--error correlation are identical across levels because changing $\hat q$ scales every interval within a seed without changing predictions or width ranks.
+
+\begin{table}[!t]
+\caption{Primary Results by Nominal Confidence (Mean$\pm$Sample SD, $n=3$ Seeds).}
+\label{tab:levels}
+\centering
+\begin{tabular}{lccc}
+\toprule
+Metric & 80\% & 90\% & 95\% \\
+\midrule
+Coverage & $0.800\pm0.105$ & $0.908\pm0.080$ & $0.981\pm0.032$ \\
+MNIW & $2.401\pm1.585$ & $3.951\pm2.497$ & $7.655\pm3.970$ \\
+Efficiency & $0.964\pm0.119$ & $0.964\pm0.119$ & $0.964\pm0.119$ \\
+RMSE & $0.848\pm0.217$ & $0.848\pm0.217$ & $0.848\pm0.217$ \\
+$\rho_{w,e}$ & $0.084\pm0.133$ & $0.084\pm0.133$ & $0.084\pm0.133$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The per-seed gate outcome is therefore mixed. Seeds 7 and 17 pass the coverage band; seed 27 does not. All seeds pass the efficiency threshold, but only seed 27 passes $\rho_{w,e}\ge0.20$. The required three-of-three quorum fails. Reporting the mean alone would conceal both failure modes.
+
+\subsection{Calibration Ablation}
+At 90\%, the absolute-residual control produced $0.919\pm0.046$ coverage and MNIW $3.034\pm2.012$, compared with $0.908\pm0.080$ and $3.951\pm2.497$ for normalized calibration (Table~\ref{tab:ablation}). Both variants share the same point predictions and thus the same RMSE. Constant absolute-residual intervals cannot rank examples by uncertainty, so their width--error correlation is undefined. Normalization restores nonconstant widths, but the observed mean correlation of $0.084$ is weak and highly variable. Consequently, this study supports the \emph{mechanistic} benefit of adaptivity but not an empirical efficiency advantage over constant widths.
+
+\begin{table}[!t]
+\caption{Calibration Ablation at 90\% Nominal Confidence.}
+\label{tab:ablation}
+\centering
+\begin{tabular}{lcc}
+\toprule
+Metric & Normalized & Absolute residual \\
+\midrule
+Coverage & $0.908\pm0.080$ & $0.919\pm0.046$ \\
+MNIW & $3.951\pm2.497$ & $3.034\pm2.012$ \\
+RMSE & $0.848\pm0.217$ & $0.848\pm0.217$ \\
+$\rho_{w,e}$ & $0.084\pm0.133$ & Undefined$^{a}$ \\
+\bottomrule
+\multicolumn{3}{l}{\footnotesize $^{a}$Constant interval width; serialized value 0 is not interpreted.}
+\end{tabular}
+\end{table}
+
+\subsection{One-Sided Cold-Start Diagnostics}
+The drug-only regime yielded 90\% coverage $0.872\pm0.060$, RMSE $1.084\pm0.139$, and MNIW $3.671\pm1.172$. Target-only evaluation yielded coverage $0.930\pm0.033$, RMSE $1.005\pm0.080$, and wider intervals ($5.591\pm0.110$). Width--error correlations remained low in both regimes: $0.097\pm0.031$ for drug-only and $0.101\pm0.060$ for target-only. These results show that allowing overlap on one entity axis does not make the length-based proxy reliably uncertainty-aware. They are diagnostic strata and are not valid baselines for ranking the primary both-cold result.
+
+\subsection{Training-Label Permutation Control}
+\label{sec:negative}
+Table~\ref{tab:negative} reports the most consequential finding. When training labels were permuted and the model was reinitialized, mean RMSE changed from $0.848$ to $0.846$; the paired permuted-minus-real difference was $-0.002\pm0.010$. Coverage and width also did not exhibit a consistent degradation. The only directional change was width--error correlation, from $0.084\pm0.133$ to $-0.118\pm0.103$, but the three-seed paired difference was imprecise ($-0.202\pm0.161$).
+
+\begin{table}[!t]
+\caption{Negative Control at 90\% Nominal Confidence.}
+\label{tab:negative}
+\centering
+\begin{tabular}{lcc}
+\toprule
+Metric & Real labels & Permuted train labels \\
+\midrule
+Coverage & $0.908\pm0.080$ & $0.902\pm0.040$ \\
+MNIW & $3.951\pm2.497$ & $3.132\pm0.957$ \\
+RMSE & $0.848\pm0.217$ & $0.846\pm0.212$ \\
+$\rho_{w,e}$ & $0.084\pm0.133$ & $-0.118\pm0.103$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The failure of RMSE to worsen after permutation rejects the hypothesis that this proxy learned meaningful drug--target affinity structure. High or near-nominal coverage can still arise because conformal intervals expand around an inadequate point model. This is precisely why the protocol prohibits coverage-only acceptance.
+
+\subsection{Held-Out Target Case Study}
+The deterministic case-study rule selected PAK6, TAK1, and CHEK2 for seeds 7, 17, and 27, respectively. Their held-out groups contained only two, two, and one pair. All three groups had 100\% coverage at 90\%, with MNIW 1.666, 1.232, and 4.517. These observations are persisted examples of interval generation, not biological evidence: a one- or two-pair family cannot support a stable coverage estimate, target prioritization, or repurposing conclusion.
+
+\subsection{Protocol-Level Acceptance Analysis}
+Table~\ref{tab:gates} separates software completion from scientific acceptance. The split implementation produced nonempty cells and passed its identity-overlap audit for all three seeds. The conformal code also returned finite values for every requested confidence level. These are necessary implementation conditions, but neither condition evaluates whether the underlying predictor captures affinity.
+
+\begin{table}[!t]
+\caption{Predeclared Gate Audit for the Primary 90\% Endpoint.}
+\label{tab:gates}
+\centering
+\begin{tabular}{p{0.47\columnwidth}cc}
+\toprule
+Requirement & Seed passes & Verdict \\
+\midrule
+Nonempty strict split cells & 3/3 & Pass \\
+Zero forbidden identity overlap & 3/3 & Pass \\
+Coverage in $[0.85,0.95]$ & 2/3 & Fail \\
+Efficiency ratio $\le1.25$ & 3/3 & Pass \\
+Width--error $\rho\ge0.20$ & 1/3 & Fail \\
+Permutation worsens point error & 0/3 & Fail \\
+All reliability gates, 3-of-3 & 0/3 & Reject \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The efficiency gate requires interpretation. A ratio below 1.25 means that test intervals were not much wider, on average, than calibration intervals. It does not mean that either set of intervals was narrow in an absolute sense. Seed 27 illustrates the distinction: its efficiency ratio was 0.858, yet its 90\% MNIW was 6.781 and its coverage was 1.000. The interval scale was therefore stable across calibration and test while still being too conservative for the predeclared coverage band.
+
+Likewise, marginal coverage and instance-level discrimination answer different questions. Conformal scaling can deliver a plausible aggregate coverage rate even when the ordering of interval widths does not track the ordering of errors. Seeds 7 and 17 passed the coverage band but failed the $\rho$ gate. Seed 27 passed $\rho$ by a small margin but failed coverage through overcoverage. No seed simultaneously establishes the full reliability claim, and averaging the three seeds cannot repair a per-seed quorum failure.
+
+Finally, the permutation result rules out a benign explanation based only on small test cells. With calibration and test labels held fixed, a model that learned input--affinity structure should ordinarily lose point accuracy when its training labels are randomly reassigned. That response did not occur. The most defensible interpretation is that raw string and sequence lengths capture broad dataset marginals but not the pair-specific structure needed for DTA prediction. StrictColdCal therefore returns two different decisions: the \emph{protocol implementation} is accepted as executable and traceable, whereas the \emph{proxy model} is rejected for scientific use. This separation is a design requirement, not an after-the-fact reinterpretation.
+
+\section{Discussion}
+
+\subsection{What the Study Establishes}
+The experiment establishes that strict entity partitioning, local dispersion estimation, conformal calibration, and reliability reporting can be executed end to end on real DTA records with deterministic artifacts. The average 90\% coverage is numerically close to nominal, and the finite-sample quantile behaves monotonically across requested levels. Independent code review and content-addressed result aggregation reduce the chance that manuscript numbers were copied from a different run.
+
+More importantly, the protocol does not equate these engineering successes with predictive validity. Seed-level gates reveal unstable coverage and weak interval ranking. The label-permutation control then supplies a direct falsification: the length-only network performs essentially the same after its training labels lose their pairing with inputs. A conventional results section centered only on mean coverage or RMSE could miss this failure.
+
+\subsection{Implications for Full DTA Evaluation}
+A full evaluation should retain the split and calibration contracts while replacing the proxy with faithful sequence and graph models such as DeepDTA \cite{deepdta} and GraphDTA \cite{graphdta}. The next study should execute complete Davis, KIBA, and Metz datasets; include warm, drug-cold, target-cold, and both-cold regimes; compare normalized conformal intervals with absolute-residual, quantile-regression, ensemble, and dropout uncertainty baselines; and preregister paired bootstrap confidence intervals over common test predictions. The primary scientific hypothesis should require both competitive point error and improved reliability, not coverage in isolation.
+
+The strict four-cell construction also discards cross-block records. This is deliberate for leakage control but statistically inefficient. Alternatives include entity-group cross-validation or repeated blocked folds that preserve every eligible record over multiple folds. Any alternative must keep calibration and test identities separated and must not tune interval hyperparameters on test labels.
+
+\subsection{Limitations}
+This study has five material limitations. First, only bounded Davis samples were executed; the KIBA and Metz inventories do not constitute results. Second, three seeds and 29--37 primary test pairs per seed make uncertainty around the summary statistics large. For example, the descriptive 95\% $t$ interval for mean 90\% coverage is 0.709--1.106 before respecting the natural $[0,1]$ bound. Third, the 4--8--1 network uses raw length features, no chemical graph, no protein language model, and no feature scaling. Its output must not be compared numerically with published DTA systems. Fourth, normalized conformal coverage is marginal and conditional on an exchangeability approximation between strict-cold calibration and test partitions; it does not guarantee target-family-conditional coverage. Fifth, the case-study cells are too small for scientific interpretation.
+
+These limitations bound the claim but do not invalidate the protocol result. The workflow ran, produced traceable intervals, and rejected its own inadequate predictor. That negative diagnosis is the correct outcome of a falsifiable evaluation.
+
+\balance
+\section{Data and Code Availability}
+The Davis, KIBA, and Metz files were materialized from public sources and verified with SHA-256 digests. The executed Davis CSV digest begins \texttt{77452d7f0869}; the complete data manifest identifier is \texttt{00db90d9c8cd}. The reviewed implementation revision is \texttt{3d8469d8ac15}; the run identifier is \texttt{run\_5875420e9572}; and the manuscript evidence JSON digest begins \texttt{8ab6ab38fcb0}. An anonymized artifact bundle containing source, configuration, split logic, checkpoints, per-job reports, logs, and the aggregation script accompanies the submission. The public repository URL is withheld only for double-blind review and must be inserted before archival release.
+
+\section{Conclusion}
+StrictColdCal is a leakage-audited split-conformal protocol for DTA regression under drug-cold, target-cold, and both-entity cold-start conditions. In a three-seed local-CPU Davis study, 90\% intervals achieved mean coverage 0.908, but seed-level coverage and width--error gates failed the preregistered quorum. A training-label permutation control left RMSE effectively unchanged, proving that the compact proxy did not learn meaningful affinity structure despite apparently plausible coverage. The study therefore contributes a reproducible evaluation mechanism and an evidence-bounded negative result. It does not claim state-of-the-art DTA accuracy. Future work should preserve the audit and falsification design while executing complete benchmarks with faithful sequence, graph, and uncertainty-aware baselines.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\end{document}

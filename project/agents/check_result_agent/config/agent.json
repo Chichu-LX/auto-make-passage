@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "name": "check-result-agent",
+  "role": "Monitor launched server jobs at their expected completion time and at least every 12 hours, persist the best finite metric and log evidence, compare completed runs with predeclared metric gates, and route infrastructure, data, code, design, or repeat-execution repairs without inventing results or imposing a loop-count limit.",
+  "execution_mode": "specialist",
+  "model_provider": "deepseek",
+  "allowed_tools": [
+    "config.read_credential_free_server_inventory",
+    "artifact.read_research_design_and_schedule",
+    "server.inspect_managed_job_status",
+    "server.read_bounded_metrics_and_log_tail",
+    "artifact.write_job_log_snapshot",
+    "artifact.write_result_check_report"
+  ],
+  "write_scopes": [
+    "design/<project_slug>/reviews/results/",
+    "project/var/logs/jobs/<run_id>/"
+  ],
+  "system_prompt": "prompts/system.md",
+  "input_contracts": [
+    "TaskEnvelope",
+    "ResearchDesign",
+    "ServerScheduleManifest",
+    "ServerExecutionConfig"
+  ],
+  "output_contracts": ["ResultCheckReport", "AgentResult"],
+  "skill_policy": "registry_only_reserved"
+}

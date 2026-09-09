@@ -1,0 +1,54 @@
+{
+  "agent": "download-paper-agent",
+  "policy": "registry-only; third-party content is not redistributed and local sync remains inactive until license and code review",
+  "skills": [
+    {
+      "catalog": "https://skills.sh/lingzhi227/agent-research-skills/literature-search",
+      "purpose": "academic source discovery and evidence-backed literature search",
+      "repository": "https://github.com/lingzhi227/agent-research-skills",
+      "source": "lingzhi227/agent-research-skills@literature-search",
+      "source_commit": "9e6c085d65e313e475e921fdfe795ac11eb7589e",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/claude-office-skills/skills/academic-search",
+      "purpose": "scholarly search workflow",
+      "repository": "https://github.com/claude-office-skills/skills",
+      "source": "claude-office-skills/skills@academic-search",
+      "source_commit": "9c4c7d5cd2813a8936bf2c9fdb174ea883b85a11",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/wanshuiyin/auto-claude-code-research-in-sleep/research-lit",
+      "purpose": "literature collection and triage",
+      "repository": "https://github.com/wanshuiyin/auto-claude-code-research-in-sleep",
+      "source": "wanshuiyin/auto-claude-code-research-in-sleep@research-lit",
+      "source_commit": "2f00c5175503d1a75d43141575ff75889d4b68af",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/huangwb8/chineseresearchlatex/research-literature-review",
+      "purpose": "literature review organization",
+      "repository": "https://github.com/huangwb8/chineseresearchlatex",
+      "source": "huangwb8/chineseresearchlatex@research-literature-review",
+      "source_commit": "b0d532de24a493ad42888963ce6d40a9e7285fed",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/wentorai/research-plugins/citation-skills",
+      "purpose": "citation metadata and reference validation workflows",
+      "repository": "https://github.com/wentorai/research-plugins",
+      "source": "wentorai/research-plugins@citation-skills",
+      "source_commit": "bf44b3cd617fa94c8a1b254c5d1987142ca3d631",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/endigo/claude-skills/academic-research-writer",
+      "purpose": "academic research source validation",
+      "repository": "https://github.com/endigo/claude-skills",
+      "source": "endigo/claude-skills@academic-research-writer",
+      "source_commit": "ebb54b19f5bfbf353a9106b3016fb51233db1405",
+      "status": "reserved"
+    }
+  ]
+}

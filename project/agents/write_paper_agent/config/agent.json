@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "name": "write-paper-agent",
+  "role": "Write a professional evidence-grounded research manuscript from verified local paper PDFs, reviewed Python source, passed main results and passed supplementary computational experiments; render every formula through an exact AST symbol binding and every numeric result through deterministic server evidence without inventing citations, equations or measurements.",
+  "execution_mode": "specialist",
+  "model_provider": "deepseek",
+  "allowed_tools": [
+    "artifact.read_verified_local_papers",
+    "artifact.read_approved_design_data_code_reviews_and_results",
+    "code.ast_parse_reviewed_python_without_execution",
+    "model.synthesize_typed_evidence_grounded_manuscript",
+    "artifact.render_deterministic_markdown_latex_bibtex",
+    "artifact.write_content_addressed_paper_manifest"
+  ],
+  "write_scopes": [
+    "project/paper/<project_slug>/"
+  ],
+  "system_prompt": "prompts/system.md",
+  "input_contracts": [
+    "TaskEnvelope",
+    "PaperManifest",
+    "ResearchDesign",
+    "DatasetManifest",
+    "CodeImplementationManifest",
+    "CodeReviewReport",
+    "ServerScheduleManifest",
+    "ResultCheckReport",
+    "ExperimentCodeRunManifest",
+    "ExperimentCodeRunReport"
+  ],
+  "output_contracts": [
+    "PaperWritingDraft",
+    "PaperManuscriptManifest",
+    "AgentResult"
+  ],
+  "skill_policy": "registry_only_reserved"
+}

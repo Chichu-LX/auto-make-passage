@@ -1,0 +1,87 @@
+{
+  "$defs": {
+    "GeneratedCodePatchFileDraft": {
+      "additionalProperties": false,
+      "description": "One complete replacement file for an existing failed Code Make candidate.",
+      "properties": {
+        "content": {
+          "maxLength": 120000,
+          "minLength": 1,
+          "title": "Content",
+          "type": "string"
+        },
+        "language": {
+          "enum": [
+            "python",
+            "toml",
+            "yaml",
+            "json",
+            "markdown",
+            "text"
+          ],
+          "title": "Language",
+          "type": "string"
+        },
+        "path": {
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "purpose": {
+          "maxLength": 2000,
+          "minLength": 10,
+          "title": "Purpose",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "purpose",
+        "language",
+        "content"
+      ],
+      "title": "GeneratedCodePatchFileDraft",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Bounded replacements applied only to a verified, failed generated-code tree.",
+  "properties": {
+    "architecture_summary": {
+      "maxLength": 6000,
+      "minLength": 20,
+      "title": "Architecture Summary",
+      "type": "string"
+    },
+    "baseline_task_id": {
+      "pattern": "^task_[A-Za-z0-9_-]{3,120}$",
+      "title": "Baseline Task Id",
+      "type": "string"
+    },
+    "files": {
+      "items": {
+        "$ref": "#/$defs/GeneratedCodePatchFileDraft"
+      },
+      "maxItems": 8,
+      "minItems": 1,
+      "title": "Files",
+      "type": "array"
+    },
+    "known_gaps": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 30,
+      "title": "Known Gaps",
+      "type": "array"
+    }
+  },
+  "required": [
+    "baseline_task_id",
+    "architecture_summary",
+    "files"
+  ],
+  "title": "CodeRevisionPatchDraft",
+  "type": "object"
+}

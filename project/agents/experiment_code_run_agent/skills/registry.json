@@ -1,0 +1,54 @@
+{
+  "agent": "experiment-code-run-agent",
+  "policy": "registry-only; third-party content is not redistributed and local sync remains inactive until license and code review",
+  "skills": [
+    {
+      "catalog": "https://skills.sh/evoscientist/evoskills/experiment-pipeline",
+      "purpose": "budgeted experiment stages, ablations, stop rules and trajectory logging",
+      "repository": "https://github.com/evoscientist/evoskills",
+      "source": "evoscientist/evoskills@experiment-pipeline",
+      "source_commit": "2e474118106f86c29082a6466b995ba59236614c",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/k-dense-ai/scientific-agent-skills/experimental-design",
+      "purpose": "computational controls, factorial ablation, sensitivity and reproducible allocation",
+      "repository": "https://github.com/k-dense-ai/scientific-agent-skills",
+      "source": "k-dense-ai/scientific-agent-skills@experimental-design",
+      "source_commit": "d661d27ef4ddad5b9287bdd84887ace27e2320b8",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/k-dense-ai/scientific-agent-skills/scientific-critical-thinking",
+      "purpose": "bias, leakage, statistical validity and claim-scope review",
+      "repository": "https://github.com/k-dense-ai/scientific-agent-skills",
+      "source": "k-dense-ai/scientific-agent-skills@scientific-critical-thinking",
+      "source_commit": "d661d27ef4ddad5b9287bdd84887ace27e2320b8",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/fcakyon/phd-skills/reproduce",
+      "purpose": "reproducibility, seed and environment audit",
+      "repository": "https://github.com/fcakyon/phd-skills",
+      "source": "fcakyon/phd-skills@reproduce",
+      "source_commit": "8d642d3e114ee1d1e4d000f918d71e9bf0453dc2",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/google/mantis/mantis-reproduce",
+      "purpose": "experiment reproduction and artifact verification",
+      "repository": "https://github.com/google/mantis",
+      "source": "google/mantis@mantis-reproduce",
+      "source_commit": "876a0c8c6b92c92f34e0041b7dbbc0e4cccddc52",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/shaishavmaisuria/research-paper-lifecycle-skills/verify-results",
+      "purpose": "produced metric and research-claim consistency verification",
+      "repository": "https://github.com/shaishavmaisuria/research-paper-lifecycle-skills",
+      "source": "shaishavmaisuria/research-paper-lifecycle-skills@verify-results",
+      "source_commit": "f9a0ed8f0f1770fb0321c5b022d55ed34c939927",
+      "status": "reserved"
+    }
+  ]
+}

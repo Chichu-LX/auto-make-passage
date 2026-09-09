@@ -1,0 +1,54 @@
+{
+  "agent": "make-idea-agent",
+  "policy": "registry-only; third-party content is not redistributed and local sync remains inactive until license and code review",
+  "skills": [
+    {
+      "catalog": "https://skills.sh/davila7/claude-code-templates/scientific-brainstorming",
+      "purpose": "structured scientific brainstorming",
+      "repository": "https://github.com/davila7/claude-code-templates",
+      "source": "davila7/claude-code-templates@scientific-brainstorming",
+      "source_commit": "3355033903b24c1cac51d6e051f1e634194a2450",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/evoscientist/evoskills/research-ideation",
+      "purpose": "research gap and idea generation",
+      "repository": "https://github.com/evoscientist/evoskills",
+      "source": "evoscientist/evoskills@research-ideation",
+      "source_commit": "2e474118106f86c29082a6466b995ba59236614c",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/meleantonio/awesome-econ-ai-stuff/research-ideation",
+      "purpose": "alternative hypothesis ideation",
+      "repository": "https://github.com/meleantonio/awesome-econ-ai-stuff",
+      "source": "meleantonio/awesome-econ-ai-stuff@research-ideation",
+      "source_commit": "b959f84cf0f94850d23edd7e5a0ed9dbe470c2c0",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/jaechang-hits/sciagent-skills/scientific-brainstorming",
+      "purpose": "scientific novelty exploration",
+      "repository": "https://github.com/jaechang-hits/sciagent-skills",
+      "source": "jaechang-hits/sciagent-skills@scientific-brainstorming",
+      "source_commit": "0d18706fe1a51239f12b395f046c8aa30fe632b4",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/jaechang-hits/sciagent-skills/hypothesis-generation",
+      "purpose": "testable hypothesis generation",
+      "repository": "https://github.com/jaechang-hits/sciagent-skills",
+      "source": "jaechang-hits/sciagent-skills@hypothesis-generation",
+      "source_commit": "0d18706fe1a51239f12b395f046c8aa30fe632b4",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/galaxy-dawn/claude-scholar/research-ideation",
+      "purpose": "research question refinement",
+      "repository": "https://github.com/galaxy-dawn/claude-scholar",
+      "source": "galaxy-dawn/claude-scholar@research-ideation",
+      "source_commit": "2f7766fd541a723d4ddc6230b3277f948d61b093",
+      "status": "reserved"
+    }
+  ]
+}

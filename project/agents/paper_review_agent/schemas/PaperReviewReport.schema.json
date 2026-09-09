@@ -1,0 +1,231 @@
+{
+  "$defs": {
+    "AgentName": {
+      "enum": [
+        "lead-agent",
+        "download-paper-agent",
+        "download-data-agent",
+        "make-idea-agent",
+        "idea-design-agent",
+        "code-make-agent",
+        "code-review-agent",
+        "server-schedule-agent",
+        "check-result-agent",
+        "experiment-code-run-agent",
+        "check-paper-and-code-agent",
+        "write-paper-agent",
+        "paper-review-agent",
+        "feedback-agent"
+      ],
+      "title": "AgentName",
+      "type": "string"
+    },
+    "PaperReviewFinding": {
+      "additionalProperties": false,
+      "description": "One senior-review finding grounded in the final manuscript evidence graph.",
+      "properties": {
+        "category": {
+          "enum": [
+            "novelty",
+            "methodology",
+            "experiments",
+            "reproducibility",
+            "results",
+            "citations",
+            "writing",
+            "limitations",
+            "submission_format"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "evidence_refs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "finding_id": {
+          "pattern": "^review-[a-zA-Z0-9_-]{1,80}$",
+          "title": "Finding Id",
+          "type": "string"
+        },
+        "required_revision": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Required Revision",
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "blocking",
+            "major",
+            "minor",
+            "note"
+          ],
+          "title": "Severity",
+          "type": "string"
+        },
+        "summary": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Summary",
+          "type": "string"
+        }
+      },
+      "required": [
+        "finding_id",
+        "category",
+        "severity",
+        "summary",
+        "required_revision"
+      ],
+      "title": "PaperReviewFinding",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Immutable final peer-review report; only no-major-issue reports pass.",
+  "properties": {
+    "consistency_report_uri": {
+      "title": "Consistency Report Uri",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/PaperReviewFinding"
+      },
+      "maxItems": 100,
+      "title": "Findings",
+      "type": "array"
+    },
+    "major_issue_count": {
+      "minimum": 0,
+      "title": "Major Issue Count",
+      "type": "integer"
+    },
+    "manuscript_manifest_uri": {
+      "title": "Manuscript Manifest Uri",
+      "type": "string"
+    },
+    "minor_issue_count": {
+      "minimum": 0,
+      "title": "Minor Issue Count",
+      "type": "integer"
+    },
+    "project_slug": {
+      "pattern": "^[a-z0-9][a-z0-9-]{1,62}[a-z0-9]$",
+      "title": "Project Slug",
+      "type": "string"
+    },
+    "recommendation": {
+      "enum": [
+        "accept",
+        "minor_revision",
+        "major_revision",
+        "reject"
+      ],
+      "title": "Recommendation",
+      "type": "string"
+    },
+    "recommended_route": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/AgentName"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "required_revisions": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 100,
+      "title": "Required Revisions",
+      "type": "array"
+    },
+    "review_round": {
+      "minimum": 1,
+      "title": "Review Round",
+      "type": "integer"
+    },
+    "reviewer_role": {
+      "maxLength": 300,
+      "minLength": 10,
+      "title": "Reviewer Role",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "strengths": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 30,
+      "title": "Strengths",
+      "type": "array"
+    },
+    "summary": {
+      "maxLength": 6000,
+      "minLength": 30,
+      "title": "Summary",
+      "type": "string"
+    },
+    "target_venue_profile": {
+      "enum": [
+        "top_ml_conference",
+        "authoritative_bioinformatics_journal",
+        "authoritative_interdisciplinary_journal"
+      ],
+      "title": "Target Venue Profile",
+      "type": "string"
+    },
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    },
+    "verdict": {
+      "enum": [
+        "passed",
+        "needs_revision"
+      ],
+      "title": "Verdict",
+      "type": "string"
+    }
+  },
+  "required": [
+    "run_id",
+    "task_id",
+    "project_slug",
+    "review_round",
+    "manuscript_manifest_uri",
+    "consistency_report_uri",
+    "verdict",
+    "reviewer_role",
+    "target_venue_profile",
+    "recommendation",
+    "summary",
+    "major_issue_count",
+    "minor_issue_count"
+  ],
+  "title": "PaperReviewReport",
+  "type": "object"
+}

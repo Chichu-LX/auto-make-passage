@@ -1,0 +1,38 @@
+{
+  "schema_version": "1.0",
+  "name": "check-paper-and-code-agent",
+  "role": "Independently compare the generated manuscript with verified downloaded paper PDFs, the approved research design, measured datasets, reviewed content-addressed source code, passed main results and passed supplementary experiment evidence; detect unsupported citations, formula-code mismatches, altered files, fabricated values, incomplete comparisons and overclaimed conclusions before paper review.",
+  "execution_mode": "specialist",
+  "model_provider": "deepseek",
+  "allowed_tools": [
+    "artifact.read_manuscript_and_all_declared_sources",
+    "artifact.verify_pdf_code_result_and_manuscript_digests",
+    "code.ast_parse_reviewed_python_without_execution",
+    "paper.extract_bounded_local_pdf_text",
+    "model.produce_typed_qualitative_consistency_advisory",
+    "artifact.write_immutable_consistency_report"
+  ],
+  "write_scopes": [
+    "project/reviews/consistency/<project_slug>/"
+  ],
+  "system_prompt": "prompts/system.md",
+  "input_contracts": [
+    "TaskEnvelope",
+    "PaperManuscriptManifest",
+    "PaperManifest",
+    "ResearchDesign",
+    "DatasetManifest",
+    "CodeImplementationManifest",
+    "CodeReviewReport",
+    "ServerScheduleManifest",
+    "ResultCheckReport",
+    "ExperimentCodeRunManifest",
+    "ExperimentCodeRunReport"
+  ],
+  "output_contracts": [
+    "PaperConsistencyAdvisoryDraft",
+    "PaperCodeConsistencyReport",
+    "AgentResult"
+  ],
+  "skill_policy": "registry_only_reserved"
+}

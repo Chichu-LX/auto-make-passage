@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "auto-make-passage"
+version = "0.1.0"
+description = "DeepSeek and Tavily powered research multi-agent runtime"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { file = "LICENSE" }
+keywords = [
+  "multi-agent",
+  "research-automation",
+  "human-in-the-loop",
+  "langgraph",
+  "reproducibility",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering",
+]
+dependencies = [
+  "anyio>=4.8,<5",
+  "claude-agent-sdk==0.2.135",
+  "httpx>=0.27,<1",
+  "langgraph==1.2.11",
+  "openai>=2.26,<3",
+  "pydantic>=2.12,<3",
+  "pypdf>=5,<7",
+  "py7zr>=1.0,<2",
+  "tavily-python>=0.7,<1",
+]
+
+[project.scripts]
+research-agents = "research_agents.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/Chichu-LX/auto-make-passage"
+Documentation = "https://github.com/Chichu-LX/auto-make-passage/tree/main/docs"
+Issues = "https://github.com/Chichu-LX/auto-make-passage/issues"
+Source = "https://github.com/Chichu-LX/auto-make-passage"
+
+[tool.setuptools]
+include-package-data = false
+
+[tool.setuptools.package-data]
+agents = [
+  "*/advisors/*.json",
+  "*/advisors/*.md",
+  "*/config/*.json",
+  "*/prompts/*.md",
+  "*/schemas/*.json",
+  "*/skills/registry.json",
+  "*/tools/*.py",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["research_agents*", "agents*"]
+namespaces = false

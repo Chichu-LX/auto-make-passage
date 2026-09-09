@@ -1,0 +1,182 @@
+{
+  "$defs": {
+    "MissingExperimentRequirement": {
+      "additionalProperties": false,
+      "description": "A computational experiment that must enter Idea Design before execution.",
+      "properties": {
+        "computational_only": {
+          "const": true,
+          "default": true,
+          "title": "Computational Only",
+          "type": "boolean"
+        },
+        "evidence_refs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 1,
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "experiment_type": {
+          "enum": [
+            "ablation",
+            "case_study",
+            "module_analysis",
+            "feasibility",
+            "sensitivity",
+            "ood_generalization",
+            "efficiency",
+            "uncertainty_calibration"
+          ],
+          "title": "Experiment Type",
+          "type": "string"
+        },
+        "objective": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Objective",
+          "type": "string"
+        },
+        "rationale": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Rationale",
+          "type": "string"
+        },
+        "required_code_changes": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Required Code Changes",
+          "type": "array"
+        },
+        "required_metrics": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Required Metrics",
+          "type": "array"
+        },
+        "requirement_id": {
+          "pattern": "^experiment-gap-[a-zA-Z0-9_-]{1,64}$",
+          "title": "Requirement Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "experiment_type",
+        "objective",
+        "rationale",
+        "required_metrics",
+        "evidence_refs"
+      ],
+      "title": "MissingExperimentRequirement",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Grounded audit of designed experiments and reviewed-code coverage.",
+  "properties": {
+    "code_covered_experiment_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 30,
+      "title": "Code Covered Experiment Ids",
+      "type": "array"
+    },
+    "code_manifest_uri": {
+      "title": "Code Manifest Uri",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "decision": {
+      "enum": [
+        "ready",
+        "requires_design_revision",
+        "requires_code_revision"
+      ],
+      "title": "Decision",
+      "type": "string"
+    },
+    "designed_experiment_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 30,
+      "title": "Designed Experiment Ids",
+      "type": "array"
+    },
+    "main_result_report_uri": {
+      "title": "Main Result Report Uri",
+      "type": "string"
+    },
+    "missing_code_experiment_ids": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 30,
+      "title": "Missing Code Experiment Ids",
+      "type": "array"
+    },
+    "missing_requirements": {
+      "items": {
+        "$ref": "#/$defs/MissingExperimentRequirement"
+      },
+      "maxItems": 20,
+      "title": "Missing Requirements",
+      "type": "array"
+    },
+    "project_slug": {
+      "pattern": "^[a-z0-9][a-z0-9-]{1,62}[a-z0-9]$",
+      "title": "Project Slug",
+      "type": "string"
+    },
+    "research_design_uri": {
+      "title": "Research Design Uri",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "summary": {
+      "maxLength": 6000,
+      "minLength": 10,
+      "title": "Summary",
+      "type": "string"
+    },
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "run_id",
+    "task_id",
+    "project_slug",
+    "research_design_uri",
+    "code_manifest_uri",
+    "main_result_report_uri",
+    "decision",
+    "summary"
+  ],
+  "title": "ExperimentCoverageAudit",
+  "type": "object"
+}

@@ -1,0 +1,193 @@
+{
+  "$defs": {
+    "AgentName": {
+      "enum": [
+        "lead-agent",
+        "download-paper-agent",
+        "download-data-agent",
+        "make-idea-agent",
+        "idea-design-agent",
+        "code-make-agent",
+        "code-review-agent",
+        "server-schedule-agent",
+        "check-result-agent",
+        "experiment-code-run-agent",
+        "check-paper-and-code-agent",
+        "write-paper-agent",
+        "paper-review-agent",
+        "feedback-agent"
+      ],
+      "title": "AgentName",
+      "type": "string"
+    },
+    "FeedbackControl": {
+      "additionalProperties": false,
+      "description": "Typed, advisory control that the Runtime must validate before applying.",
+      "properties": {
+        "action": {
+          "enum": [
+            "continue",
+            "retry",
+            "request_human",
+            "abort"
+          ],
+          "title": "Action",
+          "type": "string"
+        },
+        "issue_codes": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Issue Codes",
+          "type": "array"
+        },
+        "observed_log_count": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Observed Log Count",
+          "type": "integer"
+        },
+        "reason": {
+          "maxLength": 3000,
+          "minLength": 5,
+          "title": "Reason",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": "1.0",
+          "default": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "info",
+            "warning",
+            "error",
+            "blocking"
+          ],
+          "title": "Severity",
+          "type": "string"
+        },
+        "target_agent": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/AgentName"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "action",
+        "severity",
+        "reason"
+      ],
+      "title": "FeedbackControl",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Persisted workflow-wide plan produced by the read-only Feedback coordinator.",
+  "properties": {
+    "control": {
+      "$ref": "#/$defs/FeedbackControl"
+    },
+    "coordination_notes": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 30,
+      "title": "Coordination Notes",
+      "type": "array"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "next_actions": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 30,
+      "title": "Next Actions",
+      "type": "array"
+    },
+    "observed_log_count": {
+      "minimum": 0,
+      "title": "Observed Log Count",
+      "type": "integer"
+    },
+    "progress_summary": {
+      "maxLength": 5000,
+      "minLength": 10,
+      "title": "Progress Summary",
+      "type": "string"
+    },
+    "project_slug": {
+      "pattern": "^[a-z0-9][a-z0-9-]{1,62}[a-z0-9]$",
+      "title": "Project Slug",
+      "type": "string"
+    },
+    "risks": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 30,
+      "title": "Risks",
+      "type": "array"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "source_task_id": {
+      "title": "Source Task Id",
+      "type": "string"
+    },
+    "stage_assessment": {
+      "maxLength": 5000,
+      "minLength": 10,
+      "title": "Stage Assessment",
+      "type": "string"
+    },
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    },
+    "workflow_health": {
+      "enum": [
+        "on_track",
+        "attention",
+        "blocked",
+        "aborted"
+      ],
+      "title": "Workflow Health",
+      "type": "string"
+    }
+  },
+  "required": [
+    "run_id",
+    "task_id",
+    "project_slug",
+    "source_task_id",
+    "observed_log_count",
+    "workflow_health",
+    "progress_summary",
+    "stage_assessment",
+    "control"
+  ],
+  "title": "FeedbackCoordinationReport",
+  "type": "object"
+}

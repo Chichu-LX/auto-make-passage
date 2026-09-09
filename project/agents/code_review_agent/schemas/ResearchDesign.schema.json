@@ -1,0 +1,1551 @@
+{
+  "$defs": {
+    "AdvisorReport": {
+      "additionalProperties": false,
+      "description": "Read-only, strongly typed output of one bounded Idea Design auxiliary Agent.",
+      "properties": {
+        "advisor": {
+          "enum": [
+            "method-architecture-advisor",
+            "code-reuse-architecture-advisor",
+            "data-decision-advisor",
+            "experiment-decision-advisor",
+            "critical-risk-advisor"
+          ],
+          "title": "Advisor",
+          "type": "string"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "blocking_concerns": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Blocking Concerns",
+          "type": "array"
+        },
+        "decisions": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Decisions",
+          "type": "array"
+        },
+        "evidence_refs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 1,
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "issue_codes": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Issue Codes",
+          "type": "array"
+        },
+        "recommendations": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 2,
+          "title": "Recommendations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "advisor",
+        "recommendations",
+        "decisions",
+        "evidence_refs",
+        "assumptions"
+      ],
+      "title": "AdvisorReport",
+      "type": "object"
+    },
+    "CodeBlueprint": {
+      "additionalProperties": false,
+      "properties": {
+        "config_contracts": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 1,
+          "title": "Config Contracts",
+          "type": "array"
+        },
+        "dependencies": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 40,
+          "minItems": 1,
+          "title": "Dependencies",
+          "type": "array"
+        },
+        "entrypoints": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Entrypoints",
+          "type": "array"
+        },
+        "minimum_viable_implementation": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 3,
+          "title": "Minimum Viable Implementation",
+          "type": "array"
+        },
+        "packages": {
+          "items": {
+            "$ref": "#/$defs/CodePackageSpec"
+          },
+          "maxItems": 30,
+          "minItems": 3,
+          "title": "Packages",
+          "type": "array"
+        },
+        "pipeline": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 5,
+          "title": "Pipeline",
+          "type": "array"
+        },
+        "tests": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 40,
+          "minItems": 3,
+          "title": "Tests",
+          "type": "array"
+        }
+      },
+      "required": [
+        "pipeline",
+        "packages",
+        "entrypoints",
+        "config_contracts",
+        "tests",
+        "dependencies",
+        "minimum_viable_implementation"
+      ],
+      "title": "CodeBlueprint",
+      "type": "object"
+    },
+    "CodePackageSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "key_interfaces": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Key Interfaces",
+          "type": "array"
+        },
+        "path": {
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "reference_module_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Reference Module Ids",
+          "type": "array"
+        },
+        "responsibility": {
+          "maxLength": 2000,
+          "minLength": 10,
+          "title": "Responsibility",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "responsibility",
+        "key_interfaces"
+      ],
+      "title": "CodePackageSpec",
+      "type": "object"
+    },
+    "DataAuditPlan": {
+      "additionalProperties": false,
+      "description": "Pre-download and post-download checks that gate every dataset used by the design.",
+      "properties": {
+        "acceptance_gates": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 2,
+          "title": "Acceptance Gates",
+          "type": "array"
+        },
+        "dataset_key": {
+          "pattern": "^dataset-[a-zA-Z0-9_-]{1,64}$",
+          "title": "Dataset Key",
+          "type": "string"
+        },
+        "distribution_shift_checks": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 2,
+          "title": "Distribution Shift Checks",
+          "type": "array"
+        },
+        "duplicate_conflict_policy": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Duplicate Conflict Policy",
+          "type": "string"
+        },
+        "leakage_checks": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 2,
+          "title": "Leakage Checks",
+          "type": "array"
+        },
+        "missingness_policy": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Missingness Policy",
+          "type": "string"
+        },
+        "schema_checks": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 2,
+          "title": "Schema Checks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "dataset_key",
+        "schema_checks",
+        "leakage_checks",
+        "duplicate_conflict_policy",
+        "missingness_policy",
+        "distribution_shift_checks",
+        "acceptance_gates"
+      ],
+      "title": "DataAuditPlan",
+      "type": "object"
+    },
+    "DatasetRequirement": {
+      "additionalProperties": false,
+      "description": "A pre-download requirement; reported scale/distribution are hypotheses to verify.",
+      "properties": {
+        "acquisition_query": {
+          "maxLength": 1000,
+          "minLength": 5,
+          "title": "Acquisition Query",
+          "type": "string"
+        },
+        "alternatives": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 10,
+          "title": "Alternatives",
+          "type": "array"
+        },
+        "candidate_names": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 10,
+          "minItems": 1,
+          "title": "Candidate Names",
+          "type": "array"
+        },
+        "contents": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 1,
+          "title": "Contents",
+          "type": "array"
+        },
+        "dataset_key": {
+          "pattern": "^dataset-[a-zA-Z0-9_-]{1,64}$",
+          "title": "Dataset Key",
+          "type": "string"
+        },
+        "distribution_checks": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 2,
+          "title": "Distribution Checks",
+          "type": "array"
+        },
+        "expected_distribution": {
+          "maxLength": 3000,
+          "minLength": 5,
+          "title": "Expected Distribution",
+          "type": "string"
+        },
+        "license_requirement": {
+          "maxLength": 1000,
+          "minLength": 5,
+          "title": "License Requirement",
+          "type": "string"
+        },
+        "official_source_urls": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 10,
+          "title": "Official Source Urls",
+          "type": "array"
+        },
+        "paper_refs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 1,
+          "title": "Paper Refs",
+          "type": "array"
+        },
+        "priority": {
+          "enum": [
+            "required",
+            "preferred",
+            "optional"
+          ],
+          "title": "Priority",
+          "type": "string"
+        },
+        "reliability_basis": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Reliability Basis",
+          "type": "string"
+        },
+        "reported_scale": {
+          "maxLength": 2000,
+          "minLength": 5,
+          "title": "Reported Scale",
+          "type": "string"
+        },
+        "required_fields": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 40,
+          "minItems": 1,
+          "title": "Required Fields",
+          "type": "array"
+        },
+        "source_kind": {
+          "const": "external_dataset",
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "split_strategy": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Split Strategy",
+          "type": "string"
+        }
+      },
+      "required": [
+        "dataset_key",
+        "source_kind",
+        "candidate_names",
+        "priority",
+        "acquisition_query",
+        "contents",
+        "required_fields",
+        "reported_scale",
+        "expected_distribution",
+        "distribution_checks",
+        "split_strategy",
+        "reliability_basis",
+        "license_requirement",
+        "paper_refs"
+      ],
+      "title": "DatasetRequirement",
+      "type": "object"
+    },
+    "DesignDecision": {
+      "additionalProperties": false,
+      "description": "One ADR-style research or engineering decision with an explicit revisit rule.",
+      "properties": {
+        "decision_id": {
+          "pattern": "^decision-[a-zA-Z0-9_-]{1,64}$",
+          "title": "Decision Id",
+          "type": "string"
+        },
+        "evidence_refs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 1,
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "options": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 12,
+          "minItems": 2,
+          "title": "Options",
+          "type": "array"
+        },
+        "question": {
+          "maxLength": 2000,
+          "minLength": 10,
+          "title": "Question",
+          "type": "string"
+        },
+        "rationale": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Rationale",
+          "type": "string"
+        },
+        "revisit_trigger": {
+          "maxLength": 2000,
+          "minLength": 10,
+          "title": "Revisit Trigger",
+          "type": "string"
+        },
+        "selected_option": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "title": "Selected Option",
+          "type": "string"
+        },
+        "tradeoffs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Tradeoffs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "decision_id",
+        "question",
+        "options",
+        "selected_option",
+        "rationale",
+        "tradeoffs",
+        "evidence_refs",
+        "revisit_trigger"
+      ],
+      "title": "DesignDecision",
+      "type": "object"
+    },
+    "ExpectedResult": {
+      "additionalProperties": false,
+      "properties": {
+        "claim_status": {
+          "const": "predicted_not_observed",
+          "default": "predicted_not_observed",
+          "title": "Claim Status",
+          "type": "string"
+        },
+        "evidence_refs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 1,
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "expectation": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Expectation",
+          "type": "string"
+        },
+        "expected_direction": {
+          "enum": [
+            "higher",
+            "lower",
+            "stable",
+            "two_sided"
+          ],
+          "title": "Expected Direction",
+          "type": "string"
+        },
+        "experiment_id": {
+          "title": "Experiment Id",
+          "type": "string"
+        },
+        "failure_threshold": {
+          "maxLength": 2000,
+          "minLength": 10,
+          "title": "Failure Threshold",
+          "type": "string"
+        },
+        "metric": {
+          "maxLength": 300,
+          "minLength": 1,
+          "title": "Metric",
+          "type": "string"
+        },
+        "result_id": {
+          "pattern": "^result-[a-zA-Z0-9_-]{1,64}$",
+          "title": "Result Id",
+          "type": "string"
+        },
+        "target_delta": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NumericRange"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "result_id",
+        "experiment_id",
+        "metric",
+        "expected_direction",
+        "expectation",
+        "evidence_refs",
+        "failure_threshold"
+      ],
+      "title": "ExpectedResult",
+      "type": "object"
+    },
+    "ExperimentPlan": {
+      "additionalProperties": false,
+      "properties": {
+        "baselines": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 1,
+          "title": "Baselines",
+          "type": "array"
+        },
+        "computational_only": {
+          "const": true,
+          "default": true,
+          "title": "Computational Only",
+          "type": "boolean"
+        },
+        "controls": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 1,
+          "title": "Controls",
+          "type": "array"
+        },
+        "dataset_keys": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Dataset Keys",
+          "type": "array"
+        },
+        "evidence_refs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 1,
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "experiment_id": {
+          "pattern": "^experiment-[a-zA-Z0-9_-]{1,64}$",
+          "title": "Experiment Id",
+          "type": "string"
+        },
+        "experiment_type": {
+          "enum": [
+            "main_benchmark",
+            "ablation",
+            "case_study",
+            "module_analysis",
+            "feasibility",
+            "sensitivity",
+            "ood_generalization",
+            "efficiency",
+            "uncertainty_calibration"
+          ],
+          "title": "Experiment Type",
+          "type": "string"
+        },
+        "metrics": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 1,
+          "title": "Metrics",
+          "type": "array"
+        },
+        "objective": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Objective",
+          "type": "string"
+        },
+        "protocol": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 40,
+          "minItems": 2,
+          "title": "Protocol",
+          "type": "array"
+        },
+        "random_seeds": {
+          "items": {
+            "type": "integer"
+          },
+          "maxItems": 50,
+          "minItems": 3,
+          "title": "Random Seeds",
+          "type": "array"
+        },
+        "success_criteria": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Success Criteria",
+          "type": "array"
+        },
+        "variables": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 1,
+          "title": "Variables",
+          "type": "array"
+        }
+      },
+      "required": [
+        "experiment_id",
+        "experiment_type",
+        "objective",
+        "dataset_keys",
+        "baselines",
+        "variables",
+        "controls",
+        "metrics",
+        "random_seeds",
+        "protocol",
+        "success_criteria",
+        "evidence_refs"
+      ],
+      "title": "ExperimentPlan",
+      "type": "object"
+    },
+    "ExperimentStagePlan": {
+      "additionalProperties": false,
+      "description": "Budgeted stage gate for baseline-first, falsifiable experiment execution.",
+      "properties": {
+        "attempt_budget": {
+          "maximum": 20,
+          "minimum": 1,
+          "title": "Attempt Budget",
+          "type": "integer"
+        },
+        "entry_gate": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Entry Gate",
+          "type": "array"
+        },
+        "escalation": {
+          "maxLength": 2000,
+          "minLength": 10,
+          "title": "Escalation",
+          "type": "string"
+        },
+        "exit_gate": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Exit Gate",
+          "type": "array"
+        },
+        "objective": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Objective",
+          "type": "string"
+        },
+        "stage_id": {
+          "pattern": "^stage-[a-zA-Z0-9_-]{1,64}$",
+          "title": "Stage Id",
+          "type": "string"
+        },
+        "stage_type": {
+          "enum": [
+            "data_validation",
+            "baseline_reproduction",
+            "tuning",
+            "proposed_method",
+            "ablation",
+            "stress_test"
+          ],
+          "title": "Stage Type",
+          "type": "string"
+        },
+        "stop_conditions": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Stop Conditions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "stage_id",
+        "stage_type",
+        "objective",
+        "attempt_budget",
+        "entry_gate",
+        "exit_gate",
+        "stop_conditions",
+        "escalation"
+      ],
+      "title": "ExperimentStagePlan",
+      "type": "object"
+    },
+    "ImplementationMilestone": {
+      "additionalProperties": false,
+      "properties": {
+        "acceptance_criteria": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Acceptance Criteria",
+          "type": "array"
+        },
+        "deliverable": {
+          "maxLength": 2000,
+          "minLength": 5,
+          "title": "Deliverable",
+          "type": "string"
+        },
+        "fallback": {
+          "maxLength": 2000,
+          "minLength": 5,
+          "title": "Fallback",
+          "type": "string"
+        },
+        "milestone_id": {
+          "pattern": "^milestone-[a-zA-Z0-9_-]{1,64}$",
+          "title": "Milestone Id",
+          "type": "string"
+        },
+        "prerequisites": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Prerequisites",
+          "type": "array"
+        }
+      },
+      "required": [
+        "milestone_id",
+        "deliverable",
+        "acceptance_criteria",
+        "fallback"
+      ],
+      "title": "ImplementationMilestone",
+      "type": "object"
+    },
+    "ImplementationRoadmap": {
+      "additionalProperties": false,
+      "properties": {
+        "estimated_compute": {
+          "maxLength": 2000,
+          "minLength": 5,
+          "title": "Estimated Compute",
+          "type": "string"
+        },
+        "milestones": {
+          "items": {
+            "$ref": "#/$defs/ImplementationMilestone"
+          },
+          "maxItems": 20,
+          "minItems": 3,
+          "title": "Milestones",
+          "type": "array"
+        },
+        "stop_conditions": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Stop Conditions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "milestones",
+        "estimated_compute",
+        "stop_conditions"
+      ],
+      "title": "ImplementationRoadmap",
+      "type": "object"
+    },
+    "MethodComponent": {
+      "additionalProperties": false,
+      "properties": {
+        "component_id": {
+          "pattern": "^component-[a-zA-Z0-9_-]{1,64}$",
+          "title": "Component Id",
+          "type": "string"
+        },
+        "dependency_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Dependency Ids",
+          "type": "array"
+        },
+        "evidence_refs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 1,
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "innovation": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Innovation",
+          "type": "string"
+        },
+        "inputs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Inputs",
+          "type": "array"
+        },
+        "name": {
+          "maxLength": 300,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "outputs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Outputs",
+          "type": "array"
+        },
+        "purpose": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Purpose",
+          "type": "string"
+        }
+      },
+      "required": [
+        "component_id",
+        "name",
+        "purpose",
+        "inputs",
+        "outputs",
+        "innovation",
+        "evidence_refs"
+      ],
+      "title": "MethodComponent",
+      "type": "object"
+    },
+    "NumericRange": {
+      "additionalProperties": false,
+      "properties": {
+        "high": {
+          "title": "High",
+          "type": "number"
+        },
+        "low": {
+          "title": "Low",
+          "type": "number"
+        }
+      },
+      "required": [
+        "low",
+        "high"
+      ],
+      "title": "NumericRange",
+      "type": "object"
+    },
+    "PaperComparison": {
+      "additionalProperties": false,
+      "properties": {
+        "fair_comparison_conditions": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Fair Comparison Conditions",
+          "type": "array"
+        },
+        "method_name": {
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "Method Name",
+          "type": "string"
+        },
+        "paper_id": {
+          "title": "Paper Id",
+          "type": "string"
+        },
+        "proposed_differences": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Proposed Differences",
+          "type": "array"
+        },
+        "reusable_elements": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Reusable Elements",
+          "type": "array"
+        },
+        "shared_elements": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Shared Elements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "paper_id",
+        "method_name",
+        "shared_elements",
+        "proposed_differences",
+        "fair_comparison_conditions"
+      ],
+      "title": "PaperComparison",
+      "type": "object"
+    },
+    "ReusableCodeModule": {
+      "additionalProperties": false,
+      "properties": {
+        "fallback_implementation": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Fallback Implementation",
+          "type": "string"
+        },
+        "integration_strategy": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Integration Strategy",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "maturity_evidence": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Maturity Evidence",
+          "type": "array"
+        },
+        "module_id": {
+          "pattern": "^reuse-[a-zA-Z0-9_-]{1,64}$",
+          "title": "Module Id",
+          "type": "string"
+        },
+        "repository_status": {
+          "enum": [
+            "verified_open_source",
+            "search_matched"
+          ],
+          "title": "Repository Status",
+          "type": "string"
+        },
+        "repository_url": {
+          "title": "Repository Url",
+          "type": "string"
+        },
+        "reusable_parts": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Reusable Parts",
+          "type": "array"
+        },
+        "reuse_mode": {
+          "enum": [
+            "integrate",
+            "reference_only",
+            "reimplement"
+          ],
+          "title": "Reuse Mode",
+          "type": "string"
+        },
+        "source_paper_id": {
+          "title": "Source Paper Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "module_id",
+        "repository_url",
+        "source_paper_id",
+        "repository_status",
+        "reuse_mode",
+        "reusable_parts",
+        "integration_strategy",
+        "fallback_implementation"
+      ],
+      "title": "ReusableCodeModule",
+      "type": "object"
+    },
+    "Risk": {
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "enum": [
+            "data",
+            "method",
+            "evaluation",
+            "ethics",
+            "reproducibility"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "description": {
+          "maxLength": 3000,
+          "minLength": 5,
+          "title": "Description",
+          "type": "string"
+        },
+        "impact": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "title": "Impact",
+          "type": "string"
+        },
+        "likelihood": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "title": "Likelihood",
+          "type": "string"
+        },
+        "mitigation": {
+          "maxLength": 3000,
+          "minLength": 5,
+          "title": "Mitigation",
+          "type": "string"
+        },
+        "risk_id": {
+          "pattern": "^risk-[a-zA-Z0-9_-]{1,64}$",
+          "title": "Risk Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "risk_id",
+        "category",
+        "description",
+        "likelihood",
+        "impact",
+        "mitigation"
+      ],
+      "title": "Risk",
+      "type": "object"
+    },
+    "StatisticalAnalysisPlan": {
+      "additionalProperties": false,
+      "description": "Predeclared statistical interpretation shared by all computational experiments.",
+      "properties": {
+        "alpha": {
+          "exclusiveMaximum": 1.0,
+          "exclusiveMinimum": 0.0,
+          "title": "Alpha",
+          "type": "number"
+        },
+        "analysis_unit": {
+          "maxLength": 1000,
+          "minLength": 5,
+          "title": "Analysis Unit",
+          "type": "string"
+        },
+        "assumption_checks": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 1,
+          "title": "Assumption Checks",
+          "type": "array"
+        },
+        "confidence_interval": {
+          "maxLength": 1000,
+          "minLength": 5,
+          "title": "Confidence Interval",
+          "type": "string"
+        },
+        "effect_size": {
+          "maxLength": 1000,
+          "minLength": 5,
+          "title": "Effect Size",
+          "type": "string"
+        },
+        "failure_decision_rule": {
+          "maxLength": 2000,
+          "minLength": 10,
+          "title": "Failure Decision Rule",
+          "type": "string"
+        },
+        "interval_width_normalization": {
+          "anyOf": [
+            {
+              "maxLength": 1000,
+              "minLength": 10,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Interval Width Normalization"
+        },
+        "minimum_random_seeds": {
+          "maximum": 50,
+          "minimum": 3,
+          "title": "Minimum Random Seeds",
+          "type": "integer"
+        },
+        "minimum_successful_seeds": {
+          "maximum": 50,
+          "minimum": 2,
+          "title": "Minimum Successful Seeds",
+          "type": "integer"
+        },
+        "multiple_testing_correction": {
+          "maxLength": 1000,
+          "minLength": 5,
+          "title": "Multiple Testing Correction",
+          "type": "string"
+        },
+        "negative_control_policy": {
+          "anyOf": [
+            {
+              "maxLength": 1500,
+              "minLength": 20,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Negative Control Policy"
+        },
+        "practical_significance_threshold": {
+          "maxLength": 1000,
+          "minLength": 5,
+          "title": "Practical Significance Threshold",
+          "type": "string"
+        },
+        "precision_or_power_analysis": {
+          "maxLength": 2000,
+          "minLength": 10,
+          "title": "Precision Or Power Analysis",
+          "type": "string"
+        },
+        "primary_metric": {
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "Primary Metric",
+          "type": "string"
+        },
+        "random_seeds": {
+          "items": {
+            "type": "integer"
+          },
+          "maxItems": 50,
+          "minItems": 3,
+          "title": "Random Seeds",
+          "type": "array"
+        },
+        "robustness_checks": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 1,
+          "title": "Robustness Checks",
+          "type": "array"
+        },
+        "secondary_metrics": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 1,
+          "title": "Secondary Metrics",
+          "type": "array"
+        },
+        "seed_aggregation": {
+          "maxLength": 1000,
+          "minLength": 5,
+          "title": "Seed Aggregation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "primary_metric",
+        "secondary_metrics",
+        "analysis_unit",
+        "effect_size",
+        "confidence_interval",
+        "alpha",
+        "multiple_testing_correction",
+        "seed_aggregation",
+        "random_seeds",
+        "minimum_random_seeds",
+        "minimum_successful_seeds",
+        "precision_or_power_analysis",
+        "assumption_checks",
+        "robustness_checks",
+        "practical_significance_threshold",
+        "failure_decision_rule"
+      ],
+      "title": "StatisticalAnalysisPlan",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "advisor_consensus": {
+      "items": {
+        "$ref": "#/$defs/AdvisorReport"
+      },
+      "maxItems": 5,
+      "minItems": 5,
+      "title": "Advisor Consensus",
+      "type": "array"
+    },
+    "claim_boundaries": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 30,
+      "minItems": 1,
+      "title": "Claim Boundaries",
+      "type": "array"
+    },
+    "code_blueprint": {
+      "$ref": "#/$defs/CodeBlueprint"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "data_audit_plans": {
+      "items": {
+        "$ref": "#/$defs/DataAuditPlan"
+      },
+      "maxItems": 20,
+      "minItems": 1,
+      "title": "Data Audit Plans",
+      "type": "array"
+    },
+    "dataset_requirements": {
+      "items": {
+        "$ref": "#/$defs/DatasetRequirement"
+      },
+      "maxItems": 20,
+      "minItems": 1,
+      "title": "Dataset Requirements",
+      "type": "array"
+    },
+    "design_decisions": {
+      "items": {
+        "$ref": "#/$defs/DesignDecision"
+      },
+      "maxItems": 30,
+      "minItems": 3,
+      "title": "Design Decisions",
+      "type": "array"
+    },
+    "evidence_quality": {
+      "enum": [
+        "downloaded",
+        "metadata_only"
+      ],
+      "title": "Evidence Quality",
+      "type": "string"
+    },
+    "executive_summary": {
+      "maxLength": 6000,
+      "minLength": 20,
+      "title": "Executive Summary",
+      "type": "string"
+    },
+    "expected_results": {
+      "items": {
+        "$ref": "#/$defs/ExpectedResult"
+      },
+      "maxItems": 30,
+      "minItems": 1,
+      "title": "Expected Results",
+      "type": "array"
+    },
+    "experiment_plans": {
+      "items": {
+        "$ref": "#/$defs/ExperimentPlan"
+      },
+      "maxItems": 30,
+      "minItems": 3,
+      "title": "Experiment Plans",
+      "type": "array"
+    },
+    "experiment_stages": {
+      "items": {
+        "$ref": "#/$defs/ExperimentStagePlan"
+      },
+      "maxItems": 20,
+      "minItems": 4,
+      "title": "Experiment Stages",
+      "type": "array"
+    },
+    "idea_proposal_uri": {
+      "title": "Idea Proposal Uri",
+      "type": "string"
+    },
+    "implementation_roadmap": {
+      "$ref": "#/$defs/ImplementationRoadmap"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 30,
+      "minItems": 1,
+      "title": "Limitations",
+      "type": "array"
+    },
+    "method_components": {
+      "items": {
+        "$ref": "#/$defs/MethodComponent"
+      },
+      "maxItems": 30,
+      "minItems": 2,
+      "title": "Method Components",
+      "type": "array"
+    },
+    "method_name": {
+      "maxLength": 500,
+      "minLength": 1,
+      "title": "Method Name",
+      "type": "string"
+    },
+    "objective": {
+      "title": "Objective",
+      "type": "string"
+    },
+    "paper_comparisons": {
+      "items": {
+        "$ref": "#/$defs/PaperComparison"
+      },
+      "maxItems": 30,
+      "minItems": 2,
+      "title": "Paper Comparisons",
+      "type": "array"
+    },
+    "paper_evidence_uris": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Paper Evidence Uris",
+      "type": "array"
+    },
+    "reusable_code_modules": {
+      "items": {
+        "$ref": "#/$defs/ReusableCodeModule"
+      },
+      "maxItems": 20,
+      "minItems": 1,
+      "title": "Reusable Code Modules",
+      "type": "array"
+    },
+    "risks": {
+      "items": {
+        "$ref": "#/$defs/Risk"
+      },
+      "maxItems": 30,
+      "minItems": 1,
+      "title": "Risks",
+      "type": "array"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "selected_idea_id": {
+      "title": "Selected Idea Id",
+      "type": "string"
+    },
+    "statistical_analysis": {
+      "$ref": "#/$defs/StatisticalAnalysisPlan"
+    },
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    },
+    "unresolved_questions": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 30,
+      "title": "Unresolved Questions",
+      "type": "array"
+    }
+  },
+  "required": [
+    "selected_idea_id",
+    "method_name",
+    "executive_summary",
+    "method_components",
+    "reusable_code_modules",
+    "code_blueprint",
+    "dataset_requirements",
+    "experiment_plans",
+    "expected_results",
+    "paper_comparisons",
+    "design_decisions",
+    "data_audit_plans",
+    "statistical_analysis",
+    "experiment_stages",
+    "advisor_consensus",
+    "claim_boundaries",
+    "implementation_roadmap",
+    "risks",
+    "limitations",
+    "run_id",
+    "task_id",
+    "objective",
+    "idea_proposal_uri",
+    "paper_evidence_uris",
+    "evidence_quality"
+  ],
+  "title": "ResearchDesign",
+  "type": "object"
+}

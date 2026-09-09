@@ -1,0 +1,54 @@
+{
+  "agent": "feedback-agent",
+  "policy": "registry-only; third-party content is not redistributed and local sync remains inactive until license and code review",
+  "skills": [
+    {
+      "catalog": "https://skills.sh/nexu-io/open-design/pr-feedback-quality-gate",
+      "purpose": "feedback quality gating",
+      "repository": "https://github.com/nexu-io/open-design",
+      "source": "nexu-io/open-design@pr-feedback-quality-gate",
+      "source_commit": "eefe7967718b3478e6cf6cbd2afc7abd7e391484",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/ahmedasmar/devops-claude-skills/monitoring-observability",
+      "purpose": "workflow monitoring and observability",
+      "repository": "https://github.com/ahmedasmar/devops-claude-skills",
+      "source": "ahmedasmar/devops-claude-skills@monitoring-observability",
+      "source_commit": "1489c33ad8829a11219e423327d6b59f8339cee4",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/opensearch-project/opensearch-agent-skills/opensearch-skills",
+      "purpose": "event and log exploration",
+      "repository": "https://github.com/opensearch-project/opensearch-agent-skills",
+      "source": "opensearch-project/opensearch-agent-skills@opensearch-skills",
+      "source_commit": "8ebe59430c52543cccbbf0b65c0960bf04eb1c2d",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/andrelandgraf/fullstackrecipes/logging-best-practices",
+      "purpose": "structured logging and observability review patterns",
+      "repository": "https://github.com/andrelandgraf/fullstackrecipes",
+      "source": "andrelandgraf/fullstackrecipes@logging-best-practices",
+      "source_commit": "4449331ed5ae7cc7026ef8a1a0d5772a103467e2",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/akillness/oh-my-skills/langsmith",
+      "purpose": "agent trace analysis concepts",
+      "repository": "https://github.com/akillness/oh-my-skills",
+      "source": "akillness/oh-my-skills@langsmith",
+      "source_commit": "78ba27412f4e019e937a65377942aadf918af81f",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/memorysaver/agentic-engineering-patterns/aep-reflect",
+      "purpose": "reflection and failure pattern analysis",
+      "repository": "https://github.com/memorysaver/agentic-engineering-patterns",
+      "source": "memorysaver/agentic-engineering-patterns@aep-reflect",
+      "source_commit": "238dde4e95d1a41c7d3319b8b0055af731e9d485",
+      "status": "reserved"
+    }
+  ]
+}

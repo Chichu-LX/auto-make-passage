@@ -1,0 +1,10 @@
+include LICENSE
+include README.md
+prune agents/*/skills/*
+recursive-include agents */config/*.json
+recursive-include agents */prompts/*.md
+recursive-include agents */schemas/*.json
+recursive-include agents */skills/registry.json
+recursive-include agents */advisors/*.md
+recursive-include agents */advisors/*.json
+recursive-include agents */tools/*.py

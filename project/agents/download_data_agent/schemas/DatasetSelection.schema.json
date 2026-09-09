@@ -1,0 +1,198 @@
+{
+  "$defs": {
+    "DatasetCandidate": {
+      "additionalProperties": false,
+      "description": "Model-extracted dataset metadata; code independently decides eligibility.",
+      "properties": {
+        "dataset_id": {
+          "pattern": "^dataset-[a-zA-Z0-9_-]{1,64}$",
+          "title": "Dataset Id",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 6000,
+          "title": "Description",
+          "type": "string"
+        },
+        "direct_download_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Direct Download Url"
+        },
+        "estimated_size_bytes": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Estimated Size Bytes"
+        },
+        "expected_entity_scale": {
+          "default": "",
+          "maxLength": 2000,
+          "title": "Expected Entity Scale",
+          "type": "string"
+        },
+        "expected_record_count": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expected Record Count"
+        },
+        "format": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DatasetFormat"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "landing_page_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Landing Page Url"
+        },
+        "license_evidence": {
+          "default": "",
+          "maxLength": 1000,
+          "title": "License Evidence",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "license_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Url"
+        },
+        "name": {
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "relevance_score": {
+          "default": 0.0,
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Relevance Score",
+          "type": "number"
+        },
+        "requirement_key": {
+          "anyOf": [
+            {
+              "pattern": "^dataset-[a-zA-Z0-9_-]{1,64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Requirement Key"
+        },
+        "source": {
+          "maxLength": 300,
+          "minLength": 1,
+          "title": "Source",
+          "type": "string"
+        },
+        "version": {
+          "anyOf": [
+            {
+              "maxLength": 200,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Version"
+        }
+      },
+      "required": [
+        "dataset_id",
+        "name",
+        "source"
+      ],
+      "title": "DatasetCandidate",
+      "type": "object"
+    },
+    "DatasetFormat": {
+      "enum": [
+        "csv",
+        "tsv",
+        "json",
+        "jsonl",
+        "parquet",
+        "txt",
+        "zip",
+        "7z"
+      ],
+      "title": "DatasetFormat",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "candidates": {
+      "items": {
+        "$ref": "#/$defs/DatasetCandidate"
+      },
+      "maxItems": 10,
+      "title": "Candidates",
+      "type": "array"
+    }
+  },
+  "title": "DatasetSelection",
+  "type": "object"
+}

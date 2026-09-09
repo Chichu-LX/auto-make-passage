@@ -1,0 +1,500 @@
+{
+  "$defs": {
+    "AgentName": {
+      "enum": [
+        "lead-agent",
+        "download-paper-agent",
+        "download-data-agent",
+        "make-idea-agent",
+        "idea-design-agent",
+        "code-make-agent",
+        "code-review-agent",
+        "server-schedule-agent",
+        "check-result-agent",
+        "experiment-code-run-agent",
+        "check-paper-and-code-agent",
+        "write-paper-agent",
+        "paper-review-agent",
+        "feedback-agent"
+      ],
+      "title": "AgentName",
+      "type": "string"
+    },
+    "ArtifactRef": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "default": "generic",
+          "title": "Kind",
+          "type": "string"
+        },
+        "sha256": {
+          "default": "",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "uri": {
+          "title": "Uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri"
+      ],
+      "title": "ArtifactRef",
+      "type": "object"
+    },
+    "ExperimentCompletenessCheck": {
+      "additionalProperties": false,
+      "properties": {
+        "completed_seeds": {
+          "items": {
+            "type": "integer"
+          },
+          "maxItems": 50,
+          "title": "Completed Seeds",
+          "type": "array"
+        },
+        "expected_result_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Expected Result Ids",
+          "type": "array"
+        },
+        "expected_seeds": {
+          "items": {
+            "type": "integer"
+          },
+          "maxItems": 50,
+          "minItems": 1,
+          "title": "Expected Seeds",
+          "type": "array"
+        },
+        "experiment_id": {
+          "title": "Experiment Id",
+          "type": "string"
+        },
+        "experiment_type": {
+          "enum": [
+            "ablation",
+            "case_study",
+            "module_analysis",
+            "feasibility",
+            "sensitivity",
+            "ood_generalization",
+            "efficiency",
+            "uncertainty_calibration"
+          ],
+          "title": "Experiment Type",
+          "type": "string"
+        },
+        "metric_seeds": {
+          "items": {
+            "type": "integer"
+          },
+          "maxItems": 50,
+          "title": "Metric Seeds",
+          "type": "array"
+        },
+        "status": {
+          "enum": [
+            "passed",
+            "failed",
+            "pending"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "summary": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Summary",
+          "type": "string"
+        }
+      },
+      "required": [
+        "experiment_id",
+        "experiment_type",
+        "expected_seeds",
+        "status",
+        "summary"
+      ],
+      "title": "ExperimentCompletenessCheck",
+      "type": "object"
+    },
+    "ExperimentMetricAggregate": {
+      "additionalProperties": false,
+      "properties": {
+        "direction": {
+          "enum": [
+            "higher",
+            "lower"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "experiment_id": {
+          "title": "Experiment Id",
+          "type": "string"
+        },
+        "maximum": {
+          "title": "Maximum",
+          "type": "number"
+        },
+        "mean": {
+          "title": "Mean",
+          "type": "number"
+        },
+        "metric_name": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Metric Name",
+          "type": "string"
+        },
+        "minimum": {
+          "title": "Minimum",
+          "type": "number"
+        },
+        "sample_standard_deviation": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sample Standard Deviation"
+        },
+        "seed_metrics": {
+          "items": {
+            "$ref": "#/$defs/ExperimentSeedMetric"
+          },
+          "maxItems": 50,
+          "minItems": 1,
+          "title": "Seed Metrics",
+          "type": "array"
+        }
+      },
+      "required": [
+        "experiment_id",
+        "metric_name",
+        "direction",
+        "seed_metrics",
+        "mean",
+        "minimum",
+        "maximum"
+      ],
+      "title": "ExperimentMetricAggregate",
+      "type": "object"
+    },
+    "ExperimentSeedMetric": {
+      "additionalProperties": false,
+      "properties": {
+        "checkpoint_path": {
+          "anyOf": [
+            {
+              "maxLength": 1000,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Checkpoint Path"
+        },
+        "job_id": {
+          "pattern": "^job-[a-zA-Z0-9_-]{1,100}$",
+          "title": "Job Id",
+          "type": "string"
+        },
+        "seed": {
+          "title": "Seed",
+          "type": "integer"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "job_id",
+        "seed",
+        "value"
+      ],
+      "title": "ExperimentSeedMetric",
+      "type": "object"
+    },
+    "JobObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "best_checkpoint_path": {
+          "anyOf": [
+            {
+              "maxLength": 1000,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Best Checkpoint Path"
+        },
+        "best_metric": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MetricObservation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "exit_code": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Exit Code"
+        },
+        "job_id": {
+          "pattern": "^job-[a-zA-Z0-9_-]{1,100}$",
+          "title": "Job Id",
+          "type": "string"
+        },
+        "log_tail": {
+          "default": "",
+          "maxLength": 16000,
+          "title": "Log Tail",
+          "type": "string"
+        },
+        "metrics": {
+          "items": {
+            "$ref": "#/$defs/MetricObservation"
+          },
+          "maxItems": 10000,
+          "title": "Metrics",
+          "type": "array"
+        },
+        "observed_at": {
+          "format": "date-time",
+          "title": "Observed At",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "queued",
+            "running",
+            "completed",
+            "failed",
+            "unknown"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "job_id",
+        "status"
+      ],
+      "title": "JobObservation",
+      "type": "object"
+    },
+    "MetricObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "checkpoint_path": {
+          "anyOf": [
+            {
+              "maxLength": 1000,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Checkpoint Path"
+        },
+        "metric_name": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Metric Name",
+          "type": "string"
+        },
+        "step": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Step"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "metric_name",
+        "value"
+      ],
+      "title": "MetricObservation",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Observed supplementary experiment results; no value may be model-generated.",
+  "properties": {
+    "completeness_checks": {
+      "items": {
+        "$ref": "#/$defs/ExperimentCompletenessCheck"
+      },
+      "maxItems": 30,
+      "minItems": 1,
+      "title": "Completeness Checks",
+      "type": "array"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "issues": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 100,
+      "title": "Issues",
+      "type": "array"
+    },
+    "log_artifacts": {
+      "items": {
+        "$ref": "#/$defs/ArtifactRef"
+      },
+      "maxItems": 2000,
+      "title": "Log Artifacts",
+      "type": "array"
+    },
+    "next_report_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Next Report At"
+    },
+    "observations": {
+      "items": {
+        "$ref": "#/$defs/JobObservation"
+      },
+      "maxItems": 2000,
+      "minItems": 1,
+      "title": "Observations",
+      "type": "array"
+    },
+    "primary_metric_aggregates": {
+      "items": {
+        "$ref": "#/$defs/ExperimentMetricAggregate"
+      },
+      "maxItems": 30,
+      "title": "Primary Metric Aggregates",
+      "type": "array"
+    },
+    "project_slug": {
+      "pattern": "^[a-z0-9][a-z0-9-]{1,62}[a-z0-9]$",
+      "title": "Project Slug",
+      "type": "string"
+    },
+    "recommended_route": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/AgentName"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "report_interval_seconds": {
+      "const": 43200,
+      "default": 43200,
+      "title": "Report Interval Seconds",
+      "type": "integer"
+    },
+    "report_sequence": {
+      "minimum": 1,
+      "title": "Report Sequence",
+      "type": "integer"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "run_manifest_uri": {
+      "title": "Run Manifest Uri",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "summary": {
+      "maxLength": 6000,
+      "minLength": 10,
+      "title": "Summary",
+      "type": "string"
+    },
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    },
+    "verdict": {
+      "enum": [
+        "in_progress",
+        "passed",
+        "failed"
+      ],
+      "title": "Verdict",
+      "type": "string"
+    }
+  },
+  "required": [
+    "run_id",
+    "task_id",
+    "project_slug",
+    "run_manifest_uri",
+    "report_sequence",
+    "verdict",
+    "summary",
+    "observations",
+    "completeness_checks"
+  ],
+  "title": "ExperimentCodeRunReport",
+  "type": "object"
+}

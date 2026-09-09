@@ -1,0 +1,86 @@
+{
+  "agent": "idea-design-agent",
+  "policy": "registry-only; third-party content is not redistributed and local sync remains inactive until license and code review",
+  "skills": [
+    {
+      "catalog": "https://skills.sh/evoscientist/evoskills/research-ideation",
+      "purpose": "research gap selection and proposal boundaries",
+      "repository": "https://github.com/evoscientist/evoskills",
+      "source": "evoscientist/evoskills@research-ideation",
+      "source_commit": "2e474118106f86c29082a6466b995ba59236614c",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/marimo-team/skills/implement-paper",
+      "purpose": "paper-to-implementation decomposition",
+      "repository": "https://github.com/marimo-team/skills",
+      "source": "marimo-team/skills@implement-paper",
+      "source_commit": "e824e19437b22b11cbb69bf19724781adeb2c5c1",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/lingzhi227/agent-research-skills/paper-to-code",
+      "purpose": "traceable paper-to-code module mapping",
+      "repository": "https://github.com/lingzhi227/agent-research-skills",
+      "source": "lingzhi227/agent-research-skills@paper-to-code",
+      "source_commit": "9e6c085d65e313e475e921fdfe795ac11eb7589e",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/davila7/claude-code-templates/torchdrug",
+      "purpose": "drug-target data and model architecture references",
+      "repository": "https://github.com/davila7/claude-code-templates",
+      "source": "davila7/claude-code-templates@torchdrug",
+      "source_commit": "22d8efa9e9afcf31b98b7e3952ec557694e72c13",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/wshobson/agents/dataset-curation",
+      "purpose": "dataset fields, distributions, splits, and curation checks",
+      "repository": "https://github.com/wshobson/agents",
+      "source": "wshobson/agents@dataset-curation",
+      "source_commit": "c4b82b0ad771190355eb8e204b1329732a18449a",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/sdc-ai-taskforce/sdc-agent-skills/python-coding",
+      "purpose": "testable Python package and implementation design",
+      "repository": "https://github.com/sdc-ai-taskforce/sdc-agent-skills",
+      "source": "sdc-ai-taskforce/sdc-agent-skills@python-coding",
+      "source_commit": "03ec985ba6af819ee0744d60581d8fda99cad24c",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/k-dense-ai/scientific-agent-skills/experimental-design",
+      "purpose": "computational experiment controls, blocking, factorial ablation, sensitivity and reproducible allocation",
+      "repository": "https://github.com/k-dense-ai/scientific-agent-skills",
+      "source": "k-dense-ai/scientific-agent-skills@experimental-design",
+      "source_commit": "9b1d761c67c310e6538f1d5d88759b2bcfc65ce2",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/k-dense-ai/scientific-agent-skills/scientific-critical-thinking",
+      "purpose": "method validity, evidence quality, bias, leakage, statistical pitfalls and claim-scope review",
+      "repository": "https://github.com/k-dense-ai/scientific-agent-skills",
+      "source": "k-dense-ai/scientific-agent-skills@scientific-critical-thinking",
+      "source_commit": "9b1d761c67c310e6538f1d5d88759b2bcfc65ce2",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/evoscientist/evoskills/experiment-pipeline",
+      "purpose": "baseline-first experiment stages, attempt budgets, gates, ablations, stop rules and trajectory logging",
+      "repository": "https://github.com/evoscientist/evoskills",
+      "source": "evoscientist/evoskills@experiment-pipeline",
+      "source_commit": "2e474118106f86c29082a6466b995ba59236614c",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/bbeierle12/skill-mcp-claude/software-architecture",
+      "purpose": "clean architecture, interface boundaries, dependency inversion, ADRs and testable package decisions",
+      "repository": "https://github.com/bbeierle12/skill-mcp-claude",
+      "source": "bbeierle12/skill-mcp-claude@software-architecture",
+      "source_commit": "63a17f54b053395c137d0c10f045e1e0587cee00",
+      "status": "reserved"
+    }
+  ]
+}

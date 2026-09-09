@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "name": "experiment-code-run-agent",
+  "role": "After the main benchmark has passed its objective result gate, audit the research design for missing computational experiments, require design or reviewed-code repair when necessary, run every approved non-main experiment and declared seed on the staged immutable code, and persist exact job, metric, seed, checkpoint-path and log evidence without fabricating results.",
+  "execution_mode": "specialist",
+  "model_provider": "deepseek",
+  "allowed_tools": [
+    "artifact.read_approved_design_code_and_main_results",
+    "model.audit_missing_computational_experiments",
+    "server.probe_approved_execution_profiles",
+    "server.run_bounded_foreground_minimum_demo",
+    "server.transfer_supplementary_job_specs",
+    "server.launch_nohup_managed_experiment_jobs",
+    "server.inspect_managed_job_status",
+    "artifact.write_experiment_coverage_launch_logs_and_results"
+  ],
+  "write_scopes": [
+    "design/<project_slug>/experiments/",
+    "project/var/runs/<run_id>/experiment_code_run/",
+    "project/var/logs/jobs/<run_id>/experiment_code_run/"
+  ],
+  "system_prompt": "prompts/system.md",
+  "input_contracts": [
+    "TaskEnvelope",
+    "ResearchDesign",
+    "CodeImplementationManifest",
+    "CodeReviewReport",
+    "ServerScheduleManifest",
+    "ResultCheckReport",
+    "ServerExecutionConfig"
+  ],
+  "output_contracts": [
+    "ExperimentCoverageAudit",
+    "ExperimentCodeRunManifest",
+    "ExperimentCodeRunReport",
+    "AgentResult"
+  ],
+  "skill_policy": "registry_only_reserved"
+}

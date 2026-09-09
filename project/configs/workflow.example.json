@@ -1,0 +1,21 @@
+{
+  "model": {
+    "provider": "deepseek",
+    "model": "deepseek-v4-pro",
+    "reasoning_effort": "high",
+    "base_url": "https://api.deepseek.com"
+  },
+  "search": {
+    "provider": "tavily",
+    "max_results": 5
+  },
+  "runtime": {
+    "max_steps": 12,
+    "feedback_after_each_step": true,
+    "human_review_required_for_live_server": true,
+    "server_config": "project/configs/servers.local.json",
+    "server_result_report_interval_seconds": 43200,
+    "server_result_repair_max_cycles": null,
+    "server_directory_deletion_allowed": false
+  }
+}

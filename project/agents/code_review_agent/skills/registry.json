@@ -1,0 +1,54 @@
+{
+  "agent": "code-review-agent",
+  "policy": "registry-only; third-party content is not redistributed and local sync remains inactive until license and code review",
+  "skills": [
+    {
+      "catalog": "https://skills.sh/existential-birds/beagle/python-code-review",
+      "purpose": "Python quality review",
+      "repository": "https://github.com/existential-birds/beagle",
+      "source": "existential-birds/beagle@python-code-review",
+      "source_commit": "aed6fce73b7716182bfd1f4d768ac64164b2ead5",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/borghei/claude-skills/code-reviewer",
+      "purpose": "general code review checklist",
+      "repository": "https://github.com/borghei/claude-skills",
+      "source": "borghei/claude-skills@code-reviewer",
+      "source_commit": "da5a8626632f08c5513b0f73add1bf8075ef83bd",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/hieutrtr/ai1-skills/pre-merge-checklist",
+      "purpose": "pre-merge quality gate",
+      "repository": "https://github.com/hieutrtr/ai1-skills",
+      "source": "hieutrtr/ai1-skills@pre-merge-checklist",
+      "source_commit": "d8244c1acdb4e4fac55de84dd49887e91bf7b941",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/jamie-bitflight/claude_skills/python3-review",
+      "purpose": "Python 3 correctness review",
+      "repository": "https://github.com/jamie-bitflight/claude_skills",
+      "source": "jamie-bitflight/claude_skills@python3-review",
+      "source_commit": "61d38a611e0c2d073cc82c21000f12cf875c067a",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/kalshamsi/claude-security-skills/bandit-sast",
+      "purpose": "Python static security review",
+      "repository": "https://github.com/kalshamsi/claude-security-skills",
+      "source": "kalshamsi/claude-security-skills@bandit-sast",
+      "source_commit": "79db4450721337468da06c779760602af7cfd0c3",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/kentoshimizu/sw-agent-skills/code-review-security",
+      "purpose": "security-focused code review",
+      "repository": "https://github.com/kentoshimizu/sw-agent-skills",
+      "source": "kentoshimizu/sw-agent-skills@code-review-security",
+      "source_commit": "5b7bafb626d3b76fa411a14653d399f20e7c7ae6",
+      "status": "reserved"
+    }
+  ]
+}

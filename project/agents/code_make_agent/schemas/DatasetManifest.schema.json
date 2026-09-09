@@ -1,0 +1,829 @@
+{
+  "$defs": {
+    "ArtifactRef": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "default": "generic",
+          "title": "Kind",
+          "type": "string"
+        },
+        "sha256": {
+          "default": "",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "uri": {
+          "title": "Uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri"
+      ],
+      "title": "ArtifactRef",
+      "type": "object"
+    },
+    "DatasetFormat": {
+      "enum": [
+        "csv",
+        "tsv",
+        "json",
+        "jsonl",
+        "parquet",
+        "txt",
+        "zip",
+        "7z"
+      ],
+      "title": "DatasetFormat",
+      "type": "string"
+    },
+    "DatasetLabelStatistics": {
+      "additionalProperties": false,
+      "properties": {
+        "field": {
+          "maxLength": 300,
+          "minLength": 1,
+          "title": "Field",
+          "type": "string"
+        },
+        "maximum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum"
+        },
+        "mean": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mean"
+        },
+        "minimum": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum"
+        },
+        "observed_count": {
+          "minimum": 0,
+          "title": "Observed Count",
+          "type": "integer"
+        },
+        "quantiles": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "maxProperties": 10,
+          "title": "Quantiles",
+          "type": "object"
+        },
+        "standard_deviation": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Standard Deviation"
+        }
+      },
+      "required": [
+        "field",
+        "observed_count"
+      ],
+      "title": "DatasetLabelStatistics",
+      "type": "object"
+    },
+    "DatasetMaterializedFile": {
+      "additionalProperties": false,
+      "description": "One persisted, directly usable file from a downloaded dataset.",
+      "properties": {
+        "artifact": {
+          "$ref": "#/$defs/ArtifactRef"
+        },
+        "relative_path": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Relative Path",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "size_bytes": {
+          "exclusiveMinimum": 0,
+          "title": "Size Bytes",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "relative_path",
+        "size_bytes",
+        "sha256",
+        "artifact"
+      ],
+      "title": "DatasetMaterializedFile",
+      "type": "object"
+    },
+    "DatasetProfile": {
+      "additionalProperties": false,
+      "description": "Measured local profile; values are derived from the downloaded bytes.",
+      "properties": {
+        "archive_member_count": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Archive Member Count",
+          "type": "integer"
+        },
+        "column_count": {
+          "minimum": 0,
+          "title": "Column Count",
+          "type": "integer"
+        },
+        "columns": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 300,
+          "title": "Columns",
+          "type": "array"
+        },
+        "compressed_size_bytes": {
+          "minimum": 1,
+          "title": "Compressed Size Bytes",
+          "type": "integer"
+        },
+        "conflicting_exact_input_label_group_count": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Conflicting Exact Input Label Group Count",
+          "type": "integer"
+        },
+        "conflicting_exact_input_label_row_count": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Conflicting Exact Input Label Row Count",
+          "type": "integer"
+        },
+        "entity_representation_profiles": {
+          "items": {
+            "$ref": "#/$defs/DatasetRepresentationProfile"
+          },
+          "maxItems": 20,
+          "title": "Entity Representation Profiles",
+          "type": "array"
+        },
+        "key_field_coverage": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "maxProperties": 30,
+          "title": "Key Field Coverage",
+          "type": "object"
+        },
+        "label_statistics": {
+          "items": {
+            "$ref": "#/$defs/DatasetLabelStatistics"
+          },
+          "maxItems": 20,
+          "title": "Label Statistics",
+          "type": "array"
+        },
+        "missing_cell_count": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Missing Cell Count",
+          "type": "integer"
+        },
+        "missing_fraction": {
+          "default": 0.0,
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Missing Fraction",
+          "type": "number"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Notes",
+          "type": "array"
+        },
+        "profile_status": {
+          "enum": [
+            "complete",
+            "partial"
+          ],
+          "title": "Profile Status",
+          "type": "string"
+        },
+        "repeated_exact_input_group_count": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Repeated Exact Input Group Count",
+          "type": "integer"
+        },
+        "representation_audit_complete": {
+          "default": false,
+          "title": "Representation Audit Complete",
+          "type": "boolean"
+        },
+        "row_count": {
+          "minimum": 0,
+          "title": "Row Count",
+          "type": "integer"
+        },
+        "source_table": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "title": "Source Table",
+          "type": "string"
+        },
+        "uncompressed_size_bytes": {
+          "minimum": 1,
+          "title": "Uncompressed Size Bytes",
+          "type": "integer"
+        },
+        "unique_compounds": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unique Compounds"
+        },
+        "unique_pairs": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unique Pairs"
+        },
+        "unique_targets": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unique Targets"
+        }
+      },
+      "required": [
+        "profile_status",
+        "source_table",
+        "compressed_size_bytes",
+        "uncompressed_size_bytes",
+        "row_count",
+        "column_count"
+      ],
+      "title": "DatasetProfile",
+      "type": "object"
+    },
+    "DatasetRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "content_type": {
+          "anyOf": [
+            {
+              "maxLength": 200,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content Type"
+        },
+        "dataset_id": {
+          "pattern": "^dataset-[a-zA-Z0-9_-]{1,64}$",
+          "title": "Dataset Id",
+          "type": "string"
+        },
+        "description": {
+          "default": "",
+          "maxLength": 6000,
+          "title": "Description",
+          "type": "string"
+        },
+        "direct_download_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Direct Download Url"
+        },
+        "duplicate_of": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Duplicate Of"
+        },
+        "estimated_size_bytes": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Estimated Size Bytes"
+        },
+        "expected_entity_scale": {
+          "default": "",
+          "maxLength": 2000,
+          "title": "Expected Entity Scale",
+          "type": "string"
+        },
+        "expected_record_count": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expected Record Count"
+        },
+        "final_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Final Url"
+        },
+        "format": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DatasetFormat"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "landing_page_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Landing Page Url"
+        },
+        "license_evidence": {
+          "default": "",
+          "maxLength": 1000,
+          "title": "License Evidence",
+          "type": "string"
+        },
+        "license_id": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Id"
+        },
+        "license_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "License Url"
+        },
+        "local_artifact": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "materialized_files": {
+          "items": {
+            "$ref": "#/$defs/DatasetMaterializedFile"
+          },
+          "maxItems": 1000,
+          "title": "Materialized Files",
+          "type": "array"
+        },
+        "materialized_root": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Materialized Root"
+        },
+        "materialized_size_bytes": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Materialized Size Bytes",
+          "type": "integer"
+        },
+        "name": {
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "profile": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/DatasetProfile"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "reason": {
+          "default": "",
+          "maxLength": 1000,
+          "title": "Reason",
+          "type": "string"
+        },
+        "relevance_score": {
+          "default": 0.0,
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Relevance Score",
+          "type": "number"
+        },
+        "requirement_key": {
+          "anyOf": [
+            {
+              "pattern": "^dataset-[a-zA-Z0-9_-]{1,64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Requirement Key"
+        },
+        "server_download_script": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactRef"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        },
+        "size_bytes": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Size Bytes"
+        },
+        "source": {
+          "maxLength": 300,
+          "minLength": 1,
+          "title": "Source",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "downloaded",
+            "requires_review",
+            "duplicate",
+            "server_script_required"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "version": {
+          "anyOf": [
+            {
+              "maxLength": 200,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Version"
+        }
+      },
+      "required": [
+        "dataset_id",
+        "name",
+        "source",
+        "status"
+      ],
+      "title": "DatasetRecord",
+      "type": "object"
+    },
+    "DatasetRepresentationProfile": {
+      "additionalProperties": false,
+      "description": "Measured identifier-to-model-representation cardinality for one entity role.",
+      "properties": {
+        "entity_role": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Entity Role",
+          "type": "string"
+        },
+        "identifier_field": {
+          "maxLength": 300,
+          "minLength": 1,
+          "title": "Identifier Field",
+          "type": "string"
+        },
+        "representation_field": {
+          "maxLength": 300,
+          "minLength": 1,
+          "title": "Representation Field",
+          "type": "string"
+        },
+        "shared_representation_group_count": {
+          "minimum": 0,
+          "title": "Shared Representation Group Count",
+          "type": "integer"
+        },
+        "unique_identifier_count": {
+          "minimum": 0,
+          "title": "Unique Identifier Count",
+          "type": "integer"
+        },
+        "unique_representation_count": {
+          "minimum": 0,
+          "title": "Unique Representation Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "entity_role",
+        "identifier_field",
+        "representation_field",
+        "unique_identifier_count",
+        "unique_representation_count",
+        "shared_representation_group_count"
+      ],
+      "title": "DatasetRepresentationProfile",
+      "type": "object"
+    },
+    "DownloadPolicyRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "allowed_content_types": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Allowed Content Types",
+          "type": "array"
+        },
+        "max_bytes": {
+          "exclusiveMinimum": 0,
+          "title": "Max Bytes",
+          "type": "integer"
+        },
+        "max_redirects": {
+          "maximum": 10,
+          "minimum": 0,
+          "title": "Max Redirects",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "max_bytes",
+        "max_redirects",
+        "allowed_content_types"
+      ],
+      "title": "DownloadPolicyRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "allowed_license_ids": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Allowed License Ids",
+      "type": "array"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "downloaded_count": {
+      "minimum": 0,
+      "title": "Downloaded Count",
+      "type": "integer"
+    },
+    "materialized_count": {
+      "minimum": 0,
+      "title": "Materialized Count",
+      "type": "integer"
+    },
+    "objective": {
+      "title": "Objective",
+      "type": "string"
+    },
+    "policy": {
+      "$ref": "#/$defs/DownloadPolicyRecord"
+    },
+    "project_slug": {
+      "pattern": "^[a-z0-9][a-z0-9-]{1,62}[a-z0-9]$",
+      "title": "Project Slug",
+      "type": "string"
+    },
+    "query": {
+      "title": "Query",
+      "type": "string"
+    },
+    "records": {
+      "items": {
+        "$ref": "#/$defs/DatasetRecord"
+      },
+      "title": "Records",
+      "type": "array"
+    },
+    "requires_review_count": {
+      "minimum": 0,
+      "title": "Requires Review Count",
+      "type": "integer"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "2.0",
+      "default": "2.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "search_result_count": {
+      "minimum": 0,
+      "title": "Search Result Count",
+      "type": "integer"
+    },
+    "server_script_count": {
+      "minimum": 0,
+      "title": "Server Script Count",
+      "type": "integer"
+    },
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    },
+    "total_downloaded_bytes": {
+      "minimum": 0,
+      "title": "Total Downloaded Bytes",
+      "type": "integer"
+    },
+    "total_materialized_bytes": {
+      "minimum": 0,
+      "title": "Total Materialized Bytes",
+      "type": "integer"
+    },
+    "total_profiled_rows": {
+      "minimum": 0,
+      "title": "Total Profiled Rows",
+      "type": "integer"
+    },
+    "total_uncompressed_bytes": {
+      "minimum": 0,
+      "title": "Total Uncompressed Bytes",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "run_id",
+    "project_slug",
+    "task_id",
+    "objective",
+    "query",
+    "search_result_count",
+    "downloaded_count",
+    "requires_review_count",
+    "materialized_count",
+    "server_script_count",
+    "total_downloaded_bytes",
+    "total_uncompressed_bytes",
+    "total_materialized_bytes",
+    "total_profiled_rows",
+    "policy",
+    "allowed_license_ids"
+  ],
+  "title": "DatasetManifest",
+  "type": "object"
+}

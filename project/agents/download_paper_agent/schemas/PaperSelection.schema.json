@@ -1,0 +1,143 @@
+{
+  "$defs": {
+    "PaperCandidate": {
+      "additionalProperties": false,
+      "description": "Model-extracted paper metadata. It never represents a completed download.",
+      "properties": {
+        "abstract": {
+          "default": "",
+          "maxLength": 6000,
+          "title": "Abstract",
+          "type": "string"
+        },
+        "authors": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Authors",
+          "type": "array"
+        },
+        "direct_pdf_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Direct Pdf Url"
+        },
+        "doi": {
+          "anyOf": [
+            {
+              "maxLength": 300,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Doi"
+        },
+        "landing_page_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Landing Page Url"
+        },
+        "paper_id": {
+          "pattern": "^paper-[a-zA-Z0-9_-]{1,64}$",
+          "title": "Paper Id",
+          "type": "string"
+        },
+        "publication_type": {
+          "default": "other",
+          "enum": [
+            "conference",
+            "journal",
+            "preprint",
+            "other"
+          ],
+          "title": "Publication Type",
+          "type": "string"
+        },
+        "relevance_score": {
+          "default": 0.0,
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Relevance Score",
+          "type": "number"
+        },
+        "source": {
+          "maxLength": 300,
+          "minLength": 1,
+          "title": "Source",
+          "type": "string"
+        },
+        "title": {
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "venue": {
+          "anyOf": [
+            {
+              "maxLength": 300,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Venue"
+        },
+        "year": {
+          "anyOf": [
+            {
+              "maximum": 2200,
+              "minimum": 1800,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Year"
+        }
+      },
+      "required": [
+        "paper_id",
+        "title",
+        "source"
+      ],
+      "title": "PaperCandidate",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "candidates": {
+      "items": {
+        "$ref": "#/$defs/PaperCandidate"
+      },
+      "maxItems": 10,
+      "title": "Candidates",
+      "type": "array"
+    }
+  },
+  "title": "PaperSelection",
+  "type": "object"
+}

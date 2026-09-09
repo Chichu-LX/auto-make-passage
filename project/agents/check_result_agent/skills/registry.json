@@ -1,0 +1,54 @@
+{
+  "agent": "check-result-agent",
+  "policy": "registry-only; third-party content is not redistributed and local sync remains inactive until license and code review",
+  "skills": [
+    {
+      "catalog": "https://skills.sh/shaishavmaisuria/research-paper-lifecycle-skills/verify-results",
+      "purpose": "result and claim verification",
+      "repository": "https://github.com/shaishavmaisuria/research-paper-lifecycle-skills",
+      "source": "shaishavmaisuria/research-paper-lifecycle-skills@verify-results",
+      "source_commit": "f9a0ed8f0f1770fb0321c5b022d55ed34c939927",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/fcakyon/phd-skills/reproduce",
+      "purpose": "reproducibility and seed audit",
+      "repository": "https://github.com/fcakyon/phd-skills",
+      "source": "fcakyon/phd-skills@reproduce",
+      "source_commit": "8d642d3e114ee1d1e4d000f918d71e9bf0453dc2",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/google/mantis/mantis-reproduce",
+      "purpose": "experiment reproduction verification",
+      "repository": "https://github.com/google/mantis",
+      "source": "google/mantis@mantis-reproduce",
+      "source_commit": "876a0c8c6b92c92f34e0041b7dbbc0e4cccddc52",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/getcompanion-ai/feynman/paper-code-audit",
+      "purpose": "paper, code, and result consistency",
+      "repository": "https://github.com/getcompanion-ai/feynman",
+      "source": "getcompanion-ai/feynman@paper-code-audit",
+      "source_commit": "f7ead4144746ff34cd8f6dc18c1cb2e2a9f6c891",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/existential-birds/beagle/python-code-review",
+      "purpose": "Python result-path correctness review",
+      "repository": "https://github.com/existential-birds/beagle",
+      "source": "existential-birds/beagle@python-code-review",
+      "source_commit": "aed6fce73b7716182bfd1f4d768ac64164b2ead5",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/hieutrtr/ai1-skills/pre-merge-checklist",
+      "purpose": "final result quality gate",
+      "repository": "https://github.com/hieutrtr/ai1-skills",
+      "source": "hieutrtr/ai1-skills@pre-merge-checklist",
+      "source_commit": "d8244c1acdb4e4fac55de84dd49887e91bf7b941",
+      "status": "reserved"
+    }
+  ]
+}

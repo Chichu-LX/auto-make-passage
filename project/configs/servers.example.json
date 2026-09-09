@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "report_interval_seconds": 43200,
+  "servers": [
+    {
+      "server_id": "gpu-server-a",
+      "credential_prefix": "GPU_SERVER_A",
+      "workspace_root": "/srv/research-agent-workspaces",
+      "enabled": true,
+      "execution_enabled": false,
+      "priority": 80,
+      "gpu_memory_reserve_mib": 4096,
+      "max_gpu_utilization_percent": 20.0,
+      "min_available_memory_bytes": 8589934592,
+      "min_available_disk_bytes": 53687091200,
+      "conda_executable": "conda"
+    }
+  ],
+  "projects": [
+    {
+      "project_slug": "replace-with-project-slug",
+      "train_argv": [
+        "python",
+        "-m",
+        "your_package.training.cli",
+        "--experiment",
+        "{experiment_id}",
+        "--seed",
+        "{seed}",
+        "--data-dir",
+        "{data_dir}",
+        "--output-dir",
+        "{output_dir}",
+        "--metrics-jsonl",
+        "{metrics_path}"
+      ],
+      "distributed_mode": "seed_parallel",
+      "expected_job_seconds": 7200,
+      "server_demo_timeout_seconds": 120,
+      "metric_name": "validation_mse",
+      "metric_direction": "lower",
+      "target_value": 0.25,
+      "additional_metric_gates": [
+        {
+          "metric_name": "validation_ece",
+          "direction": "lower",
+          "target_value": 0.05
+        }
+      ],
+      "conda_dependencies": ["python=3.11", "pip"],
+      "pip_install_argv": ["python", "-m", "pip", "install", "-e", "."]
+    }
+  ]
+}

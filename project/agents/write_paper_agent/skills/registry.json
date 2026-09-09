@@ -1,0 +1,54 @@
+{
+  "agent": "write-paper-agent",
+  "policy": "registry-only; third-party content is not redistributed and local sync remains inactive until license and code review",
+  "skills": [
+    {
+      "catalog": "https://skills.sh/poemswe/co-researcher/academic-writing",
+      "purpose": "academic manuscript drafting",
+      "repository": "https://github.com/poemswe/co-researcher",
+      "source": "poemswe/co-researcher@academic-writing",
+      "source_commit": "88d4c87ff5bb79ccd053247a28c6f2f27e708467",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/endigo/claude-skills/academic-research-writer",
+      "purpose": "research writing structure",
+      "repository": "https://github.com/endigo/claude-skills",
+      "source": "endigo/claude-skills@academic-research-writer",
+      "source_commit": "ebb54b19f5bfbf353a9106b3016fb51233db1405",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/beita6969/scienceclaw/latex-writing",
+      "purpose": "LaTeX project setup",
+      "repository": "https://github.com/beita6969/scienceclaw",
+      "source": "beita6969/scienceclaw@latex-writing",
+      "source_commit": "7f5e65691672d5bc58c4615260b5e5f9b4ea7ee9",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/wentorai/research-plugins/citation-skills",
+      "purpose": "citation management",
+      "repository": "https://github.com/wentorai/research-plugins",
+      "source": "wentorai/research-plugins@citation-skills",
+      "source_commit": "bf44b3cd617fa94c8a1b254c5d1987142ca3d631",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/jaechang-hits/sciagent-skills/citation-management",
+      "purpose": "citation validation and formatting",
+      "repository": "https://github.com/jaechang-hits/sciagent-skills",
+      "source": "jaechang-hits/sciagent-skills@citation-management",
+      "source_commit": "0d18706fe1a51239f12b395f046c8aa30fe632b4",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/wentorai/research-plugins/latex-skills",
+      "purpose": "academic LaTeX writing",
+      "repository": "https://github.com/wentorai/research-plugins",
+      "source": "wentorai/research-plugins@latex-skills",
+      "source_commit": "bf44b3cd617fa94c8a1b254c5d1987142ca3d631",
+      "status": "reserved"
+    }
+  ]
+}

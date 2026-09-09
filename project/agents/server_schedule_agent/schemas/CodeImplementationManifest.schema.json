@@ -1,0 +1,467 @@
+{
+  "$defs": {
+    "ArtifactRef": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "default": "generic",
+          "title": "Kind",
+          "type": "string"
+        },
+        "sha256": {
+          "default": "",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "uri": {
+          "title": "Uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri"
+      ],
+      "title": "ArtifactRef",
+      "type": "object"
+    },
+    "CodeTraceabilityItem": {
+      "additionalProperties": false,
+      "properties": {
+        "acceptance_test": {
+          "maxLength": 2000,
+          "minLength": 5,
+          "title": "Acceptance Test",
+          "type": "string"
+        },
+        "dataset_keys": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Dataset Keys",
+          "type": "array"
+        },
+        "design_component_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Design Component Ids",
+          "type": "array"
+        },
+        "experiment_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Experiment Ids",
+          "type": "array"
+        },
+        "file_paths": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 1,
+          "title": "File Paths",
+          "type": "array"
+        },
+        "requirement": {
+          "maxLength": 2000,
+          "minLength": 5,
+          "title": "Requirement",
+          "type": "string"
+        },
+        "source_module_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Source Module Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "requirement",
+        "file_paths",
+        "acceptance_test"
+      ],
+      "title": "CodeTraceabilityItem",
+      "type": "object"
+    },
+    "GeneratedCodeFileRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact": {
+          "$ref": "#/$defs/ArtifactRef"
+        },
+        "dataset_keys": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Dataset Keys",
+          "type": "array"
+        },
+        "design_component_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Design Component Ids",
+          "type": "array"
+        },
+        "experiment_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Experiment Ids",
+          "type": "array"
+        },
+        "language": {
+          "title": "Language",
+          "type": "string"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "purpose": {
+          "title": "Purpose",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "size_bytes": {
+          "minimum": 1,
+          "title": "Size Bytes",
+          "type": "integer"
+        },
+        "source_module_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Module Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "path",
+        "purpose",
+        "language",
+        "size_bytes",
+        "sha256",
+        "artifact"
+      ],
+      "title": "GeneratedCodeFileRecord",
+      "type": "object"
+    },
+    "LocalValidationRecord": {
+      "additionalProperties": false,
+      "description": "One fixed local command run by Code Make before requesting review.",
+      "properties": {
+        "argv": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 2,
+          "title": "Argv",
+          "type": "array"
+        },
+        "duration_ms": {
+          "minimum": 0,
+          "title": "Duration Ms",
+          "type": "number"
+        },
+        "metrics": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string"
+              },
+              {
+                "type": "boolean"
+              }
+            ]
+          },
+          "title": "Metrics",
+          "type": "object"
+        },
+        "return_code": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Return Code"
+        },
+        "status": {
+          "enum": [
+            "passed",
+            "failed",
+            "timed_out"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "stderr_tail": {
+          "default": "",
+          "maxLength": 8000,
+          "title": "Stderr Tail",
+          "type": "string"
+        },
+        "stdout_tail": {
+          "default": "",
+          "maxLength": 8000,
+          "title": "Stdout Tail",
+          "type": "string"
+        },
+        "timeout_seconds": {
+          "maximum": 120,
+          "minimum": 1,
+          "title": "Timeout Seconds",
+          "type": "integer"
+        },
+        "validation_id": {
+          "enum": [
+            "minimal_demo",
+            "unit_tests"
+          ],
+          "title": "Validation Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "validation_id",
+        "argv",
+        "status",
+        "duration_ms",
+        "timeout_seconds"
+      ],
+      "title": "LocalValidationRecord",
+      "type": "object"
+    },
+    "VendoredSourceRecord": {
+      "additionalProperties": false,
+      "description": "A non-executed, content-addressed local snapshot of an integrated repository.",
+      "properties": {
+        "commit_sha": {
+          "pattern": "^[0-9a-f]{40}$",
+          "title": "Commit Sha",
+          "type": "string"
+        },
+        "file_count": {
+          "maximum": 20000,
+          "minimum": 1,
+          "title": "File Count",
+          "type": "integer"
+        },
+        "license_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "License Id",
+          "type": "string"
+        },
+        "local_root": {
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "Local Root",
+          "type": "string"
+        },
+        "module_id": {
+          "pattern": "^reuse-[a-zA-Z0-9_-]{1,64}$",
+          "title": "Module Id",
+          "type": "string"
+        },
+        "repository_url": {
+          "title": "Repository Url",
+          "type": "string"
+        },
+        "reuse_mode": {
+          "const": "integrate",
+          "default": "integrate",
+          "title": "Reuse Mode",
+          "type": "string"
+        },
+        "source_manifest": {
+          "$ref": "#/$defs/ArtifactRef"
+        },
+        "total_bytes": {
+          "minimum": 1,
+          "title": "Total Bytes",
+          "type": "integer"
+        },
+        "tree_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Tree Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "module_id",
+        "repository_url",
+        "commit_sha",
+        "license_id",
+        "local_root",
+        "file_count",
+        "total_bytes",
+        "tree_sha256",
+        "source_manifest"
+      ],
+      "title": "VendoredSourceRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "architecture_summary": {
+      "title": "Architecture Summary",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "data_manifest_uri": {
+      "title": "Data Manifest Uri",
+      "type": "string"
+    },
+    "dependencies": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Dependencies",
+      "type": "array"
+    },
+    "entrypoints": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Entrypoints",
+      "type": "array"
+    },
+    "files": {
+      "items": {
+        "$ref": "#/$defs/GeneratedCodeFileRecord"
+      },
+      "maxItems": 80,
+      "minItems": 10,
+      "title": "Files",
+      "type": "array"
+    },
+    "implementation_root": {
+      "maxLength": 500,
+      "minLength": 1,
+      "title": "Implementation Root",
+      "type": "string"
+    },
+    "known_gaps": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Known Gaps",
+      "type": "array"
+    },
+    "local_validations": {
+      "items": {
+        "$ref": "#/$defs/LocalValidationRecord"
+      },
+      "maxItems": 10,
+      "minItems": 2,
+      "title": "Local Validations",
+      "type": "array"
+    },
+    "package_name": {
+      "title": "Package Name",
+      "type": "string"
+    },
+    "project_slug": {
+      "pattern": "^[a-z0-9][a-z0-9-]{1,62}[a-z0-9]$",
+      "title": "Project Slug",
+      "type": "string"
+    },
+    "research_design_uri": {
+      "title": "Research Design Uri",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "2.0",
+      "default": "2.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "status": {
+      "const": "generated_validated_unreviewed",
+      "default": "generated_validated_unreviewed",
+      "title": "Status",
+      "type": "string"
+    },
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    },
+    "total_bytes": {
+      "minimum": 1,
+      "title": "Total Bytes",
+      "type": "integer"
+    },
+    "traceability": {
+      "items": {
+        "$ref": "#/$defs/CodeTraceabilityItem"
+      },
+      "title": "Traceability",
+      "type": "array"
+    },
+    "validation_commands": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Validation Commands",
+      "type": "array"
+    },
+    "vendored_sources": {
+      "items": {
+        "$ref": "#/$defs/VendoredSourceRecord"
+      },
+      "maxItems": 20,
+      "title": "Vendored Sources",
+      "type": "array"
+    }
+  },
+  "required": [
+    "run_id",
+    "task_id",
+    "project_slug",
+    "package_name",
+    "implementation_root",
+    "research_design_uri",
+    "data_manifest_uri",
+    "architecture_summary",
+    "files",
+    "total_bytes",
+    "entrypoints",
+    "dependencies",
+    "validation_commands",
+    "traceability",
+    "local_validations"
+  ],
+  "title": "CodeImplementationManifest",
+  "type": "object"
+}

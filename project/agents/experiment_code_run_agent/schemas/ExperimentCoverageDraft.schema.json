@@ -1,0 +1,106 @@
+{
+  "$defs": {
+    "MissingExperimentRequirement": {
+      "additionalProperties": false,
+      "description": "A computational experiment that must enter Idea Design before execution.",
+      "properties": {
+        "computational_only": {
+          "const": true,
+          "default": true,
+          "title": "Computational Only",
+          "type": "boolean"
+        },
+        "evidence_refs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 1,
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "experiment_type": {
+          "enum": [
+            "ablation",
+            "case_study",
+            "module_analysis",
+            "feasibility",
+            "sensitivity",
+            "ood_generalization",
+            "efficiency",
+            "uncertainty_calibration"
+          ],
+          "title": "Experiment Type",
+          "type": "string"
+        },
+        "objective": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Objective",
+          "type": "string"
+        },
+        "rationale": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Rationale",
+          "type": "string"
+        },
+        "required_code_changes": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Required Code Changes",
+          "type": "array"
+        },
+        "required_metrics": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Required Metrics",
+          "type": "array"
+        },
+        "requirement_id": {
+          "pattern": "^experiment-gap-[a-zA-Z0-9_-]{1,64}$",
+          "title": "Requirement Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "requirement_id",
+        "experiment_type",
+        "objective",
+        "rationale",
+        "required_metrics",
+        "evidence_refs"
+      ],
+      "title": "MissingExperimentRequirement",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "DeepSeek advisory draft; deterministic policy decides whether execution is legal.",
+  "properties": {
+    "missing_requirements": {
+      "items": {
+        "$ref": "#/$defs/MissingExperimentRequirement"
+      },
+      "maxItems": 20,
+      "title": "Missing Requirements",
+      "type": "array"
+    },
+    "summary": {
+      "maxLength": 6000,
+      "minLength": 10,
+      "title": "Summary",
+      "type": "string"
+    }
+  },
+  "required": [
+    "summary"
+  ],
+  "title": "ExperimentCoverageDraft",
+  "type": "object"
+}

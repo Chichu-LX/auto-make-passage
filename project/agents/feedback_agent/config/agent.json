@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "name": "feedback-agent",
+  "role": "Coordinate the complete workflow from redacted logs and typed evidence, persist a progress/risk/action plan, and return advisory control that only Runtime may apply.",
+  "execution_mode": "specialist",
+  "model_provider": "deepseek",
+  "allowed_tools": [
+    "logging.read_redacted_workflow_summary",
+    "artifact.write_feedback_coordination_report"
+  ],
+  "write_scopes": ["project/feedback/<project_slug>/"],
+  "system_prompt": "prompts/system.md",
+  "input_contracts": ["TaskEnvelope", "ProcessLogRecord", "allowed_control_targets"],
+  "output_contracts": ["FeedbackControl", "FeedbackCoordinationReport", "AgentResult"],
+  "skill_policy": "registry_only_reserved"
+}

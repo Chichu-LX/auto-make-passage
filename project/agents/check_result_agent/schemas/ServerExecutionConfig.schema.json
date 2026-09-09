@@ -1,0 +1,264 @@
+{
+  "$defs": {
+    "ExecutionMetricGateConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "direction": {
+          "enum": [
+            "higher",
+            "lower"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "metric_name": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Metric Name",
+          "type": "string"
+        },
+        "target_value": {
+          "title": "Target Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "metric_name",
+        "direction",
+        "target_value"
+      ],
+      "title": "ExecutionMetricGateConfig",
+      "type": "object"
+    },
+    "ProjectExecutionConfig": {
+      "additionalProperties": false,
+      "description": "Explicit project command and metric contract; argv is never evaluated by a shell.",
+      "properties": {
+        "additional_metric_gates": {
+          "items": {
+            "$ref": "#/$defs/ExecutionMetricGateConfig"
+          },
+          "maxItems": 20,
+          "title": "Additional Metric Gates",
+          "type": "array"
+        },
+        "conda_dependencies": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 50,
+          "minItems": 2,
+          "title": "Conda Dependencies",
+          "type": "array"
+        },
+        "distributed_mode": {
+          "default": "seed_parallel",
+          "enum": [
+            "seed_parallel",
+            "torchrun"
+          ],
+          "title": "Distributed Mode",
+          "type": "string"
+        },
+        "expected_job_seconds": {
+          "default": 3600,
+          "maximum": 2592000,
+          "minimum": 60,
+          "title": "Expected Job Seconds",
+          "type": "integer"
+        },
+        "metric_direction": {
+          "enum": [
+            "higher",
+            "lower"
+          ],
+          "title": "Metric Direction",
+          "type": "string"
+        },
+        "metric_name": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Metric Name",
+          "type": "string"
+        },
+        "pip_install_argv": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 4,
+          "title": "Pip Install Argv",
+          "type": "array"
+        },
+        "project_slug": {
+          "pattern": "^[a-z0-9][a-z0-9-]{1,62}[a-z0-9]$",
+          "title": "Project Slug",
+          "type": "string"
+        },
+        "server_demo_timeout_seconds": {
+          "default": 120,
+          "maximum": 1800,
+          "minimum": 10,
+          "title": "Server Demo Timeout Seconds",
+          "type": "integer"
+        },
+        "target_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target Value"
+        },
+        "train_argv": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 64,
+          "minItems": 2,
+          "title": "Train Argv",
+          "type": "array"
+        }
+      },
+      "required": [
+        "project_slug",
+        "train_argv",
+        "metric_name",
+        "metric_direction"
+      ],
+      "title": "ProjectExecutionConfig",
+      "type": "object"
+    },
+    "ServerProfileConfig": {
+      "additionalProperties": false,
+      "description": "Credential-free SSH profile for one explicitly configured compute server.",
+      "properties": {
+        "accelerator": {
+          "default": "cuda",
+          "enum": [
+            "cuda",
+            "cpu"
+          ],
+          "title": "Accelerator",
+          "type": "string"
+        },
+        "conda_executable": {
+          "default": "conda",
+          "pattern": "^[A-Za-z0-9_./-]{1,200}$",
+          "title": "Conda Executable",
+          "type": "string"
+        },
+        "credential_prefix": {
+          "pattern": "^[A-Z][A-Z0-9_]{1,63}$",
+          "title": "Credential Prefix",
+          "type": "string"
+        },
+        "enabled": {
+          "default": true,
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "execution_enabled": {
+          "default": false,
+          "title": "Execution Enabled",
+          "type": "boolean"
+        },
+        "gpu_memory_reserve_mib": {
+          "default": 2048,
+          "maximum": 262144,
+          "minimum": 0,
+          "title": "Gpu Memory Reserve Mib",
+          "type": "integer"
+        },
+        "max_gpu_utilization_percent": {
+          "default": 20.0,
+          "maximum": 100.0,
+          "minimum": 0.0,
+          "title": "Max Gpu Utilization Percent",
+          "type": "number"
+        },
+        "min_available_disk_bytes": {
+          "default": 21474836480,
+          "minimum": 0,
+          "title": "Min Available Disk Bytes",
+          "type": "integer"
+        },
+        "min_available_memory_bytes": {
+          "default": 4294967296,
+          "minimum": 0,
+          "title": "Min Available Memory Bytes",
+          "type": "integer"
+        },
+        "priority": {
+          "default": 50,
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Priority",
+          "type": "integer"
+        },
+        "server_id": {
+          "pattern": "^[a-z][a-z0-9_-]{1,63}$",
+          "title": "Server Id",
+          "type": "string"
+        },
+        "workspace_root": {
+          "maxLength": 500,
+          "minLength": 5,
+          "title": "Workspace Root",
+          "type": "string"
+        }
+      },
+      "required": [
+        "server_id",
+        "credential_prefix",
+        "workspace_root"
+      ],
+      "title": "ServerProfileConfig",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Local, gitignored fleet configuration with no password or private-key fields.",
+  "properties": {
+    "projects": {
+      "items": {
+        "$ref": "#/$defs/ProjectExecutionConfig"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Projects",
+      "type": "array"
+    },
+    "report_interval_seconds": {
+      "const": 43200,
+      "default": 43200,
+      "title": "Report Interval Seconds",
+      "type": "integer"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "servers": {
+      "items": {
+        "$ref": "#/$defs/ServerProfileConfig"
+      },
+      "maxItems": 64,
+      "minItems": 1,
+      "title": "Servers",
+      "type": "array"
+    }
+  },
+  "required": [
+    "servers",
+    "projects"
+  ],
+  "title": "ServerExecutionConfig",
+  "type": "object"
+}

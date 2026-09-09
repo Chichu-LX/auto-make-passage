@@ -1,0 +1,148 @@
+{
+  "$defs": {
+    "AgentName": {
+      "enum": [
+        "lead-agent",
+        "download-paper-agent",
+        "download-data-agent",
+        "make-idea-agent",
+        "idea-design-agent",
+        "code-make-agent",
+        "code-review-agent",
+        "server-schedule-agent",
+        "check-result-agent",
+        "experiment-code-run-agent",
+        "check-paper-and-code-agent",
+        "write-paper-agent",
+        "paper-review-agent",
+        "feedback-agent"
+      ],
+      "title": "AgentName",
+      "type": "string"
+    },
+    "WorkflowState": {
+      "enum": [
+        "ACQUIRING_PAPERS",
+        "IDEATING",
+        "DESIGNING_IDEA",
+        "ACQUIRING_DATA",
+        "IMPLEMENTING",
+        "CODE_REVIEW",
+        "RUNNING",
+        "RESULT_CHECK",
+        "EXPERIMENT_CODE_RUN",
+        "WRITING",
+        "CONSISTENCY_REVIEW",
+        "PAPER_REVIEW",
+        "AWAITING_USER_REVIEW",
+        "NEEDS_HUMAN",
+        "COMPLETED",
+        "CANCELLED",
+        "ABORTED",
+        "FAILED"
+      ],
+      "title": "WorkflowState",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Redacted observability event written to an Agent-specific JSONL file.",
+  "properties": {
+    "agent": {
+      "$ref": "#/$defs/AgentName"
+    },
+    "attempt": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Attempt"
+    },
+    "details": {
+      "additionalProperties": true,
+      "title": "Details",
+      "type": "object"
+    },
+    "duration_ms": {
+      "anyOf": [
+        {
+          "minimum": 0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Duration Ms"
+    },
+    "event": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Event",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "state_version": {
+      "minimum": 1,
+      "title": "State Version",
+      "type": "integer"
+    },
+    "status": {
+      "enum": [
+        "started",
+        "succeeded",
+        "failed",
+        "blocked",
+        "info"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "task_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Task Id"
+    },
+    "timestamp": {
+      "format": "date-time",
+      "title": "Timestamp",
+      "type": "string"
+    },
+    "workflow_state": {
+      "$ref": "#/$defs/WorkflowState"
+    }
+  },
+  "required": [
+    "run_id",
+    "agent",
+    "event",
+    "status",
+    "workflow_state",
+    "state_version"
+  ],
+  "title": "ProcessLogRecord",
+  "type": "object"
+}

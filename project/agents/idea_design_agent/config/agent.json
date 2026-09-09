@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "name": "idea-design-agent",
+  "role": "Coordinate five bounded read-only research advisors and synthesize the selected paper-grounded innovation into an executable, auditable code, data, decision, statistics, and computational experiment blueprint.",
+  "execution_mode": "specialist",
+  "model_provider": "deepseek",
+  "allowed_tools": [
+    "artifact.read_idea_proposal",
+    "artifact.read_paper_evidence",
+    "artifact.read_experiment_coverage_audit",
+    "artifact.write_research_design"
+  ],
+  "write_scopes": ["design/<project_slug>/research-designs/"],
+  "system_prompt": "prompts/system.md",
+  "input_contracts": ["TaskEnvelope", "IdeaProposal", "PaperManifest", "ExperimentCoverageAudit"],
+  "output_contracts": ["AdvisorReport", "ResearchDesignDraft", "ResearchDesign", "AgentResult"],
+  "skill_policy": "registry_only_reserved"
+}

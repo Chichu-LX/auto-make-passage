@@ -1,0 +1,773 @@
+{
+  "$defs": {
+    "ArtifactRef": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "default": "generic",
+          "title": "Kind",
+          "type": "string"
+        },
+        "sha256": {
+          "default": "",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "uri": {
+          "title": "Uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri"
+      ],
+      "title": "ArtifactRef",
+      "type": "object"
+    },
+    "CodeSymbolEvidence": {
+      "additionalProperties": false,
+      "description": "AST-derived symbol evidence from one content-addressed generated code file.",
+      "properties": {
+        "design_component_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Design Component Ids",
+          "type": "array"
+        },
+        "experiment_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Experiment Ids",
+          "type": "array"
+        },
+        "file_path": {
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "File Path",
+          "type": "string"
+        },
+        "file_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "File Sha256",
+          "type": "string"
+        },
+        "line_start": {
+          "minimum": 1,
+          "title": "Line Start",
+          "type": "integer"
+        },
+        "symbol": {
+          "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,127}$",
+          "title": "Symbol",
+          "type": "string"
+        },
+        "symbol_kind": {
+          "enum": [
+            "function",
+            "async_function",
+            "class",
+            "constant"
+          ],
+          "title": "Symbol Kind",
+          "type": "string"
+        }
+      },
+      "required": [
+        "file_path",
+        "file_sha256",
+        "symbol",
+        "symbol_kind",
+        "line_start"
+      ],
+      "title": "CodeSymbolEvidence",
+      "type": "object"
+    },
+    "ObservedExperimentResult": {
+      "additionalProperties": false,
+      "description": "Deterministically aggregated experiment evidence available to paper writing.",
+      "properties": {
+        "direction": {
+          "enum": [
+            "higher",
+            "lower"
+          ],
+          "title": "Direction",
+          "type": "string"
+        },
+        "experiment_id": {
+          "pattern": "^experiment-[a-zA-Z0-9_-]{1,64}$",
+          "title": "Experiment Id",
+          "type": "string"
+        },
+        "gate_status": {
+          "const": "passed",
+          "default": "passed",
+          "title": "Gate Status",
+          "type": "string"
+        },
+        "maximum": {
+          "title": "Maximum",
+          "type": "number"
+        },
+        "mean": {
+          "title": "Mean",
+          "type": "number"
+        },
+        "metric_name": {
+          "maxLength": 200,
+          "minLength": 1,
+          "title": "Metric Name",
+          "type": "string"
+        },
+        "minimum": {
+          "title": "Minimum",
+          "type": "number"
+        },
+        "result_key": {
+          "pattern": "^result-(?:main|supp)-[a-f0-9]{12}$",
+          "title": "Result Key",
+          "type": "string"
+        },
+        "sample_standard_deviation": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sample Standard Deviation"
+        },
+        "scope": {
+          "enum": [
+            "main",
+            "supplementary"
+          ],
+          "title": "Scope",
+          "type": "string"
+        },
+        "seed_results": {
+          "items": {
+            "$ref": "#/$defs/ObservedSeedResult"
+          },
+          "maxItems": 50,
+          "minItems": 1,
+          "title": "Seed Results",
+          "type": "array"
+        },
+        "source_report_uri": {
+          "title": "Source Report Uri",
+          "type": "string"
+        },
+        "target_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target Value"
+        }
+      },
+      "required": [
+        "result_key",
+        "scope",
+        "experiment_id",
+        "metric_name",
+        "direction",
+        "seed_results",
+        "mean",
+        "minimum",
+        "maximum",
+        "source_report_uri"
+      ],
+      "title": "ObservedExperimentResult",
+      "type": "object"
+    },
+    "ObservedSeedResult": {
+      "additionalProperties": false,
+      "description": "One exact per-seed metric imported from a persisted server observation.",
+      "properties": {
+        "checkpoint_path": {
+          "anyOf": [
+            {
+              "maxLength": 1000,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Checkpoint Path"
+        },
+        "job_id": {
+          "pattern": "^job-[a-zA-Z0-9_-]{1,100}$",
+          "title": "Job Id",
+          "type": "string"
+        },
+        "seed": {
+          "title": "Seed",
+          "type": "integer"
+        },
+        "value": {
+          "title": "Value",
+          "type": "number"
+        }
+      },
+      "required": [
+        "job_id",
+        "seed",
+        "value"
+      ],
+      "title": "ObservedSeedResult",
+      "type": "object"
+    },
+    "PaperCitationEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "authors": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Authors",
+          "type": "array"
+        },
+        "doi": {
+          "anyOf": [
+            {
+              "maxLength": 300,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Doi"
+        },
+        "local_pdf": {
+          "$ref": "#/$defs/ArtifactRef"
+        },
+        "paper_id": {
+          "pattern": "^paper-[a-zA-Z0-9_-]{1,64}$",
+          "title": "Paper Id",
+          "type": "string"
+        },
+        "title": {
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "venue": {
+          "maxLength": 300,
+          "minLength": 1,
+          "title": "Venue",
+          "type": "string"
+        },
+        "year": {
+          "anyOf": [
+            {
+              "maximum": 2200,
+              "minimum": 1800,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Year"
+        }
+      },
+      "required": [
+        "paper_id",
+        "title",
+        "venue",
+        "local_pdf"
+      ],
+      "title": "PaperCitationEvidence",
+      "type": "object"
+    },
+    "PaperClaimDraft": {
+      "additionalProperties": false,
+      "properties": {
+        "citation_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 50,
+          "title": "Citation Ids",
+          "type": "array"
+        },
+        "claim_id": {
+          "pattern": "^claim-[a-zA-Z0-9_-]{1,80}$",
+          "title": "Claim Id",
+          "type": "string"
+        },
+        "claim_type": {
+          "enum": [
+            "literature",
+            "method",
+            "experiment",
+            "limitation"
+          ],
+          "title": "Claim Type",
+          "type": "string"
+        },
+        "code_file_paths": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Code File Paths",
+          "type": "array"
+        },
+        "design_component_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Design Component Ids",
+          "type": "array"
+        },
+        "result_keys": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Result Keys",
+          "type": "array"
+        },
+        "strength": {
+          "enum": [
+            "descriptive",
+            "associational",
+            "comparative"
+          ],
+          "title": "Strength",
+          "type": "string"
+        },
+        "text": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "claim_id",
+        "claim_type",
+        "text",
+        "strength"
+      ],
+      "title": "PaperClaimDraft",
+      "type": "object"
+    },
+    "PaperComparison": {
+      "additionalProperties": false,
+      "properties": {
+        "fair_comparison_conditions": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Fair Comparison Conditions",
+          "type": "array"
+        },
+        "method_name": {
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "Method Name",
+          "type": "string"
+        },
+        "paper_id": {
+          "title": "Paper Id",
+          "type": "string"
+        },
+        "proposed_differences": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Proposed Differences",
+          "type": "array"
+        },
+        "reusable_elements": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Reusable Elements",
+          "type": "array"
+        },
+        "shared_elements": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Shared Elements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "paper_id",
+        "method_name",
+        "shared_elements",
+        "proposed_differences",
+        "fair_comparison_conditions"
+      ],
+      "title": "PaperComparison",
+      "type": "object"
+    },
+    "PaperFormulaEvidence": {
+      "additionalProperties": false,
+      "description": "Resolved formula-to-code mapping stored with the paper.",
+      "properties": {
+        "citation_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Citation Ids",
+          "type": "array"
+        },
+        "code_bindings": {
+          "items": {
+            "$ref": "#/$defs/CodeSymbolEvidence"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Code Bindings",
+          "type": "array"
+        },
+        "design_component_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 1,
+          "title": "Design Component Ids",
+          "type": "array"
+        },
+        "explanation": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Explanation",
+          "type": "string"
+        },
+        "formula_id": {
+          "pattern": "^formula-[a-zA-Z0-9_-]{1,64}$",
+          "title": "Formula Id",
+          "type": "string"
+        },
+        "label": {
+          "maxLength": 300,
+          "minLength": 3,
+          "title": "Label",
+          "type": "string"
+        },
+        "latex": {
+          "maxLength": 4000,
+          "minLength": 3,
+          "title": "Latex",
+          "type": "string"
+        }
+      },
+      "required": [
+        "formula_id",
+        "label",
+        "latex",
+        "explanation",
+        "design_component_ids",
+        "code_bindings"
+      ],
+      "title": "PaperFormulaEvidence",
+      "type": "object"
+    },
+    "PaperSectionDraft": {
+      "additionalProperties": false,
+      "properties": {
+        "citation_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Citation Ids",
+          "type": "array"
+        },
+        "formula_ids": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Formula Ids",
+          "type": "array"
+        },
+        "paragraphs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 20,
+          "minItems": 1,
+          "title": "Paragraphs",
+          "type": "array"
+        },
+        "result_keys": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Result Keys",
+          "type": "array"
+        },
+        "section_id": {
+          "enum": [
+            "introduction",
+            "related_work",
+            "method",
+            "experimental_setup",
+            "results",
+            "discussion",
+            "limitations",
+            "conclusion"
+          ],
+          "title": "Section Id",
+          "type": "string"
+        },
+        "title": {
+          "maxLength": 200,
+          "minLength": 2,
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "section_id",
+        "title",
+        "paragraphs"
+      ],
+      "title": "PaperSectionDraft",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Content-addressed manuscript whose formulas, citations, and results are grounded.",
+  "properties": {
+    "abstract": {
+      "maxLength": 5000,
+      "minLength": 100,
+      "title": "Abstract",
+      "type": "string"
+    },
+    "acknowledgements": {
+      "anyOf": [
+        {
+          "maxLength": 2000,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Acknowledgements"
+    },
+    "bibliography_artifact": {
+      "$ref": "#/$defs/ArtifactRef"
+    },
+    "citations": {
+      "items": {
+        "$ref": "#/$defs/PaperCitationEvidence"
+      },
+      "maxItems": 200,
+      "minItems": 1,
+      "title": "Citations",
+      "type": "array"
+    },
+    "claims": {
+      "items": {
+        "$ref": "#/$defs/PaperClaimDraft"
+      },
+      "maxItems": 200,
+      "minItems": 4,
+      "title": "Claims",
+      "type": "array"
+    },
+    "closest_prior_comparisons": {
+      "items": {
+        "$ref": "#/$defs/PaperComparison"
+      },
+      "maxItems": 30,
+      "title": "Closest Prior Comparisons",
+      "type": "array"
+    },
+    "code_manifest_uri": {
+      "title": "Code Manifest Uri",
+      "type": "string"
+    },
+    "code_review_uri": {
+      "title": "Code Review Uri",
+      "type": "string"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "dataset_manifest_uri": {
+      "title": "Dataset Manifest Uri",
+      "type": "string"
+    },
+    "experiment_result_report_uri": {
+      "title": "Experiment Result Report Uri",
+      "type": "string"
+    },
+    "experiment_results": {
+      "items": {
+        "$ref": "#/$defs/ObservedExperimentResult"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Experiment Results",
+      "type": "array"
+    },
+    "experiment_run_manifest_uri": {
+      "title": "Experiment Run Manifest Uri",
+      "type": "string"
+    },
+    "formulas": {
+      "items": {
+        "$ref": "#/$defs/PaperFormulaEvidence"
+      },
+      "maxItems": 30,
+      "minItems": 1,
+      "title": "Formulas",
+      "type": "array"
+    },
+    "keywords": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 12,
+      "minItems": 3,
+      "title": "Keywords",
+      "type": "array"
+    },
+    "latex_artifact": {
+      "$ref": "#/$defs/ArtifactRef"
+    },
+    "main_result_report_uri": {
+      "title": "Main Result Report Uri",
+      "type": "string"
+    },
+    "main_schedule_uri": {
+      "title": "Main Schedule Uri",
+      "type": "string"
+    },
+    "markdown_artifact": {
+      "$ref": "#/$defs/ArtifactRef"
+    },
+    "paper_manifest_uri": {
+      "title": "Paper Manifest Uri",
+      "type": "string"
+    },
+    "project_slug": {
+      "pattern": "^[a-z0-9][a-z0-9-]{1,62}[a-z0-9]$",
+      "title": "Project Slug",
+      "type": "string"
+    },
+    "reproducibility_bundle_artifact": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ArtifactRef"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "research_design_uri": {
+      "title": "Research Design Uri",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "sections": {
+      "items": {
+        "$ref": "#/$defs/PaperSectionDraft"
+      },
+      "maxItems": 8,
+      "minItems": 8,
+      "title": "Sections",
+      "type": "array"
+    },
+    "status": {
+      "const": "draft_grounded",
+      "default": "draft_grounded",
+      "title": "Status",
+      "type": "string"
+    },
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    },
+    "title": {
+      "maxLength": 500,
+      "minLength": 10,
+      "title": "Title",
+      "type": "string"
+    }
+  },
+  "required": [
+    "run_id",
+    "task_id",
+    "project_slug",
+    "title",
+    "abstract",
+    "keywords",
+    "paper_manifest_uri",
+    "research_design_uri",
+    "dataset_manifest_uri",
+    "code_manifest_uri",
+    "code_review_uri",
+    "main_schedule_uri",
+    "main_result_report_uri",
+    "experiment_run_manifest_uri",
+    "experiment_result_report_uri",
+    "citations",
+    "sections",
+    "formulas",
+    "claims",
+    "experiment_results",
+    "markdown_artifact",
+    "latex_artifact",
+    "bibliography_artifact"
+  ],
+  "title": "PaperManuscriptManifest",
+  "type": "object"
+}

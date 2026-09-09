@@ -1,0 +1,279 @@
+{
+  "$defs": {
+    "Hypothesis": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_refs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 1,
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "expected_direction": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "title": "Expected Direction",
+          "type": "string"
+        },
+        "falsification_criterion": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Falsification Criterion",
+          "type": "string"
+        },
+        "hypothesis_id": {
+          "pattern": "^hypothesis-[a-zA-Z0-9_-]{1,64}$",
+          "title": "Hypothesis Id",
+          "type": "string"
+        },
+        "statement": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Statement",
+          "type": "string"
+        }
+      },
+      "required": [
+        "hypothesis_id",
+        "statement",
+        "expected_direction",
+        "falsification_criterion",
+        "evidence_refs"
+      ],
+      "title": "Hypothesis",
+      "type": "object"
+    },
+    "IdeaCandidate": {
+      "additionalProperties": false,
+      "description": "A paper-grounded novelty candidate, intentionally free of implementation detail.",
+      "properties": {
+        "baseline_gap": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Baseline Gap",
+          "type": "string"
+        },
+        "differentiation": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 12,
+          "minItems": 1,
+          "title": "Differentiation",
+          "type": "array"
+        },
+        "expected_contribution": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Expected Contribution",
+          "type": "string"
+        },
+        "feasibility_score": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Feasibility Score",
+          "type": "number"
+        },
+        "hypothesis": {
+          "$ref": "#/$defs/Hypothesis"
+        },
+        "idea": {
+          "$ref": "#/$defs/ResearchIdea"
+        },
+        "implementation_risk": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "title": "Implementation Risk",
+          "type": "string"
+        },
+        "innovation_type": {
+          "enum": [
+            "data_representation",
+            "model_architecture",
+            "learning_objective",
+            "evaluation_protocol",
+            "uncertainty_calibration",
+            "efficiency",
+            "interpretability",
+            "hybrid"
+          ],
+          "title": "Innovation Type",
+          "type": "string"
+        },
+        "novelty_score": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Novelty Score",
+          "type": "number"
+        }
+      },
+      "required": [
+        "idea",
+        "hypothesis",
+        "innovation_type",
+        "baseline_gap",
+        "expected_contribution",
+        "differentiation",
+        "feasibility_score",
+        "novelty_score",
+        "implementation_risk"
+      ],
+      "title": "IdeaCandidate",
+      "type": "object"
+    },
+    "ResearchIdea": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_refs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "minItems": 2,
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "idea_id": {
+          "pattern": "^idea-[a-zA-Z0-9_-]{1,64}$",
+          "title": "Idea Id",
+          "type": "string"
+        },
+        "novelty_claim": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Novelty Claim",
+          "type": "string"
+        },
+        "rationale": {
+          "maxLength": 5000,
+          "minLength": 10,
+          "title": "Rationale",
+          "type": "string"
+        },
+        "research_question": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Research Question",
+          "type": "string"
+        },
+        "title": {
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "idea_id",
+        "title",
+        "research_question",
+        "novelty_claim",
+        "rationale",
+        "evidence_refs"
+      ],
+      "title": "ResearchIdea",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "candidates": {
+      "items": {
+        "$ref": "#/$defs/IdeaCandidate"
+      },
+      "maxItems": 8,
+      "minItems": 3,
+      "title": "Candidates",
+      "type": "array"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "degraded": {
+      "default": false,
+      "title": "Degraded",
+      "type": "boolean"
+    },
+    "diversity_note": {
+      "maxLength": 3000,
+      "minLength": 10,
+      "title": "Diversity Note",
+      "type": "string"
+    },
+    "evidence_quality": {
+      "enum": [
+        "downloaded",
+        "metadata_only"
+      ],
+      "title": "Evidence Quality",
+      "type": "string"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 20,
+      "minItems": 1,
+      "title": "Limitations",
+      "type": "array"
+    },
+    "objective": {
+      "title": "Objective",
+      "type": "string"
+    },
+    "paper_evidence_uris": {
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "title": "Paper Evidence Uris",
+      "type": "array"
+    },
+    "recommended_idea_id": {
+      "title": "Recommended Idea Id",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "2.0",
+      "default": "2.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "selection_rationale": {
+      "maxLength": 5000,
+      "minLength": 20,
+      "title": "Selection Rationale",
+      "type": "string"
+    },
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "candidates",
+    "recommended_idea_id",
+    "selection_rationale",
+    "diversity_note",
+    "limitations",
+    "run_id",
+    "task_id",
+    "objective",
+    "evidence_quality",
+    "paper_evidence_uris"
+  ],
+  "title": "IdeaProposal",
+  "type": "object"
+}

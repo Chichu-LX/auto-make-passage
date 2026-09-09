@@ -1,0 +1,54 @@
+{
+  "agent": "paper-review-agent",
+  "policy": "registry-only; third-party content is not redistributed and local sync remains inactive until license and code review",
+  "skills": [
+    {
+      "catalog": "https://skills.sh/bytedance/deer-flow/academic-paper-review",
+      "purpose": "academic paper review",
+      "repository": "https://github.com/bytedance/deer-flow",
+      "source": "bytedance/deer-flow@academic-paper-review",
+      "source_commit": "1fe71110af5b3b470bdb4b3c5e98c46b0bea37e4",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/mathews-tom/praxis-skills/manuscript-review",
+      "purpose": "manuscript review checklist",
+      "repository": "https://github.com/mathews-tom/praxis-skills",
+      "source": "mathews-tom/praxis-skills@manuscript-review",
+      "source_commit": "a350b83e8da05a3af66620c4001d1ae1624b9b77",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/lensetek/research-agent-skills-collection/academic-peer-reviewer",
+      "purpose": "peer-review reasoning",
+      "repository": "https://github.com/lensetek/research-agent-skills-collection",
+      "source": "lensetek/research-agent-skills-collection@academic-peer-reviewer",
+      "source_commit": "956adfa4e10af62133b5a21e5728ab17b89881fa",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/gpttang/skill-atlas/academic-paper-reviewer",
+      "purpose": "paper quality and novelty review",
+      "repository": "https://github.com/gpttang/skill-atlas",
+      "source": "gpttang/skill-atlas@academic-paper-reviewer",
+      "source_commit": "7c133d7e7111f6c0a830c15621a73a7a98901025",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/alexwortega/ai-peer-review-skill/paper-review",
+      "purpose": "structured paper feedback",
+      "repository": "https://github.com/alexwortega/ai-peer-review-skill",
+      "source": "alexwortega/ai-peer-review-skill@paper-review",
+      "source_commit": "e4f6a0b2bd4530ebcd69ac90f2bbed5377b14206",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/jurgendn/agent-skills/submission-readiness-audit",
+      "purpose": "submission readiness audit",
+      "repository": "https://github.com/jurgendn/agent-skills",
+      "source": "jurgendn/agent-skills@submission-readiness-audit",
+      "source_commit": "e9e3508a6776b930f72b31a550d674905c536701",
+      "status": "reserved"
+    }
+  ]
+}

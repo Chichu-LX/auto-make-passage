@@ -1,0 +1,103 @@
+{
+  "$defs": {
+    "AgentName": {
+      "enum": [
+        "lead-agent",
+        "download-paper-agent",
+        "download-data-agent",
+        "make-idea-agent",
+        "idea-design-agent",
+        "code-make-agent",
+        "code-review-agent",
+        "server-schedule-agent",
+        "check-result-agent",
+        "experiment-code-run-agent",
+        "check-paper-and-code-agent",
+        "write-paper-agent",
+        "paper-review-agent",
+        "feedback-agent"
+      ],
+      "title": "AgentName",
+      "type": "string"
+    },
+    "WorkflowState": {
+      "enum": [
+        "ACQUIRING_PAPERS",
+        "IDEATING",
+        "DESIGNING_IDEA",
+        "ACQUIRING_DATA",
+        "IMPLEMENTING",
+        "CODE_REVIEW",
+        "RUNNING",
+        "RESULT_CHECK",
+        "EXPERIMENT_CODE_RUN",
+        "WRITING",
+        "CONSISTENCY_REVIEW",
+        "PAPER_REVIEW",
+        "AWAITING_USER_REVIEW",
+        "NEEDS_HUMAN",
+        "COMPLETED",
+        "CANCELLED",
+        "ABORTED",
+        "FAILED"
+      ],
+      "title": "WorkflowState",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One policy-compiled state change that Lead may select.\n\nOptions contain no executable callback or mutable state.  The StateMachine keeps\nthe corresponding candidate snapshots private and commits only the option selected\nby Lead after validating the run/version/phase contract.",
+  "properties": {
+    "action": {
+      "enum": [
+        "advance",
+        "retry",
+        "continue",
+        "wait",
+        "request_human",
+        "complete",
+        "abort"
+      ],
+      "title": "Action",
+      "type": "string"
+    },
+    "option_id": {
+      "pattern": "^[a-z][a-z0-9_-]{2,95}$",
+      "title": "Option Id",
+      "type": "string"
+    },
+    "reason_hint": {
+      "maxLength": 1000,
+      "minLength": 5,
+      "title": "Reason Hint",
+      "type": "string"
+    },
+    "recommended": {
+      "default": false,
+      "title": "Recommended",
+      "type": "boolean"
+    },
+    "target_agent": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/AgentName"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "target_state": {
+      "$ref": "#/$defs/WorkflowState"
+    }
+  },
+  "required": [
+    "option_id",
+    "action",
+    "target_state",
+    "reason_hint"
+  ],
+  "title": "LeadTransitionOption",
+  "type": "object"
+}

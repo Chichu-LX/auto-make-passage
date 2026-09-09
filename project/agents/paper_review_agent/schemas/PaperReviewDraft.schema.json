@@ -1,0 +1,136 @@
+{
+  "$defs": {
+    "PaperReviewFinding": {
+      "additionalProperties": false,
+      "description": "One senior-review finding grounded in the final manuscript evidence graph.",
+      "properties": {
+        "category": {
+          "enum": [
+            "novelty",
+            "methodology",
+            "experiments",
+            "reproducibility",
+            "results",
+            "citations",
+            "writing",
+            "limitations",
+            "submission_format"
+          ],
+          "title": "Category",
+          "type": "string"
+        },
+        "evidence_refs": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "finding_id": {
+          "pattern": "^review-[a-zA-Z0-9_-]{1,80}$",
+          "title": "Finding Id",
+          "type": "string"
+        },
+        "required_revision": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Required Revision",
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "blocking",
+            "major",
+            "minor",
+            "note"
+          ],
+          "title": "Severity",
+          "type": "string"
+        },
+        "summary": {
+          "maxLength": 3000,
+          "minLength": 10,
+          "title": "Summary",
+          "type": "string"
+        }
+      },
+      "required": [
+        "finding_id",
+        "category",
+        "severity",
+        "summary",
+        "required_revision"
+      ],
+      "title": "PaperReviewFinding",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Bounded qualitative verdict returned by the authoritative reviewer model.",
+  "properties": {
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/PaperReviewFinding"
+      },
+      "maxItems": 100,
+      "title": "Findings",
+      "type": "array"
+    },
+    "recommendation": {
+      "enum": [
+        "accept",
+        "minor_revision",
+        "major_revision",
+        "reject"
+      ],
+      "title": "Recommendation",
+      "type": "string"
+    },
+    "required_revisions": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 100,
+      "title": "Required Revisions",
+      "type": "array"
+    },
+    "reviewer_role": {
+      "maxLength": 300,
+      "minLength": 10,
+      "title": "Reviewer Role",
+      "type": "string"
+    },
+    "strengths": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 30,
+      "title": "Strengths",
+      "type": "array"
+    },
+    "summary": {
+      "maxLength": 6000,
+      "minLength": 30,
+      "title": "Summary",
+      "type": "string"
+    },
+    "target_venue_profile": {
+      "enum": [
+        "top_ml_conference",
+        "authoritative_bioinformatics_journal",
+        "authoritative_interdisciplinary_journal"
+      ],
+      "title": "Target Venue Profile",
+      "type": "string"
+    }
+  },
+  "required": [
+    "reviewer_role",
+    "target_venue_profile",
+    "recommendation",
+    "summary"
+  ],
+  "title": "PaperReviewDraft",
+  "type": "object"
+}

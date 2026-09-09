@@ -1,0 +1,55 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+project/.env
+project/.env.*
+!project/.env.example
+# Server SSH credentials belong only to Server Schedule Agent.
+project/agents/server_schedule_agent/.env
+!project/agents/server_schedule_agent/.env.example
+project/.venv/
+*.egg-info/
+project/**/__pycache__/
+*.py[cod]
+project/.pytest_cache/
+project/.mypy_cache/
+project/.ruff_cache/
+project/.coverage
+project/htmlcov/
+project/build/
+project/dist/
+
+# Third-party Agent Skills are registry-only in the public repository. The
+# sync command may materialize local, inactive copies for inspection, but
+# those copies are never redistributed by this project.
+project/agents/*/skills/*/
+project/configs/servers.local.yaml
+project/configs/servers.local.json
+project/var/**
+!project/var/.gitkeep
+project/logging/**/*.jsonl
+!project/logging/README.md
+project/feedback/**
+project/reviews/**
+project/paper/**
+!project/paper/dta-live-pipeline-check-v2/
+!project/paper/dta-live-pipeline-check-v2/strictcoldcal_ieee/
+!project/paper/dta-live-pipeline-check-v2/strictcoldcal_ieee/**
+
+# Local recovery/build workspaces and rendered previews are reproducible and
+# must not be published. Curated paper deliverables live under project/paper/.
+project/tmp/
+tmp/
+output/
+
+# Explicitly out of scope for this project and never uploaded.
+make paper-all skill/
+
+# Only project/ is published. Everything below is a local runtime output
+# directory: papers, datasets, generated designs and generated code. The
+# runtime recreates them on demand, so a fresh clone needs none of them.
+reference/
+data/
+design/
+code/

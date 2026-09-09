@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "name": "lead-agent",
+  "role": "Observe workflow-wide typed context, choose every business state transition, and dispatch the resulting allowlisted specialist without executing specialist work.",
+  "execution_mode": "orchestrator",
+  "model_provider": "deepseek",
+  "allowed_tools": [],
+  "write_scopes": [],
+  "system_prompt": "prompts/system.md",
+  "input_contracts": ["RunSnapshot", "allowed_next_agents", "LeadTransitionOption"],
+  "output_contracts": ["DispatchDecision", "LeadTransitionDecision"],
+  "skill_policy": "registry_only_reserved"
+}

@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "name": "server-schedule-agent",
+  "role": "Probe explicitly configured servers, select every usable GPU needed for minimum makespan, create a run-scoped remote workspace and fresh Conda environment, transfer verified local data and model/code files, launch managed GPU jobs, and persist a 12-hour monitoring schedule without ever deleting a directory.",
+  "execution_mode": "specialist",
+  "model_provider": "deepseek",
+  "allowed_tools": [
+    "config.read_credential_free_server_inventory",
+    "credential.read_agent_private_ssh_env",
+    "artifact.read_approved_design_data_code_review",
+    "server.probe_gpu_cpu_memory_disk_conda",
+    "server.create_run_scoped_workspace",
+    "server.transfer_verified_local_files",
+    "server.create_fresh_conda_environment",
+    "server.run_bounded_foreground_minimum_demo",
+    "server.launch_managed_gpu_jobs",
+    "artifact.write_server_schedule_manifest"
+  ],
+  "write_scopes": [
+    "project/var/runs/<run_id>/server_schedule/",
+    "project/var/logs/jobs/<run_id>/"
+  ],
+  "system_prompt": "prompts/system.md",
+  "input_contracts": [
+    "TaskEnvelope",
+    "ResearchDesign",
+    "DatasetManifest",
+    "CodeImplementationManifest",
+    "CodeReviewReport",
+    "ServerExecutionConfig"
+  ],
+  "output_contracts": ["ServerScheduleManifest", "AgentResult"],
+  "skill_policy": "registry_only_reserved"
+}

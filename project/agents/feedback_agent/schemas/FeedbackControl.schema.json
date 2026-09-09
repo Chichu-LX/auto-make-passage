@@ -1,0 +1,92 @@
+{
+  "$defs": {
+    "AgentName": {
+      "enum": [
+        "lead-agent",
+        "download-paper-agent",
+        "download-data-agent",
+        "make-idea-agent",
+        "idea-design-agent",
+        "code-make-agent",
+        "code-review-agent",
+        "server-schedule-agent",
+        "check-result-agent",
+        "experiment-code-run-agent",
+        "check-paper-and-code-agent",
+        "write-paper-agent",
+        "paper-review-agent",
+        "feedback-agent"
+      ],
+      "title": "AgentName",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Typed, advisory control that the Runtime must validate before applying.",
+  "properties": {
+    "action": {
+      "enum": [
+        "continue",
+        "retry",
+        "request_human",
+        "abort"
+      ],
+      "title": "Action",
+      "type": "string"
+    },
+    "issue_codes": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 30,
+      "title": "Issue Codes",
+      "type": "array"
+    },
+    "observed_log_count": {
+      "default": 0,
+      "minimum": 0,
+      "title": "Observed Log Count",
+      "type": "integer"
+    },
+    "reason": {
+      "maxLength": 3000,
+      "minLength": 5,
+      "title": "Reason",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "severity": {
+      "enum": [
+        "info",
+        "warning",
+        "error",
+        "blocking"
+      ],
+      "title": "Severity",
+      "type": "string"
+    },
+    "target_agent": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/AgentName"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "action",
+    "severity",
+    "reason"
+  ],
+  "title": "FeedbackControl",
+  "type": "object"
+}

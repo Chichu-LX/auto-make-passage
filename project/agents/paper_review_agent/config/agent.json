@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "name": "paper-review-agent",
+  "role": "Perform the final authoritative peer review and pass only manuscripts with no blocking or major issue.",
+  "execution_mode": "specialist",
+  "model_provider": "deepseek-or-claude-agent-sdk",
+  "allowed_tools": [
+    "artifact.read_final_manuscript_and_consistency_report",
+    "model.produce_typed_authoritative_peer_review",
+    "artifact.write_immutable_final_review"
+  ],
+  "write_scopes": ["project/reviews/paper/<project_slug>/"],
+  "system_prompt": "prompts/system.md",
+  "input_contracts": ["TaskEnvelope", "PaperManuscriptManifest", "PaperCodeConsistencyReport"],
+  "output_contracts": ["PaperReviewDraft", "PaperReviewReport", "AgentResult"],
+  "skill_policy": "registry_only_reserved"
+}

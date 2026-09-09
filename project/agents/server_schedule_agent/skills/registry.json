@@ -1,0 +1,54 @@
+{
+  "agent": "server-schedule-agent",
+  "policy": "registry-only; third-party content is not redistributed and local sync remains inactive until license and code review",
+  "skills": [
+    {
+      "catalog": "https://skills.sh/yonatangross/orchestkit/devops-deployment",
+      "purpose": "deployment and job orchestration",
+      "repository": "https://github.com/yonatangross/orchestkit",
+      "source": "yonatangross/orchestkit@devops-deployment",
+      "source_commit": "dd4f9031f34a9f48b21763055a729d0eda8912a8",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/mindrally/skills/kubernetes",
+      "purpose": "Kubernetes resource scheduling",
+      "repository": "https://github.com/mindrally/skills",
+      "source": "mindrally/skills@kubernetes",
+      "source_commit": "05a71308897983093248d719a2ffa1bca61d0768",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/bagelhole/devops-security-agent-skills/gpu-server-management",
+      "purpose": "GPU inventory, utilization, memory, and server management",
+      "repository": "https://github.com/bagelhole/devops-security-agent-skills",
+      "source": "bagelhole/devops-security-agent-skills@gpu-server-management",
+      "source_commit": "0365f57a079b1332f95cf26e31dd2d5332a8399f",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/vasilyu1983/ai-agents-public/ops-devops-platform",
+      "purpose": "platform operations patterns",
+      "repository": "https://github.com/vasilyu1983/ai-agents-public",
+      "source": "vasilyu1983/ai-agents-public@ops-devops-platform",
+      "source_commit": "da9d28fd0f5427f18a15d3fb363ab3651e6625ca",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/pixel-process-ug/superkit-agents/senior-devops",
+      "purpose": "resource, reliability, and deployment review",
+      "repository": "https://github.com/pixel-process-ug/superkit-agents",
+      "source": "pixel-process-ug/superkit-agents@senior-devops",
+      "source_commit": "cc7fcb7e47bc4c50020abdf352fa5d8914d0a7c2",
+      "status": "reserved"
+    },
+    {
+      "catalog": "https://skills.sh/samhvw8/dot-claude/infra-engineer",
+      "purpose": "infrastructure planning",
+      "repository": "https://github.com/samhvw8/dot-claude",
+      "source": "samhvw8/dot-claude@infra-engineer",
+      "source_commit": "28c76162116d2eedab131c0e1548fdc76a2999f7",
+      "status": "reserved"
+    }
+  ]
+}

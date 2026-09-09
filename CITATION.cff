@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If this research Runtime helps your work, please cite the software."
+title: "Auto Make Passage: An Auditable Multi-Agent Runtime for Research"
+type: software
+authors:
+  - name: "Chichu-LX"
+version: 0.1.0
+date-released: 2026-09-09
+license: MIT
+repository-code: "https://github.com/Chichu-LX/auto-make-passage"
+url: "https://github.com/Chichu-LX/auto-make-passage"
+keywords:
+  - multi-agent systems
+  - research automation
+  - human in the loop
+  - reproducibility
+  - LangGraph
