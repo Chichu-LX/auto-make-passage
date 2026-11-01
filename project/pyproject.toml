@@ -27,7 +27,7 @@ dependencies = [
   "anyio>=4.8,<5",
   "claude-agent-sdk==0.2.135",
   "httpx>=0.27,<1",
-  "langgraph==1.2.11",
+  "langgraph==1.2.18",
   "openai>=2.26,<3",
   "pydantic>=2.12,<3",
   "pypdf>=5,<7",
